@@ -2,6 +2,17 @@
 
 Exam project for the MLOps course at DTU
 
+## Project description
+### Goal
+We will use various machine learning DevOps tools to create and test models for classification of the Fashion MNIST dataset.
+### Framework 
+We plan to use [Pytorch Lightning](https://lightning.ai/).
+### Data
+The [Fashion MNIST dataset](https://github.com/zalandoresearch/fashion-mnist) is a dataset consisting of 28x28 greyscale images belonging to one of 10 classes. The dataset is already split into a training set of 60,000 images and a test set of 10,000 images. 
+### Model 
+Initially, we will use [ResNet](https://pytorch.org/vision/main/models/resnet.html) as a baseline model and then we will experiment with other models. For example using VAE encoders with a linear classification head.  
+
+
 ## Project structure
 
 The directory structure of the project looks like this:
