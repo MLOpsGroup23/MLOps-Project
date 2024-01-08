@@ -17,12 +17,12 @@ trainloader = DataLoader(trainset, batch_size=64, shuffle=True)
 
 # Download and load the test data
 testset = datasets.MNIST('~/.pytorch/MNIST_data/', download=True, train=False, transform=transform)
-testloader = DataLoader(testset, batch_size=64, shuffle=True)
+testloader = DataLoader(testset, batch_size=len(testset), shuffle=True)
 
 # Test Training
 model = ResNet34()
 
-trainer = Trainer(callbacks=model.callbacks, max_epochs=2)
+trainer = Trainer(callbacks=model.callbacks, max_epochs=1)
 trainer.fit(model, trainloader, testloader)
 
 print("!!! DONE !!!")

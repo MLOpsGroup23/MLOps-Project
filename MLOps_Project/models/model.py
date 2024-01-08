@@ -28,6 +28,9 @@ class ResNet34(LightningModule):
                               stride=old_conv_layer.stride, 
                               padding=old_conv_layer.padding, 
                               bias=old_conv_layer.bias)
+        if old_conv_layer.in_channels == 3:
+            with torch.no_grad():
+                self.model.conv1.weight[:,:] = old_conv_layer.weight[:,:].mean(dim=1, keepdim=True)
     
     def forward(self, x):
         return self.model(x)
@@ -51,8 +54,10 @@ class ResNet34(LightningModule):
         loss = self.loss(pred, labels)
         self.log("val_loss", loss)
         self.log("val_accuracy", accuracy)
-        print("Validation Loss: " + str(loss))
-        print("Validation Accuacy: " + str(accuracy))
+        if(batch_idx == 0):
+            print("Validation Loss: " + str(loss.item()))
+            print("Validation Accuacy: " + str(accuracy.item()))
+        
     
     def configure_optimizers(self):
         return torch.optim.SGD(self.model.parameters(), lr=0.1)
