@@ -1,5 +1,8 @@
 docs/site/
 
+# virtual environment
+.venv/
+
 # test cache
 manual_test/
 
