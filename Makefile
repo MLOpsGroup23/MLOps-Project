@@ -4,7 +4,7 @@
 # GLOBALS                                                                       #
 #################################################################################
 
-PROJECT_NAME = MLOps-Project
+PROJECT_NAME = MLOps_Project
 PYTHON_VERSION = 3.10
 PYTHON_INTERPRETER = python
 
@@ -37,7 +37,7 @@ clean:
 #################################################################################
 
 ## Process raw data into processed data
-data:
+data: requirements
 	python $(PROJECT_NAME)/data/make_dataset.py
 
 #################################################################################
