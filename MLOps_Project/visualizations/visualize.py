@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 # This is a Visualization example
 # Requirement: Run the training loop once, such that LightningTrainedModel.ckpt file is stored
 
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 # Get Test Data
 # Download and load the test data 
@@ -21,9 +22,12 @@ testloader = DataLoader(testset, batch_size=512, shuffle=True)
 dataiter = iter(testloader)
 test_images, test_labels = next(dataiter)
 
+test_images, test_labels = test_images.to(device), test_labels.to(device)
+
 print("Loading model")
 # Make Prediction and get Feature Maps using .forward_features method
 model = ResNet34.load_from_checkpoint(checkpoint_path="./models/LightningTrainedModel.pt-v11.ckpt")
+model = model.to(device)
 
 print("Making Prediction")
 cnnOut = model.model.forward_features(test_images)
