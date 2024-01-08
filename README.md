@@ -1,4 +1,4 @@
-# MLOps-Project
+# MLOps_Project
 
 Exam project for the MLOps course at DTU
 
@@ -48,7 +48,7 @@ The directory structure of the project looks like this:
 │
 ├── tests                <- Test files
 │
-├── MLOps-Project  <- Source code for use in this project.
+├── MLOps_Project  <- Source code for use in this project.
 │   │
 │   ├── __init__.py      <- Makes folder a Python module
 │   │

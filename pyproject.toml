@@ -3,8 +3,8 @@ requires = ["setuptools", "setuptools-scm"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "MLOps-Project"
-version = "0.0.1"
+name = "MLOps_Project"
+version = "0.0.2"
 description = "Exam project for the MLOps course at DTU"
 authors = [
   { name = "Group 23", email = "your@email.com" },
@@ -15,7 +15,7 @@ requires-python = ">=3.10"
 dynamic = ["dependencies", "optional-dependencies"]
 
 [tool.setuptools]
-packages = ["MLOps-Project"]
+packages = ["MLOps_Project"]
 
 [tool.setuptools.dynamic]
 dependencies = {file = ["requirements.txt"]}
