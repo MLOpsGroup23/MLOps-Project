@@ -9,7 +9,6 @@ description = "Exam project for the MLOps course at DTU"
 authors = [
   { name = "Group 23", email = "your@email.com" },
 ]
-
 readme = "README.md"
 requires-python = ">=3.10"
 dynamic = ["dependencies", "optional-dependencies"]
