@@ -8,7 +8,7 @@ import torch
 class ResNet34(LightningModule):
     def __init__(self, dropout_rate=0.2):
         super().__init__()
-        self.model = timm.create_model('resnet34', num_classes=10, droprate=dropout_rate)
+        self.model = timm.create_model('resnet34', num_classes=10, drop_rate=dropout_rate)
         self.loss = torch.nn.CrossEntropyLoss()
         # Define checkpoints and callbacks - Default is save on Epoch End based on max validation accuracy
         # Saved in object, and needs to be forwarded to the Trainer when training
@@ -21,6 +21,13 @@ class ResNet34(LightningModule):
                 save_on_train_epoch_end=True,
             )
         ]
+        # Setup first convolutional layer to work with a single channel input
+        old_conv_layer = self.model.conv1
+        self.model.conv1 = torch.nn.Conv2d(1, old_conv_layer.out_channels, 
+                              kernel_size=old_conv_layer.kernel_size, 
+                              stride=old_conv_layer.stride, 
+                              padding=old_conv_layer.padding, 
+                              bias=old_conv_layer.bias)
     
     def forward(self, x):
         return self.model(x)
@@ -44,6 +51,8 @@ class ResNet34(LightningModule):
         loss = self.loss(pred, labels)
         self.log("val_loss", loss)
         self.log("val_accuracy", accuracy)
+        print("Validation Loss: " + str(loss))
+        print("Validation Accuacy: " + str(accuracy))
     
     def configure_optimizers(self):
         return torch.optim.SGD(self.model.parameters(), lr=0.1)
