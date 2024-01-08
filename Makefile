@@ -6,7 +6,7 @@
 
 PROJECT_NAME = MLOps_Project
 PYTHON_VERSION = 3.10
-PYTHON_INTERPRETER = python3
+PYTHON_INTERPRETER = python
 
 #################################################################################
 # COMMANDS                                                                      #

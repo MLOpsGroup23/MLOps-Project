@@ -10,11 +10,6 @@ from torch.utils.data import DataLoader, TensorDataset
 train_data = torch.load("./data/processed/test.pt")
 test_data = torch.load("./data/processed/train.pt")
 
-print(train_data[0].shape)
-print(train_data[1].shape)
-print(test_data[0].shape)
-print(test_data[1].shape)
-
 train_dataset = TensorDataset(train_data[0], train_data[1])  # create your datset
 test_dataset  = TensorDataset(test_data[0], test_data[1])  # create your datset
 

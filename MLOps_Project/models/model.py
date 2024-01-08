@@ -60,5 +60,5 @@ class ResNet34(LightningModule):
         
     
     def configure_optimizers(self):
-        return torch.optim.SGD(self.model.parameters(), lr=0.1)
+        return torch.optim.Adam(self.model.parameters(), lr=0.003)
     

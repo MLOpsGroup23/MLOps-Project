@@ -25,7 +25,7 @@ test_images, test_labels = test_images.to(device), test_labels.to(device)
 
 print("Loading model")
 # Make Prediction and get Feature Maps using .forward_features method
-model = ResNet34.load_from_checkpoint(checkpoint_path="./models/LightningTrainedModel2.ckpt")
+model = ResNet34.load_from_checkpoint(checkpoint_path="./models/LightningTrainedModel2-v1.ckpt")
 model = model.to(device)
 
 print("Making Prediction")
@@ -49,4 +49,4 @@ plt.colorbar(scatter)
 plt.title("t-SNE Visualization of the Data")
 plt.xlabel("t-SNE Feature 1")
 plt.ylabel("t-SNE Feature 2")
-plt.savefig("reports/figures/PredictionTSNE.png")
+plt.savefig("reports/figures/PredictionTSNE123.png")
