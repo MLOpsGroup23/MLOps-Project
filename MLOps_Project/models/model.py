@@ -17,7 +17,7 @@ class ResNet34(LightningModule):
                 dirpath="./models",
                 monitor="val_accuracy",
                 mode="max",
-                filename="LightningTrainedModel.pt",
+                filename="LightningTrainedModel2",
                 save_on_train_epoch_end=True,
             )
         ]

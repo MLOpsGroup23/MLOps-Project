@@ -6,7 +6,7 @@
 
 PROJECT_NAME = MLOps_Project
 PYTHON_VERSION = 3.10
-PYTHON_INTERPRETER = python
+PYTHON_INTERPRETER = python3
 
 #################################################################################
 # COMMANDS                                                                      #
@@ -38,7 +38,10 @@ clean:
 
 ## Process raw data into processed data
 data: requirements
-	python $(PROJECT_NAME)/data/make_dataset.py
+	$(PYTHON_INTERPRETER) $(PROJECT_NAME)/data/make_dataset.py
+
+train: 
+	$(PYTHON_INTERPRETER) $(PROJECT_NAME)/train_model.py
 
 #################################################################################
 # Documentation RULES                                                           #

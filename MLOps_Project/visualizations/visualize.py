@@ -2,7 +2,7 @@ import torch
 from pytorch_lightning import Trainer
 from MLOps_Project.models.model import ResNet34
 from torchvision import datasets, transforms
-from torch.utils.data import DataLoader
+from torch.utils.data import DataLoader, TensorDataset
 from sklearn.manifold import TSNE
 import matplotlib.pyplot as plt
 
@@ -13,12 +13,11 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 # Get Test Data
 # Download and load the test data 
-transform = transforms.Compose([
-    transforms.ToTensor(),  # Convert images to PyTorch tensors
-    transforms.Normalize((0.5,), (0.5,))  # Normalize the tensor
-])
-testset = datasets.MNIST('~/.pytorch/MNIST_data/', download=True, train=False, transform=transform)
-testloader = DataLoader(testset, batch_size=512, shuffle=True)
+
+test_data = torch.load("./data/processed/train.pt")
+test_dataset  = TensorDataset(test_data[0], test_data[1])  # create your datset
+testloader = DataLoader(test_dataset, batch_size=256, shuffle=True)
+
 dataiter = iter(testloader)
 test_images, test_labels = next(dataiter)
 
@@ -26,7 +25,7 @@ test_images, test_labels = test_images.to(device), test_labels.to(device)
 
 print("Loading model")
 # Make Prediction and get Feature Maps using .forward_features method
-model = ResNet34.load_from_checkpoint(checkpoint_path="./models/LightningTrainedModel.pt-v11.ckpt")
+model = ResNet34.load_from_checkpoint(checkpoint_path="./models/LightningTrainedModel2.ckpt")
 model = model.to(device)
 
 print("Making Prediction")
