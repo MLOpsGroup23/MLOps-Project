@@ -3,8 +3,7 @@ import hydra
 import os
 from torch.utils.data import Dataset, DataLoader
 from torchvision.transforms.v2 import RandomRotation, InterpolationMode, Compose
-from omegaconf import OmegaConf, DictConfig
-import pdb
+from omegaconf import DictConfig
 
 class FashionMNISTDataset(Dataset):
     def __init__(self, data, config) -> None:
@@ -49,12 +48,7 @@ def get_dataset(cfg, split: str = 'train'):
 @hydra.main(version_base=None, config_path='../../configs', config_name='config')
 def main(cfg: DictConfig):
     train_loader = get_dataset(cfg, split='train')
-    _x = next(iter(train_loader))
-    # pdb.set_trace()
-    # val_loader = get_dataset(cfg, split='val')
     test_loader = get_dataset(cfg, split='test')
-    _x = next(iter(test_loader))
-    return train_loader, test_loader
 
 if __name__ == '__main__':
     main()
