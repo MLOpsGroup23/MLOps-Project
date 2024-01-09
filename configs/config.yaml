@@ -4,3 +4,15 @@ data:
   batch_size: 1000
   val_size: 10000 
   seed: 42
+  train:
+    transformations:
+      rotation:
+        use: True
+        degrees: 5
+      scale:
+        use: False
+  test:
+    transformations:
+      rotation:
+        use: False
+        degrees: 5
