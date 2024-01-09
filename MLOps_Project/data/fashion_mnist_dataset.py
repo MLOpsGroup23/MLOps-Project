@@ -28,7 +28,6 @@ class FashionMNISTDataset(Dataset):
         else:
             self.transformations = None
 
-
     def __getitem__(self, index) -> any:
         image = self.transformations(self.images[index]) if self.transformations else self.images[index]
         label = self.labels[index]
@@ -37,7 +36,6 @@ class FashionMNISTDataset(Dataset):
     def __len__(self):
         return len(self.labels)
 
-
 def get_dataset(cfg, split: str = 'train'):
     shuffle = True if split == 'train' else False
     data = torch.load(os.path.join(cfg.data.processed_dir, f'{split}.pt'))
@@ -45,10 +43,10 @@ def get_dataset(cfg, split: str = 'train'):
     dataloader = DataLoader(dataset, batch_size=cfg.data.batch_size, shuffle=shuffle)
     return dataloader
 
-@hydra.main(version_base=None, config_path='../../configs', config_name='config')
-def main(cfg: DictConfig):
-    train_loader = get_dataset(cfg, split='train')
-    test_loader = get_dataset(cfg, split='test')
+def get_train_test_dataloaders():
+    with hydra.initialize(version_base=None, config_path='../../configs'):
+        cfg = hydra.compose(config_name='config')
 
-if __name__ == '__main__':
-    main()
+    train_loader = get_dataset(cfg=cfg, split='train')
+    test_loader = get_dataset(cfg=cfg, split='test')
+    return train_loader, test_loader
