@@ -43,6 +43,10 @@ data: requirements
 train: 
 	$(PYTHON_INTERPRETER) $(PROJECT_NAME)/train_model.py
 
+viz_data: 
+	$(PYTHON_INTERPRETER) $(PROJECT_NAME)/visualizations/visualize_data.py
+
+
 #################################################################################
 # Documentation RULES                                                           #
 #################################################################################

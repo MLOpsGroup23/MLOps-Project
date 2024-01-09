@@ -1,0 +1,18 @@
+data:
+  raw_dir: data/raw
+  processed_dir: data/processed
+  batch_size: 1000
+  val_size: 10000
+  seed: 42
+  train:
+    transformations:
+      rotation:
+        use: true
+        degrees: 5
+      scale:
+        use: false
+  test:
+    transformations:
+      rotation:
+        use: false
+        degrees: 5
