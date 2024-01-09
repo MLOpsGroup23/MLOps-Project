@@ -1,4 +1,0 @@
-data:
-  raw_dir: data/raw
-  processed_dir: data/processed
-  batch_size: 1000
