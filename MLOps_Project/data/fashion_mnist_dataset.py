@@ -40,7 +40,7 @@ def get_dataset(cfg, split: str = 'train'):
     shuffle = True if split == 'train' else False
     data = torch.load(os.path.join(cfg.data.processed_dir, f'{split}.pt'))
     dataset = FashionMNISTDataset(data, cfg['data'][split])
-    dataloader = DataLoader(dataset, batch_size=cfg.data.batch_size, shuffle=shuffle)
+    dataloader = DataLoader(dataset, batch_size=cfg.data.batch_size, shuffle=shuffle, num_workers=cfg.data.num_workers)
     return dataloader
 
 def get_train_test_dataloaders():

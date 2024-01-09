@@ -2,6 +2,7 @@ data:
   raw_dir: data/raw
   processed_dir: data/processed
   batch_size: 1000
+  num_workers: 0
   train:
     transformations:
       rotation:
