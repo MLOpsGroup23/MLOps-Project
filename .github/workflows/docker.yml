@@ -1,0 +1,37 @@
+name: Access GCP Bucket with DVC
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest # Specifies the runner environment
+
+    steps:
+    - name: Checkout Repo
+      uses: actions/checkout@v2 # Checks-out your repository
+
+    - name: Set up Cloud SDK
+      uses: google-github-actions/setup-gcloud@v1 # Sets up Google Cloud SDK
+      with:
+        service_account_key: ${{ secrets.GC_BUCKET_JSON }} # Use the secret
+        project_id: ${{ secrets.GC_PROJECT_ID }} # Replace with your GCP project ID
+
+    - name: Install DVC
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y dvc
+
+    - name: Configure DVC
+      run: |
+        dvc remote add -d myremote gs://dtu-mlops-bucket1/
+        dvc remote modify myremote projectname ${{ secrets.GC_PROJECT_ID }}
+        dvc pull
+
+    - name: Use DVC Fetched Files
+      run: |
+        # Add commands to use the files fetched by DVC
+        ls
