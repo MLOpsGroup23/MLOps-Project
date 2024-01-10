@@ -43,4 +43,4 @@ jobs:
     - name: Use DVC Fetched Files
       run: |
         # Add commands to use the files fetched by DVC
-        ls
+        ls -R data
