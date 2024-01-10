@@ -8,11 +8,21 @@ on:
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest # Specifies the runner environment
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        python-version: ["3.10"]
 
     steps:
     - name: Checkout Repo
       uses: actions/checkout@v2 # Checks-out your repository
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
 
     - name: Set up Cloud SDK
       uses: google-github-actions/setup-gcloud@v1 # Sets up Google Cloud SDK
@@ -20,10 +30,10 @@ jobs:
         service_account_key: ${{ secrets.GC_BUCKET_JSON }} # Use the secret
         project_id: ${{ secrets.GC_PROJECT_ID }} # Replace with your GCP project ID
 
-    - name: Install DVC
+    - name: Install dependencies and DVC
       run: |
-        sudo apt-get update
-        sudo apt-get install -y dvc
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
 
     - name: Configure DVC
       run: |
