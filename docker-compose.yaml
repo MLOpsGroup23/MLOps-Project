@@ -10,3 +10,13 @@ services:
     build:
       context: .
       dockerfile: dockerfiles/predict_model.dockerfile
+  fastapi-predict:
+    image: fastapi-predict:latest
+    container_name: fastapi_predict
+    build:
+      context: .
+      dockerfile: dockerfiles/fastapi_predict.dockerfile
+    # volumes:
+    #   - ./MLOps_Project:/app
+    ports:
+      - "80:80"
