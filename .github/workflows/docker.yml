@@ -27,7 +27,7 @@ jobs:
     - name: Set up Cloud SDK
       uses: google-github-actions/setup-gcloud@v1 # Sets up Google Cloud SDK
       with:
-        service_account_key: ${{ secrets.GC_BUCKET_JSON }} # Use the secret
+        service_account_key: ${{ secrets.GC_SERVICE_ACCOUNT_KEY }} # Use the secret
         project_id: ${{ secrets.GC_PROJECT_ID }} # Replace with your GCP project ID
 
     - name: Install dependencies and DVC
