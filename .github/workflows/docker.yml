@@ -24,11 +24,11 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
 
-    - name: Set up Cloud SDK
-      uses: google-github-actions/setup-gcloud@v1 # Sets up Google Cloud SDK
+    - uses: 'google-github-actions/auth@v2'
       with:
-        service_account_key: ${{ secrets.GC_SERVICE_ACCOUNT_KEY }} # Use the secret
-        project_id: ${{ secrets.GC_PROJECT_ID }} # Replace with your GCP project ID
+        project_id: ${{ secrets.GC_PROJECT_ID }}
+        credentials_json: ${{ secrets.GC_BUCKET_JSON }}
+      
 
     - name: Install dependencies and DVC
       run: |
