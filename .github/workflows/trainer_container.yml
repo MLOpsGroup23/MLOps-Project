@@ -41,7 +41,7 @@ jobs:
 
     - name: Set up trainer container
       run: |
-        gcloud auth configure-docker
+        gcloud auth configure-docker europe-west1-docker.pkg.dev
         docker build -f dockerfiles/train_model.dockerfile . -t g23-trainer:latest
     - name: Push trainer container
       run: |
