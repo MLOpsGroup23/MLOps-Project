@@ -1,0 +1,44 @@
+name: Build Docker Image for Server
+
+on:
+  push:
+    branches: [ master, main, docker_server]
+  pull_request:
+    branches: [ master, main ]
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        python-version: ["3.10"]
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v2 # Checks-out your repository
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - uses: 'google-github-actions/auth@v2'
+        with:
+          project_id: ${{ secrets.GC_PROJECT_ID }}
+          credentials_json: ${{ secrets.GC_BUCKET_JSON }}
+
+      - name: Install dependencies
+          run: |
+            python -m pip install --upgrade pip
+            pip install -r requirements_fastapi_predict.txt
+      
+      - name: Build the Docker image and push to Artifact Registry
+          run: |
+            docker compose create fastapi-predict
+            docker tag fastapi-predict europe-west1-docker.pkg.dev/${{ secrets.GC_PROJECT_ID }}/g23-repo/fastapi-server:latest
+            docker push europe-west1-docker.pkg.dev/${{ secrets.GC_PROJECT_ID }}/g23-repo/fastapi-server:latest
+      
+    
+

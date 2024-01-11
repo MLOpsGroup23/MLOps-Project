@@ -1,9 +1,9 @@
 # Base image
-FROM python:3.10-slim
+FROM python:3.9
 
 RUN apt update && \
     apt install --no-install-recommends -y build-essential gcc && \
-    apt clean && rm -rf /var/lib/apt/lists/*
+    apt-get install ffmpeg libsm6 libxext6  -y 
 
 COPY requirements_fastapi_predict.txt requirements.txt
 COPY pyproject.toml pyproject.toml
@@ -18,8 +18,8 @@ COPY models/ models/
 
 
 WORKDIR /
-RUN pip install -r requirements.txt --no-cache-dir
+RUN pip install --upgrade -r requirements.txt --no-cache-dir
 RUN pip install . --no-deps --no-cache-dir
 
 # Run FastAPI app
-CMD ["bash", "-c", "python -m uvicorn --host 0.0.0.0 --port 80 MLOps_Project.endpoints.main:app"]
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80"]
