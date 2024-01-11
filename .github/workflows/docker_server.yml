@@ -27,16 +27,17 @@ jobs:
           project_id: ${{ secrets.GC_PROJECT_ID }}
           credentials_json: ${{ secrets.GC_BUCKET_JSON }}
       
-      # - name: Build the Docker image and push to Artifact Registry
-      #   run: |
-      #     docker compose create fastapi-predict
+      - name: Build the Docker image and push to Artifact Registry
+        run: |
+          docker compose create fastapi-predict
       
-      # - name: Push to Artifact Registry
-      #   run: |
-      #     gcloud auth configure-docker europe-west1-docker.pkg.dev
-      #     docker tag fastapi-predict europe-west1-docker.pkg.dev/${{ secrets.GC_PROJECT_ID }}/g23-repo/g23-server:latest
-      #     docker push europe-west1-docker.pkg.dev/${{ secrets.GC_PROJECT_ID }}/g23-repo/g23-server:latest
-      - name: Update Google Run Deploy
+      - name: Push to Artifact Registry
+        run: |
+          gcloud auth configure-docker europe-west1-docker.pkg.dev
+          docker tag fastapi-predict europe-west1-docker.pkg.dev/${{ secrets.GC_PROJECT_ID }}/g23-repo/g23-server:latest
+          docker push europe-west1-docker.pkg.dev/${{ secrets.GC_PROJECT_ID }}/g23-repo/g23-server:latest
+
+      - name: Deploy new image to Google Run
         run: |
           gcloud run deploy g23-server --image=europe-west1-docker.pkg.dev/${{ secrets.GC_PROJECT_ID }}/g23-repo/g23-server:latest --region=europe-west1
     

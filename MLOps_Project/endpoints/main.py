@@ -19,3 +19,9 @@ def hello_server():
     return {
         "Message": "Hello from an updated server"
     }
+
+@app.get("/hello_london")
+def hello_server():
+    return {
+        "Message": "Hello from London! Bing Bong."
+    }
