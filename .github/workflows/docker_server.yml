@@ -2,7 +2,7 @@ name: Build Docker Image for Server
 
 on:
   push:
-    branches: [ master, main, docker_server]
+    branches: [ master, main ]
   
 jobs:
   build:
@@ -27,7 +27,7 @@ jobs:
           project_id: ${{ secrets.GC_PROJECT_ID }}
           credentials_json: ${{ secrets.GC_BUCKET_JSON }}
       
-      - name: Build the Docker image and push to Artifact Registry
+      - name: Build the Docker image 
         run: |
           docker compose create fastapi-predict
       
