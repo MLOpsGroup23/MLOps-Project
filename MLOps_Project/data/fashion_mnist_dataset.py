@@ -6,30 +6,16 @@ from torchvision.transforms.v2 import RandomRotation, InterpolationMode, Compose
 from omegaconf import DictConfig
 
 class FashionMNISTDataset(Dataset):
-    def __init__(self, data, config) -> None:
+    def __init__(self, data, transformations = None) -> None:
         super().__init__()
-        print(config)
-        # data = torch.load(data_path)
-        self.config = config
         self.images = data[0] # N x 1 x H x W
         self.labels = data[1] # N
-        self.__get_transformations()
-        
-    def __get_transformations(self):
-
-        rotate = RandomRotation(degrees=self.config.transformations.rotation.degrees,
-                                interpolation=InterpolationMode.BILINEAR)
-        scale = None
-        transforms = {'rotation': rotate}
-
-        augmentations = [transform for name, transform in transforms.items() if self.config['transformations'][f'{name}']['use']]
-        if len(augmentations):
-            self.transformations = Compose(augmentations)
-        else:
-            self.transformations = None
+        self.transformations = transformations
 
     def __getitem__(self, index) -> any:
-        image = self.transformations(self.images[index]) if self.transformations else self.images[index]
+        image = self.images[index]
+        if self.transformations:
+            image = self.transformations(image)
         label = self.labels[index]
         return image, label
 
