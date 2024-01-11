@@ -15,3 +15,5 @@ trainer = Trainer(callbacks=model.callbacks, max_epochs=5)
 trainer.fit(model, train_dataloader, val_dataloader)
 
 print("!!! DONE !!!")
+
+

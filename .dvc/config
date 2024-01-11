@@ -1,0 +1,5 @@
+[core]
+    remote = remote_storage
+['remote "remote_storage"']
+    url = gs://dtu-mlops-bucket1/
+    version_aware = true

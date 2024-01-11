@@ -1,5 +1,18 @@
 docs/site/
 
+# Ignore Model Files
+*.pt
+*.ckpt
+
+# Ignore Lightning files
+lightning_logs
+
+# Ignore Hydra Outputs
+outputs
+
+# Ignore Reports
+reports
+
 # virtual environment
 .venv/
 
@@ -179,3 +192,4 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 /data
+/wandb

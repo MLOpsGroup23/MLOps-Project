@@ -113,7 +113,7 @@ hydra:
     - hydra.mode=RUN
     task: []
   job:
-    name: make_dataset
+    name: visualize_data
     chdir: null
     override_dirname: ''
     id: ???
@@ -143,7 +143,7 @@ hydra:
       schema: structured
       provider: schema
     output_dir: C:\Users\andre\OneDrive - Danmarks Tekniske Universitet\Masters\02496
-      Machine Learning Operations\MLOps_Project\outputs\2024-01-08\12-35-05
+      Machine Learning Operations\MLOps_Project\outputs\2024-01-09\15-05-24
     choices:
       hydra/env: default
       hydra/callbacks: null
