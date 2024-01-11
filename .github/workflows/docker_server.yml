@@ -3,9 +3,7 @@ name: Build Docker Image for Server
 on:
   push:
     branches: [ master, main, docker_server]
-  pull_request:
-    branches: [ master, main ]
-
+  
 jobs:
   build:
     runs-on: ${{ matrix.os }}
@@ -38,6 +36,9 @@ jobs:
           gcloud auth configure-docker europe-west1-docker.pkg.dev
           docker tag fastapi-predict europe-west1-docker.pkg.dev/${{ secrets.GC_PROJECT_ID }}/g23-repo/g23-server:latest
           docker push europe-west1-docker.pkg.dev/${{ secrets.GC_PROJECT_ID }}/g23-repo/g23-server:latest
+      - name: Update Google Run Deploy
+        run: |
+          gcloud run deploy g23-server --image=europe-west1-docker.pkg.dev/${{ secrets.GC_PROJECT_ID }}/g23-server:latest
     
     
 
