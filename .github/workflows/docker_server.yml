@@ -29,6 +29,7 @@ jobs:
       
       - name: Build the Docker image and push to Artifact Registry
         run: |
+          docker pull europe-west1-docker.pkg.dev/${{ secrets.GC_PROJECT_ID }}/g23-repo/g23-server:latest
           docker compose create fastapi-predict
       
       - name: Push to Artifact Registry
@@ -38,7 +39,7 @@ jobs:
           docker push europe-west1-docker.pkg.dev/${{ secrets.GC_PROJECT_ID }}/g23-repo/g23-server:latest
       - name: Update Google Run Deploy
         run: |
-          gcloud run deploy g23-server --image=europe-west1-docker.pkg.dev/${{ secrets.GC_PROJECT_ID }}/g23-server:latest
+          gcloud run deploy g23-server --image=europe-west1-docker.pkg.dev/${{ secrets.GC_PROJECT_ID }}/g23-server:latest --region=europe-west1
     
     
 
