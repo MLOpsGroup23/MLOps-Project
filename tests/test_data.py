@@ -1,5 +1,5 @@
 import torch
-from MLOps_Project.data.fashion_mnist_dataset import get_train_test_dataloaders
+from MLOps_Project.data.fashion_mnist_dataset import get_dataloaders
 import pdb
 
 class TestData:
@@ -8,10 +8,11 @@ class TestData:
 
     def setup_images_and_labels(self):
         print("setting up images and labels")
-        train_loader, test_loader = get_train_test_dataloaders()
+        train_loader, val_loader, test_loader = get_dataloaders()
         self.train_images, self.train_labels = train_loader.dataset.images, train_loader.dataset.labels
+        self.val_images, self.val_labels = val_loader.dataset.images, val_loader.dataset.labels
         self.test_images, self.test_labels = test_loader.dataset.images, test_loader.dataset.labels
-
+        
     def teardown_images_and_labels(self):
         print("tearing down images and labels")
         del self.train_images
@@ -35,22 +36,9 @@ class TestData:
         train_hist = torch.tensor([len(self.train_labels[self.train_labels == e])/len(self.train_labels) for e in unique_labels])
         test_hist = torch.tensor([len(self.test_labels[self.test_labels == e]) / len(self.test_labels) for e in unique_labels])
         train_test_dif = sum(train_hist - test_hist).item()
-        
-        pdb.set_trace()
-        
-
-
+    
 
 if __name__ == '__main__':
     TD = TestData()
     TD.test_train_test_stratification()
-    # TD.test_image_shapes()
-    import requests
-    import pdb
-    # response = requests.get('https://api.github.com/this-api-should-not-exist')
-    # response=requests.get("https://api.github.com/repos/SkafteNicki/dtu_mlops")
-    response = requests.get('https://imgs.xkcd.com/comics/making_progress.png')
-    print("Status code: ", response.status_code)
-    pdb.set_trace()
-    with open(r'img.png','wb') as f:
-        f.write(response.content)
+    
