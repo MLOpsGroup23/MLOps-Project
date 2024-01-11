@@ -72,10 +72,11 @@ async def predict(bmp_data: UploadFile = File(...)):
 
     ps = torch.exp(pred)
     _, top_class = ps.topk(1, dim=1)
+    softmax = torch.nn.Softmax(dim=1)
 
     titles = ["T-shirt/top", "Trouser", "Pullover", "Dress", "Coat", "Sandal", "Shirt", "Sneaker", "Bag", "Ankle Boot"]
 
     response = {
-        "message": "The model believes that the image is of " + titles[top_class.item()],
+        "message": "The model believes that the image is a '" + titles[top_class.item()] + "' with a certainty of " + str(softmax(pred)[0][top_class.item()].item()*100) + "%",
     }
     return response
