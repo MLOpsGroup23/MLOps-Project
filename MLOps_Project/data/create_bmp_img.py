@@ -9,8 +9,6 @@ from torch.utils.data import DataLoader, TensorDataset
 from PIL import Image
 
 def tensor_to_bmp(tensor_img, img_name): # Input: (1, 28, 28) tensor image
-    print(tensor_img)
-
     # The tensor needs to be converted from [min, max] into [0, 255], as the .bmp image must be 8-bit
     tensor_img = tensor_img - tensor_img.min() 
     tensor_img = tensor_img / tensor_img.max() 
