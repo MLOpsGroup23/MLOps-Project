@@ -73,8 +73,6 @@ async def predict(bmp_data: UploadFile = File(...)):
     ps = torch.exp(pred)
     _, top_class = ps.topk(1, dim=1)
 
-    print(pred)
-
     titles = ["T-shirt/top", "Trouser", "Pullover", "Dress", "Coat", "Sandal", "Shirt", "Sneaker", "Bag", "Ankle Boot"]
 
     response = {
