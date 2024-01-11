@@ -7,8 +7,8 @@ from torch.utils.data import DataLoader, TensorDataset
 
 
 # Create Data Loaders and Load Data Sets
-train_data = torch.load("./data/processed/test.pt")
-test_data = torch.load("./data/processed/train.pt")
+train_data = torch.load("./data/processed/train.pt")
+test_data = torch.load("./data/processed/test.pt")
 
 train_dataset = TensorDataset(train_data[0], train_data[1])  # create your datset
 test_dataset  = TensorDataset(test_data[0], test_data[1])  # create your datset

@@ -2,7 +2,7 @@ name: Access GCP Bucket with DVC
 
 on:
   push:
-    branches: [ master, main, dvc_with_gcp ]
+    branches: [ master, main, build_trainer_container ]
   pull_request:
     branches: [ master, main ]
 
@@ -33,14 +33,17 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements_deploytest.txt
+        pip install -r requirements.txt
 
     - uses: iterative/setup-dvc@v1
     - name: Pull data via DVC
       run: |
         dvc pull
 
-    - name: Use DVC Fetched Files
+    - name: Set up trainer container
       run: |
-        # Add commands to use the files fetched by DVC
-        ls -R data
+        docker build -f dockerfiles/train_model.dockerfile . -t g23-trainer:latest
+    - name: Push trainer container
+      run: |
+        docker tag g23-trainer gcr.io/pelagic-height-410710/g23-mlops/g23-trainer
+        docker push gcr.io/pelagic-height-410710/g23-mlops/g23-trainer
