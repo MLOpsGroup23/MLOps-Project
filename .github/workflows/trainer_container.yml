@@ -28,7 +28,6 @@ jobs:
       with:
         project_id: ${{ secrets.GC_PROJECT_ID }}
         credentials_json: ${{ secrets.GC_BUCKET_JSON }}
-      
 
     - name: Install dependencies
       run: |
@@ -42,6 +41,7 @@ jobs:
 
     - name: Set up trainer container
       run: |
+        gcloud auth configure-docker
         docker build -f dockerfiles/train_model.dockerfile . -t g23-trainer:latest
     - name: Push trainer container
       run: |
