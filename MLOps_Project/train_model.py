@@ -1,9 +1,7 @@
 import torch
 import argparse
-from pytorch_lightning.loggers import WandbLogger
 from pytorch_lightning import Trainer
 from models.model import ResNet34
-from torchvision import datasets, transforms
 from torch.utils.data import DataLoader, TensorDataset
 
 
@@ -24,8 +22,6 @@ def main(save_location="./", n_epochs=1):
 
     trainer = Trainer(callbacks=model.callbacks, max_epochs=n_epochs, default_root_dir=save_location)
     trainer.fit(model, train_dataloader, test_dataloader)
-
-    print("!!! DONE !!!")
 
 
 

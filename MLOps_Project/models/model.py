@@ -55,8 +55,8 @@ class ResNet34(LightningModule):
         self.log("val_loss", loss)
         self.log("val_accuracy", accuracy)
         if(batch_idx == 0):
-            print("Validation Loss: " + str(loss.item()))
-            print("Validation Accuacy: " + str(accuracy.item()))
+            self.log("Validation Loss: " + str(loss.item()))
+            self.log("Validation Accuacy: " + str(accuracy.item()))
         
     
     def configure_optimizers(self):
