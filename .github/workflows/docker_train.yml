@@ -1,4 +1,4 @@
-name: Access GCP Bucket with DVC
+name: Build Docker Image for training
 
 on:
   push:
