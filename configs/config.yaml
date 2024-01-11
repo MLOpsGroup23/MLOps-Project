@@ -8,12 +8,10 @@ data:
   train:
     transformations:
       rotation:
-        use: True
         degrees: 5
-      scale:
-        use: False
+        
   test:
     transformations:
-      rotation:
-        use: False
-        degrees: 5
+      
+  val:
+    transformations:
