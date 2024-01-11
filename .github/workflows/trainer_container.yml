@@ -42,8 +42,8 @@ jobs:
     - name: Set up trainer container
       run: |
         docker build -f dockerfiles/train_model.dockerfile . -t g23-trainer:latest
-    - name: Push trainer container
+    - name: Push to Artifact Registry
       run: |
         gcloud auth configure-docker europe-west1-docker.pkg.dev
-        docker tag g23-trainer gcr.io/pelagic-height-410710/g23-mlops/g23-trainer
-        docker push gcr.io/pelagic-height-410710/g23-mlops/g23-trainer
+        docker tag g23-trainer europe-west1-docker.pkg.dev/${{ secrets.GC_PROJECT_ID }}/g23-repo/g23-trainer:latest
+        docker push europe-west1-docker.pkg.dev/${{ secrets.GC_PROJECT_ID }}/g23-repo/g23-trainer:latest
