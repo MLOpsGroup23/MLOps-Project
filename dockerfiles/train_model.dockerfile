@@ -14,4 +14,4 @@ WORKDIR /
 RUN pip install -r requirements.txt --no-cache-dir
 RUN pip install . --no-deps --no-cache-dir
 
-ENTRYPOINT ["python", "-u", "MLOps_Project/train_model.py", "--save_location", "/gcs/dtu-mlops-bucket1/cloud-model.pt", "--n_epochs", "49"]
+ENTRYPOINT ["python", "-u", "MLOps_Project/train_model.py", "--save_location", "/gcs/dtu-mlops-bucket1/", "--n_epochs", "49"]

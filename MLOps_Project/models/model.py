@@ -6,7 +6,7 @@ import torch
 
 # Define class for ResNet34 model using the TIMM framework
 class ResNet34(LightningModule):
-    def __init__(self, dropout_rate=0.2):
+    def __init__(self, dropout_rate=0.2, filename="cloud-model.pt"):
         super().__init__()
         self.model = timm.create_model('resnet34', num_classes=10, drop_rate=dropout_rate)
         self.loss = torch.nn.CrossEntropyLoss()
@@ -17,7 +17,7 @@ class ResNet34(LightningModule):
                 dirpath="./models",
                 monitor="val_accuracy",
                 mode="max",
-                filename="LightningTrainedModel2",
+                filename=filename,
                 save_on_train_epoch_end=True,
             )
         ]
