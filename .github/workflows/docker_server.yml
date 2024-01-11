@@ -32,6 +32,10 @@ jobs:
       - name: Build the Docker image and push to Artifact Registry
         run: |
           docker compose create fastapi-predict
+      
+      - name: Push to Artifact Registry
+        run: |
+          gcloud auth configure-docker europe-west1-docker.pkg.dev
           docker tag fastapi-predict europe-west1-docker.pkg.dev/${{ secrets.GC_PROJECT_ID }}/g23-repo/fastapi-server:latest
           docker push europe-west1-docker.pkg.dev/${{ secrets.GC_PROJECT_ID }}/g23-repo/fastapi-server:latest
     
