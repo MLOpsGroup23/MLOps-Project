@@ -38,7 +38,7 @@ jobs:
       #     docker push europe-west1-docker.pkg.dev/${{ secrets.GC_PROJECT_ID }}/g23-repo/g23-server:latest
       - name: Update Google Run Deploy
         run: |
-          gcloud run deploy g23-server --image=europe-west1-docker.pkg.dev/${{ secrets.GC_PROJECT_ID }}/g23-server --region=europe-west1
+          gcloud run deploy g23-server --image=europe-west1-docker.pkg.dev/${{ secrets.GC_PROJECT_ID }}/g23-repo/g23-server:latest --region=europe-west1
     
     
 
