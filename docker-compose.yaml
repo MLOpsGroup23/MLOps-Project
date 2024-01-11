@@ -5,17 +5,23 @@ services:
     build:
       context: .
       dockerfile: dockerfiles/train_model.dockerfile
+      platforms:
+        - "linux/amd64"
   predict:
     image: predict:latest
     build:
       context: .
       dockerfile: dockerfiles/predict_model.dockerfile
+      platforms:
+        - "linux/amd64"
   fastapi-predict:
     image: fastapi-predict:latest
     container_name: fastapi_predict
     build:
       context: .
       dockerfile: dockerfiles/fastapi_predict.dockerfile
+      platforms:
+        - "linux/amd64"
     # volumes:
     #   - ./MLOps_Project:/app
     ports:

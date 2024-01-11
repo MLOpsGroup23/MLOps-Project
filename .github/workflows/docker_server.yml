@@ -1,0 +1,45 @@
+name: Build Docker Image for Server
+
+on:
+  push:
+    branches: [ master, main ]
+  
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        python-version: ["3.10"]
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v2 # Checks-out your repository
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - uses: 'google-github-actions/auth@v2'
+        with:
+          project_id: ${{ secrets.GC_PROJECT_ID }}
+          credentials_json: ${{ secrets.GC_BUCKET_JSON }}
+      
+      - name: Build the Docker image 
+        run: |
+          docker compose create fastapi-predict
+      
+      - name: Push to Artifact Registry
+        run: |
+          gcloud auth configure-docker europe-west1-docker.pkg.dev
+          docker tag fastapi-predict europe-west1-docker.pkg.dev/${{ secrets.GC_PROJECT_ID }}/g23-repo/g23-server:latest
+          docker push europe-west1-docker.pkg.dev/${{ secrets.GC_PROJECT_ID }}/g23-repo/g23-server:latest
+
+      - name: Deploy new image to Google Run
+        run: |
+          gcloud run deploy g23-server --image=europe-west1-docker.pkg.dev/${{ secrets.GC_PROJECT_ID }}/g23-repo/g23-server:latest --region=europe-west1
+    
+    
+
