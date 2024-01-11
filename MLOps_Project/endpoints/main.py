@@ -13,3 +13,9 @@ def dst_test():
     return {
         "Message": "This is a test message - please ignore me."
     }
+
+@app.get("/hello_world")
+def hello_server():
+    return {
+        "Message": "Hello from an updated server"
+    }
