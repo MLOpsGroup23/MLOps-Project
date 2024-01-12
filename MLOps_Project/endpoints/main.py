@@ -53,21 +53,43 @@ def bmp_to_tensor(bmp_data):
 # ===================== Routes =====================
 @app.get("/", response_class=HTMLResponse)
 async def homepage():
-    return """
+    html_content = """
     <html>
         <head>
             <title>GR23 MLOps</title>
+            <script>
+                async function uploadImageAndPredict() {
+                    var formData = new FormData();
+                    formData.append('bmp_data', document.getElementById('imageInput').files[0]);
+
+                    let response = await fetch('/predict', {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    let result = await response.json();
+                    document.getElementById('predictionResult').innerText = result.message;
+                }
+            </script>
         </head>
         <body>
             <h1>Hello and welcome to our Machine Learning Operations project!</h1>
             <p>From this URL, you can access our model and try different stuff.</p>
+
+            <h3>Predict MNIST Fashion .bmp image here:</h3>
+            <input type="file" id="imageInput" accept="image/bmp">
+            <br/>
+
+            <button onclick="uploadImageAndPredict()" style="margin-top: 20px;">Predict Image</button>
+            <p id="predictionResult"></p>
         </body>
     </html>
     """
+    return HTMLResponse(content=html_content)
+
 
 @app.post("/predict")
 async def predict(bmp_data: UploadFile = File(...)):
-    print("Making prediction")
     bmp_data_bytes = await bmp_data.read()
     tensor = bmp_to_tensor(bmp_data_bytes)
 
