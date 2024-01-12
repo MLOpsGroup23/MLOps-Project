@@ -45,6 +45,9 @@ def bmp_to_tensor(bmp_data):
     tensor = torch.tensor(list(image.getdata()))
     tensor = tensor.view(1, 28, 28).float()  
 
+    # Normalize to fit dataset
+    tensor = (tensor - torch.mean(tensor))/torch.std(tensor)
+
     return tensor
 
 # ===================== Routes =====================
