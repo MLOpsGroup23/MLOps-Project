@@ -46,6 +46,8 @@ train:
 viz_data: 
 	$(PYTHON_INTERPRETER) $(PROJECT_NAME)/visualizations/visualize_data.py
 
+rnd_fashion_img:
+	$(PYTHON_INTERPRETER) $(PROJECT_NAME)/data/create_bmp_img.py
 
 #################################################################################
 # Documentation RULES                                                           #
