@@ -39,7 +39,7 @@ jobs:
 
       - name: Deploy new image to Google Run
         run: |
-          gcloud run deploy g23-server --image=europe-west1-docker.pkg.dev/${{ secrets.GC_PROJECT_ID }}/g23-repo/g23-server:latest --region=europe-west1 --set-env-vars=[CLOUD_PROJECT_ID=${{ secrets.GC_PROJECT_ID }}]
+          gcloud run deploy g23-server --image=europe-west1-docker.pkg.dev/${{ secrets.GC_PROJECT_ID }}/g23-repo/g23-server:latest --region=europe-west1 --set-env-vars="CLOUD_PROJECT_ID=${{ secrets.GC_PROJECT_ID }}"
     
     
 
