@@ -1,4 +1,4 @@
-_target_: MLOps_Project.models.xcitNano.XcitNano
+_target_: models.xcitNano.XcitNano
 lr: 0.003
 dropout_rate: 0.2
 required_channels: 3
