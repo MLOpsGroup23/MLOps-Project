@@ -1,0 +1,45 @@
+name: Build Docker Image for training
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+
+jobs:
+  deploy:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        python-version: ["3.10"]
+
+    steps:
+    - name: Checkout Repo
+      uses: actions/checkout@v2 # Checks-out your repository
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - uses: 'google-github-actions/auth@v2'
+      with:
+        project_id: ${{ secrets.GC_PROJECT_ID }}
+        credentials_json: ${{ secrets.GC_BUCKET_JSON }}
+      
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements_deploytest.txt
+
+    - uses: iterative/setup-dvc@v1
+    - name: Pull data via DVC
+      run: |
+        dvc pull
+
+    - name: Use DVC Fetched Files
+      run: |
+        # Add commands to use the files fetched by DVC
+        ls -R data
