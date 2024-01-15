@@ -16,7 +16,7 @@ COPY requirements.txt requirements.txt
 COPY pyproject.toml pyproject.toml
 COPY MLOps_Project/ MLOps_Project/
 COPY data/ data/
-COPY entrypoint.sh entrypoint.sh
+COPY dockerfiles/entrypoint_train.sh entrypoint.sh
 
 WORKDIR /
 
