@@ -53,7 +53,7 @@ class ResNet34(LightningModule):
         # Determine Loss and save both values
         loss = self.loss(pred, labels)
         print("val_loss", loss.item())
-        self.log("'val_accuracy", accuracy.item())
+        self.log("val_accuracy", accuracy.item())
         
     
     def configure_optimizers(self):
