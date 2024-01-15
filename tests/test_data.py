@@ -1,14 +1,16 @@
+from omegaconf import DictConfig
 import torch
+import hydra
 from MLOps_Project.data.fashion_mnist_dataset import get_dataloaders
 import pdb
 
 class TestData:
-    def __init__(self) -> None:
-        pass
+    def __init__(self, config):
+        self.config = config
 
     def setup_images_and_labels(self):
         print("setting up images and labels")
-        train_loader, val_loader, test_loader = get_dataloaders()
+        train_loader, val_loader, test_loader = get_dataloaders(self.config)
         self.train_images, self.train_labels = train_loader.dataset.images, train_loader.dataset.labels
         self.val_images, self.val_labels = val_loader.dataset.images, val_loader.dataset.labels
         self.test_images, self.test_labels = test_loader.dataset.images, test_loader.dataset.labels
@@ -36,9 +38,15 @@ class TestData:
         train_hist = torch.tensor([len(self.train_labels[self.train_labels == e])/len(self.train_labels) for e in unique_labels])
         test_hist = torch.tensor([len(self.test_labels[self.test_labels == e]) / len(self.test_labels) for e in unique_labels])
         train_test_dif = sum(train_hist - test_hist).item()
+        # TODO: Finish up test
     
+# Call when training!
+@hydra.main(version_base=None, config_path="../configs", config_name="config")
+def runTestData(cfg: DictConfig):
+    TD = TestData(cfg)
+    TD.test_train_test_stratification()
 
 if __name__ == '__main__':
-    TD = TestData()
-    TD.test_train_test_stratification()
+    runTestData()
+
     
