@@ -49,11 +49,12 @@ class TestData:
         assert train_val_dif < TOL, 'The difference in class imbalances for train and test exceeds the desired threshold'
         self.teardown_images_and_labels()
 
-if __name__ == '__main__':
-    TD = TestData()
+# Call when training!
+@hydra.main(version_base=None, config_path="../configs", config_name="config")
+def runTestData(cfg: DictConfig):
+    TD = TestData(cfg)
     TD.test_train_test_stratification()
 
-if __name__ == '__main__':
-    runTestData()
-
-    
+if __name__ == '__main__': # for debugging and dev purposes
+    TD = TestData()
+    TD.test_train_test_stratification()
