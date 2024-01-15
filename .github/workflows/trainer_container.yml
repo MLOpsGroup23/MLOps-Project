@@ -41,7 +41,7 @@ jobs:
 
     - name: Set up trainer container
       run: |
-        docker build -f dockerfiles/train_model.dockerfile . -t g23-trainer:latest
+        docker build -f dockerfiles/train_model.dockerfile . -t g23-trainer:latest --build-arg="PROJECT_ID=${{ secrets.GC_PROJECT_ID }}"
     - name: Push to Artifact Registry
       run: |
         gcloud auth configure-docker europe-west1-docker.pkg.dev
