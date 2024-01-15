@@ -33,5 +33,6 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
     print(args.save_location)
+    print(args.n_epochs)
     main(save_location=args.save_location, n_epochs=args.n_epochs)
     
