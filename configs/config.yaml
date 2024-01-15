@@ -1,3 +1,9 @@
+defaults: 
+  - architecture: resnet
+
+training:
+  max_epochs: 5
+
 data:
   raw_dir: data/raw
   processed_dir: data/processed

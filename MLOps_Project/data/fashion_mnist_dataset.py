@@ -44,10 +44,7 @@ def get_dataset(cfg, split: str = 'train'):
     dataloader = DataLoader(dataset, batch_size=cfg.data.batch_size, shuffle=shuffle, num_workers=cfg.data.num_workers)
     return dataloader
 
-def get_dataloaders():
-    with hydra.initialize(version_base=None, config_path='../../configs'):
-        cfg = hydra.compose(config_name='config')
-    
+def get_dataloaders(cfg: DictConfig):
     train_loader = get_dataset(cfg=cfg, split='train')
     val_loader = get_dataset(cfg=cfg, split='val')
     test_loader = get_dataset(cfg=cfg, split='test')
