@@ -25,7 +25,7 @@ class Baseline_Model(LightningModule):
                 save_on_train_epoch_end=True,
             )
         ]
-    ç
+    
     def forward(self, x):
         return self.model(x)
 
