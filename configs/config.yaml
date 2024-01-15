@@ -5,16 +5,18 @@ training:
   max_epochs: 5
 
 data:
+  channels: 1 # Amount fo channels for create - default is 1, but for many models, 3 is required
   raw_dir: data/raw
   processed_dir: data/processed
   batch_size: 1000
-  num_workers: 0
+  num_workers: 7
   val_size: 10000
   seed: 42
   train:
     transformations:
       rotation:
         degrees: 5
+      grayscale_to_rgb: {} 
         
   test:
     transformations:

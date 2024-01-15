@@ -1,0 +1,4 @@
+_target_: MLOps_Project.models.mobilenet.MobileNet
+lr: 0.003
+dropout_rate: 0.2
+required_channels: 3
