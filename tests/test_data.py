@@ -3,8 +3,6 @@ from MLOps_Project.data.fashion_mnist_dataset import get_dataloaders
 import pdb
 
 class TestData:
-    def __init__(self) -> None:
-        pass
 
     def setup_images_and_labels(self):
         print("setting up images and labels")
@@ -36,9 +34,11 @@ class TestData:
         train_hist = torch.tensor([len(self.train_labels[self.train_labels == e])/len(self.train_labels) for e in unique_labels])
         test_hist = torch.tensor([len(self.test_labels[self.test_labels == e]) / len(self.test_labels) for e in unique_labels])
         train_test_dif = sum(train_hist - test_hist).item()
+        # TODO: Finish up test
     
 
 if __name__ == '__main__':
     TD = TestData()
     TD.test_train_test_stratification()
+
     
