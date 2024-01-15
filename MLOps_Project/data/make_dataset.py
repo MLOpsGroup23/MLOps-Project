@@ -27,8 +27,12 @@ def preprocess_FashionMNIST_dataset(cfg: DictConfig, data: DataLoader, filename:
 
     processed_images = (processed_images - torch.mean(processed_images))/torch.std(processed_images)
 
+    # If config requires data to have more than 1 channels, add extra channels
+    if(cfg.data.channels > 1):
+        processed_images = processed_images.repeat_interleave(cfg.data.channels, dim=1)
+
     processed_data = (processed_images, processed_labels)
-    # dimensions: torch.Size([60000, 1, 28, 28]) torch.Size([60000])
+    # dimensions: torch.Size([60000, channels, 28, 28]) torch.Size([60000])
 
     # Save the processed dataset
     print("Saving train data to: ", filename)

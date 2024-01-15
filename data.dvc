@@ -2,6 +2,9 @@ outs:
 - hash: md5
   path: data
   files:
+  - relpath: .DS_Store
+    md5: 80177524c369472450902df233df9262
+    size: 10244
   - relpath: processed/.gitkeep
     md5: d41d8cd98f00b204e9800998ecf8427e
     size: 0
@@ -10,26 +13,17 @@ outs:
         etag: 08eee5bdc480d383031001
         version_id: '1704896001700590'
   - relpath: processed/test.pt
-    md5: 9d3132730c4f4c91cc5fe74785c60b12
-    size: 31441286
-    cloud:
-      remote_storage:
-        etag: 08a7d9cfc980d383031001
-        version_id: '1704896012479655'
+    md5: 2da4be9fc0c5e247bc800a7290e89729
+    size: 94161286
   - relpath: processed/train.pt
-    md5: fd741927b7952abdfe18247441fcc47c
-    size: 157201292
-    cloud:
-      remote_storage:
-        etag: 088ceea8c480d383031001
-        version_id: '1704896001357580'
+    md5: 6dcf68c740700dfd3e7b1b396258bfbf
+    size: 470801292
   - relpath: processed/val.pt
-    md5: 703a3c412f4a4ab499e57dc36d5b607c
-    size: 31441280
-    cloud:
-      remote_storage:
-        etag: 08e3bcdac680d383031001
-        version_id: '1704896006364771'
+    md5: 3dbdb86e7ade03bc649e09a65b472501
+    size: 94161280
+  - relpath: raw/.DS_Store
+    md5: e6b928379c498ddc06c0c7c54fc6e504
+    size: 8196
   - relpath: raw/.gitkeep
     md5: d41d8cd98f00b204e9800998ecf8427e
     size: 0
@@ -37,6 +31,12 @@ outs:
       remote_storage:
         etag: 08dfebc1c480d383031001
         version_id: '1704896001766879'
+  - relpath: raw/FashionMNIST/.DS_Store
+    md5: 6e2b39bdb2bcab82a242b460061ddfe0
+    size: 8196
+  - relpath: raw/FashionMNIST/raw/.DS_Store
+    md5: 281a3ccda4d756eed916eb1f1051d2fc
+    size: 6148
   - relpath: raw/FashionMNIST/raw/t10k-images-idx3-ubyte
     md5: 8181f5470baa50b63fa0f6fddb340f0a
     size: 7840016
@@ -58,6 +58,9 @@ outs:
       remote_storage:
         etag: 08eaefc3c480d383031001
         version_id: '1704896001800170'
+  - relpath: raw/FashionMNIST/raw/t10k-labels-idx1-ubyte 2
+    md5: 15d484375f8d13e6eb1aabb0c3f46965
+    size: 10008
   - relpath: raw/FashionMNIST/raw/t10k-labels-idx1-ubyte.gz
     md5: bb300cfdad3c16e7a12a480ee83cd310
     size: 5148
