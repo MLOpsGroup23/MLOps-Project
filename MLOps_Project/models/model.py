@@ -52,8 +52,8 @@ class ResNet34(LightningModule):
         accuracy = torch.mean(correct_guesses.type(torch.FloatTensor))
         # Determine Loss and save both values
         loss = self.loss(pred, labels)
-        self.log("Validation Loss", loss.item())
-        self.log("Validation Accuracy", accuracy.item())
+        print("val_loss", loss.item())
+        self.log("'val_accuracy", accuracy.item())
         
     
     def configure_optimizers(self):
