@@ -7,7 +7,6 @@ from torch.utils.data import DataLoader, TensorDataset
 from data.fashion_mnist_dataset import get_dataloaders
 import wandb
 
-print(wandb.__version__)
 # Initialize logger
 wandb_logger = WandbLogger(project='FashionMNIST')
 
