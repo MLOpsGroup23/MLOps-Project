@@ -31,5 +31,3 @@ def train(cfg: DictConfig):
 # Entrypoint
 if __name__ == '__main__':
     train()
-
-

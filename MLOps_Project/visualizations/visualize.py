@@ -1,7 +1,5 @@
 import torch
-from pytorch_lightning import Trainer
 from MLOps_Project.models.model import ResNet34
-from torchvision import datasets, transforms
 from torch.utils.data import DataLoader, TensorDataset
 from sklearn.manifold import TSNE
 import matplotlib.pyplot as plt
