@@ -68,7 +68,12 @@ async def homepage():
                     });
 
                     let result = await response.json();
-                    document.getElementById('predictionResult').innerText = result.message;
+                    let certainty = result.certainties[result.prediction];
+                        certainty = (certainty*100).toString().substring(0, 5);
+
+                    let anOrAnd = result.prediction[0] == "A" ? "an" : "a";
+
+                    document.getElementById('predictionResult').innerText = "The model believes the image is " + anOrAnd + " " + result.prediction.toUpperCase() + " with a certainty of " + certainty + "%.";
                 }
             </script>
         </head>
@@ -100,8 +105,10 @@ async def predict(bmp_data: UploadFile = File(...)):
     softmax = torch.nn.Softmax(dim=1)
 
     titles = ["T-shirt/top", "Trouser", "Pullover", "Dress", "Coat", "Sandal", "Shirt", "Sneaker", "Bag", "Ankle Boot"]
+    certainties = softmax(pred)
 
     response = {
-        "message": "The model believes that the image is a '" + titles[top_class.item()] + "' with a certainty of " + str(softmax(pred)[0][top_class.item()].item()*100) + "%",
+        "prediction": titles[top_class.item()],
+        "certainties": {title: certainties[0][titles.index(title)].item() for title in titles}
     }
     return response
