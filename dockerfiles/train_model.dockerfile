@@ -11,7 +11,12 @@ COPY MLOps_Project/ MLOps_Project/
 COPY data/ data/
 
 WORKDIR /
+
 RUN pip install -r requirements.txt --no-cache-dir
 RUN pip install . --no-deps --no-cache-dir
 
-ENTRYPOINT ["python", "-u", "MLOps_Project/train_model.py", "--save_location", "/gcs/dtu-mlops-bucket1/", "--n_epochs", "1"]
+# Set default values for environment variables
+ENV SAVE_LOCATION="/models"
+ENV N_EPOCHS=1
+
+CMD python -u MLOps_Project/train_model.py --save_location $SAVE_LOCATION --n_epochs $N_EPOCHS
