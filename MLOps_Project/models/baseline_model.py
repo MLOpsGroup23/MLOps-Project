@@ -6,7 +6,7 @@ import numpy as np
 import torch
 from PIL import Image
 import wandb
-from visualizations.visualize_resnet import fig2img
+from MLOps_Project.visualizations.visualize_resnet import fig2img
 
 
 

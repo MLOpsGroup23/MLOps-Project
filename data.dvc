@@ -5,6 +5,10 @@ outs:
   - relpath: .DS_Store
     md5: 80177524c369472450902df233df9262
     size: 10244
+    cloud:
+      remote_storage:
+        etag: 088caea2c6dadf83031001
+        version_id: '1705332481496844'
   - relpath: processed/.gitkeep
     md5: d41d8cd98f00b204e9800998ecf8427e
     size: 0
@@ -15,15 +19,31 @@ outs:
   - relpath: processed/test.pt
     md5: 2da4be9fc0c5e247bc800a7290e89729
     size: 94161286
+    cloud:
+      remote_storage:
+        etag: 0893a68893dbdf83031001
+        version_id: '1705332642550547'
   - relpath: processed/train.pt
     md5: 6dcf68c740700dfd3e7b1b396258bfbf
     size: 470801292
+    cloud:
+      remote_storage:
+        etag: 089edcf0d6dbdf83031001
+        version_id: '1705332784770590'
   - relpath: processed/val.pt
     md5: 3dbdb86e7ade03bc649e09a65b472501
     size: 94161280
+    cloud:
+      remote_storage:
+        etag: 08fef9ab8cdbdf83031001
+        version_id: '1705332628454654'
   - relpath: raw/.DS_Store
     md5: e6b928379c498ddc06c0c7c54fc6e504
     size: 8196
+    cloud:
+      remote_storage:
+        etag: 08bac38dc7dadf83031001
+        version_id: '1705332483252666'
   - relpath: raw/.gitkeep
     md5: d41d8cd98f00b204e9800998ecf8427e
     size: 0
@@ -34,9 +54,17 @@ outs:
   - relpath: raw/FashionMNIST/.DS_Store
     md5: 6e2b39bdb2bcab82a242b460061ddfe0
     size: 8196
+    cloud:
+      remote_storage:
+        etag: 08af96d4c6dadf83031001
+        version_id: '1705332482313007'
   - relpath: raw/FashionMNIST/raw/.DS_Store
     md5: 281a3ccda4d756eed916eb1f1051d2fc
     size: 6148
+    cloud:
+      remote_storage:
+        etag: 08e5c18dc7dadf83031001
+        version_id: '1705332483252453'
   - relpath: raw/FashionMNIST/raw/t10k-images-idx3-ubyte
     md5: 8181f5470baa50b63fa0f6fddb340f0a
     size: 7840016
@@ -61,6 +89,10 @@ outs:
   - relpath: raw/FashionMNIST/raw/t10k-labels-idx1-ubyte 2
     md5: 15d484375f8d13e6eb1aabb0c3f46965
     size: 10008
+    cloud:
+      remote_storage:
+        etag: 08949be1c6dadf83031001
+        version_id: '1705332482526612'
   - relpath: raw/FashionMNIST/raw/t10k-labels-idx1-ubyte.gz
     md5: bb300cfdad3c16e7a12a480ee83cd310
     size: 5148

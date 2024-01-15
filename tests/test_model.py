@@ -2,7 +2,7 @@ from MLOps_Project.models.resnet import ResNet34
 import torch
 
 def test_train():
-    randomData = torch.rand((10, 1, 28, 28))
+    randomData = torch.rand((10, 3, 28, 28))
     model = ResNet34()
     pred = model.forward(randomData)
 
