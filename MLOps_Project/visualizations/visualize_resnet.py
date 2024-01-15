@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 from pytorch_lightning.loggers import WandbLogger
+from PIL import Image
 
 def fig2img(fig):
     """Convert a Matplotlib figure to a PIL Image and return it"""
