@@ -17,6 +17,8 @@ COPY pyproject.toml pyproject.toml
 COPY MLOps_Project/ MLOps_Project/
 COPY data/ data/
 COPY dockerfiles/entrypoint_train.sh entrypoint.sh
+# Add executable permission to file
+RUN chmod +x /entrypoint.sh
 
 WORKDIR /
 
