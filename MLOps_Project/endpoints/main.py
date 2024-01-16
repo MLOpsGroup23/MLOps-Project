@@ -1,5 +1,5 @@
-from fastapi import FastAPI, Request, UploadFile, File
-from fastapi.responses import HTMLResponse
+from fastapi import FastAPI, Request, UploadFile, File, BackgroundTasks
+from fastapi.responses import HTMLResponse, FileResponse
 from MLOps_Project.models.resnet import ResNet34
 from MLOps_Project.predict_model import predict_single
 from google.cloud import storage
@@ -8,11 +8,13 @@ from PIL import Image
 import torch
 import os
 import io
-
+import time
 import pandas as pd
+
 from MLOps_Project.endpoints.firestore import CustomFirestoreClient
 from evidently.report import Report
 from evidently.metric_preset import DataDriftPreset
+
 
 # ===================== Configs (should be moved somewhere else)  =====================
 app = FastAPI()
@@ -47,6 +49,7 @@ model = model.to(device)
 # ===================== Connect to Firebase  =====================
 
 # Initialize a Firestore client
+print("Making connection to Firestore")
 db = CustomFirestoreClient(project=CLOUD_ID, database=DATABASE, collection=COLLECTION)
 
 
@@ -100,14 +103,19 @@ def get_reference_data():
         print("Reference data already exists")
         return pd.read_csv('datadrift/reference_data.csv')
     else: 
+        # make datadrift folder if it does not exist
+        if not os.path.exists('datadrift'):
+            os.makedirs('datadrift')
+
         reference_data_pt = get_processed_data_from_cloud("test.pt")
         # convert to csv
         images = reference_data_pt[0]
         labels = reference_data_pt[1]
 
         # Make dataframe with labels
-        data = {'labels': labels}
+        data = {'label': labels}
         reference = pd.DataFrame(data)
+
         # save to csv file
         reference.to_csv('datadrift/reference_data.csv', index=False)
     
@@ -156,8 +164,16 @@ async def homepage():
     return HTMLResponse(content=html_content)
 
 
+def save_prediction(prediction: int, certainty: float):
+    print("Saving prediction to Firestore")
+    # Add prediction
+    now = time.time()
+    data = {'timestamp': now, 'uncertainty': certainty, 'label': prediction}
+    db.add_prediction(data)
+
+
 @app.post("/predict")
-async def predict(bmp_data: UploadFile = File(...)):
+async def predict(background_tasks: BackgroundTasks, bmp_data: UploadFile = File(...)):
     bmp_data_bytes = await bmp_data.read()
     tensor = bmp_to_tensor(bmp_data_bytes)
 
@@ -174,6 +190,10 @@ async def predict(bmp_data: UploadFile = File(...)):
         "prediction": titles[top_class.item()],
         "certainties": {title: certainties[0][titles.index(title)].item() for title in titles}
     }
+
+    print("Added background task for saving prediction to Firestore")
+    background_tasks.add_task(save_prediction, top_class.item(), response["certainties"][response["prediction"]])
+
     return response
 
 
@@ -190,4 +210,4 @@ async def monitoring():
     report.save_html('report.html')
 
     # serve html file
-    return HTMLResponse("report.html")
+    return FileResponse("report.html")
