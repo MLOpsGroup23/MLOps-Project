@@ -65,6 +65,7 @@ def bmp_to_tensor(bmp_data):
 
     # Normalize to fit dataset
     tensor = (tensor - torch.mean(tensor))/torch.std(tensor)
+    tensor = tensor.repeat_interleave(3, dim=0) # Assumes a data channel requirement of 3
 
     return tensor
 

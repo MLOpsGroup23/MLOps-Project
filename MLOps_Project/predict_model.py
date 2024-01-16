@@ -1,4 +1,4 @@
-from MLOps_Project.models.resnet import ResNet34
+from MLOps_Project.models.baseline_model import Baseline_Model
 import torch
 
 def predict(
@@ -17,9 +17,9 @@ def predict(
     """
     return torch.cat([model(batch) for batch in dataloader], 0)
 
-def predict_single(model: ResNet34, img):
-    """ Run Prediction for a given model and a single img of shape (1, 28, 28)
+def predict_single(model: Baseline_Model, img):
+    """ Run Prediction for a given model and a single img of shape (3, 28, 28)
     """
-    img = img.unsqueeze(0) # Change shape from (1, 28, 28) to (1, 1, 28, 28)
+    img = img.unsqueeze(0) # Change shape from (3, 28, 28) to (1, 3, 28, 28)
     model.eval() # Make sure the model is in eval mode
     return model.forward(img)
