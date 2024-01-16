@@ -8,7 +8,10 @@ import torch
 from torch.utils.data import DataLoader, TensorDataset
 from PIL import Image
 
-def tensor_to_bmp(tensor_img, img_name): # Input: (1, 28, 28) tensor image
+def tensor_to_bmp(tensor_img, img_name): # Input: (3, 28, 28) tensor image or (1,28,28)
+    # Convert from a 3 channel image to a single channel image
+    if(tensor_img.shape[0] == 3):
+        tensor_img = tensor_img[0].unsqueeze(0) # Convert from (3,28,28) to (1,28,28)
     # The tensor needs to be converted from [min, max] into [0, 255], as the .bmp image must be 8-bit
     tensor_img = tensor_img - tensor_img.min() 
     tensor_img = tensor_img / tensor_img.max() 
@@ -17,6 +20,7 @@ def tensor_to_bmp(tensor_img, img_name): # Input: (1, 28, 28) tensor image
     tensor_img = tensor_img.type(torch.uint8)
 
     image = tensor_img.squeeze(0) # Reduce from 
+
     image = Image.fromarray(image.numpy(), mode='L')
     image.save('./reports/images/' + img_name + ".bmp")
 
