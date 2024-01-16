@@ -37,3 +37,4 @@ scikit-learn==1.3.2
 matplotlib==3.8.2
 wandb==0.16.2
 pytest==7.4.4
+pre-commit>=3.6.0
