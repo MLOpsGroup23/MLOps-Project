@@ -1,5 +1,4 @@
 from pytorch_lightning import LightningModule
-from pytorch_lightning.callbacks import ModelCheckpoint
 import matplotlib.pyplot as plt
 from torch.autograd import Variable
 import numpy as np
@@ -12,20 +11,10 @@ from MLOps_Project.visualizations.visualize_resnet import fig2img
 
 # Baseline Model - Requires only that inheriting object defined self.model and self.loss
 class Baseline_Model(LightningModule):
-    def __init__(self, filename):
+    def __init__(self, filename="baseline_model"):
         super().__init__()
-        # Define checkpoints and callbacks - Default is save on Epoch End based on max validation accuracy
-        # Saved in object, and needs to be forwarded to the Trainer when training
-        self.callbacks = [
-            ModelCheckpoint(
-                dirpath="./models",
-                monitor="val/accuracy",
-                mode="max",
-                filename=filename,
-                save_on_train_epoch_end=True,
-            )
-        ]
-    
+        self.filename = filename # name of file to save trained model to.
+
     def forward(self, x):
         return self.model(x)
 
@@ -91,7 +80,7 @@ class Baseline_Model(LightningModule):
         self.log("val/accuracy", accuracy)
         if(batch_idx == 0):
             print("Validation Loss: " + str(loss.item()))
-            print("Validation Accuacy: " + str(accuracy.item()))
+            print("Validation Accuracy: " + str(accuracy.item()))
 
 
     def configure_optimizers(self):

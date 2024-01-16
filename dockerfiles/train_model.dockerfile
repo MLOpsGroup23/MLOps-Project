@@ -15,6 +15,7 @@ RUN apt-get update && apt-get install -y curl gnupg && \
 COPY requirements.txt requirements.txt
 COPY pyproject.toml pyproject.toml
 COPY MLOps_Project/ MLOps_Project/
+COPY configs/ configs/
 COPY data/ data/
 COPY dockerfiles/entrypoint_train.sh entrypoint.sh
 # Add executable permission to file
@@ -23,14 +24,13 @@ RUN chmod +x /entrypoint.sh
 WORKDIR /
 
 RUN pip install -r requirements.txt --no-cache-dir
-RUN pip install . --no-deps --no-cache-dir
+RUN pip install . --no-cache-dir
 
 # Set default values for environment variables
-ENV SAVE_LOCATION="/models"
-ENV N_EPOCHS=1
+ENV HYDRA_ARGS=''
 
 # Set gcloud project
-RUN gcloud config set project ${PROJECT_ID}
+# RUN gcloud config set project ${PROJECT_ID}
 
-ENTRYPOINT ["/entrypoint.sh"]
-CMD python -u MLOps_Project/train_model.py --save_location $SAVE_LOCATION --n_epochs $N_EPOCHS
+# ENTRYPOINT ["/entrypoint.sh"]
+CMD python -u MLOps_Project/train_model.py ${HYDRA_ARGS}

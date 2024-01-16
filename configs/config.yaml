@@ -3,13 +3,14 @@ defaults:
 
 training:
   max_epochs: 5
+  pl_basepath: models # base path for lightning during training
 
 data:
-  channels: 3 # Amount fo channels for create - default is 3 since many TIMM models requires this
+  channels: 3 # Amount of channels for create - default is 3 since many TIMM models requires this
   raw_dir: data/raw
   processed_dir: data/processed
   batch_size: 1000
-  num_workers: 7
+  num_workers: 4
   val_size: 10000
   seed: 42
   train:
