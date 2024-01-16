@@ -2,7 +2,7 @@ name: Access GCP Bucket with DVC
 
 on:
   push:
-    branches: [ master, main, build_trainer_container ]
+    branches: [ master, main, build_trainer_container, new-trainer-container ]
   pull_request:
     branches: [ master, main ]
 
