@@ -9,16 +9,28 @@ import torch
 import os
 import io
 
+import pandas as pd
+from MLOps_Project.endpoints.firestore import CustomFirestoreClient
+from evidently.report import Report
+from evidently.metric_preset import DataDriftPreset
+
+# ===================== Configs (should be moved somewhere else)  =====================
 app = FastAPI()
 
 
-# Downloading Model
+# ===================== Configs (should be moved somewhere else)  =====================
+# CLOUD_ID = os.environ["CLOUD_PROJECT_ID"]
+CLOUD_ID = "pelagic-height-410710"
+BUCKET_NAME = "dtu-mlops-bucket1"
+DATABASE = "prediction-db"
+COLLECTION = "predictions"
+
+# ===================== Download Model  =====================
 # Initialise a client
 print("Downloading Model")
-cloud_id = os.environ["CLOUD_PROJECT_ID"]
-storage_client = storage.Client(cloud_id)
+storage_client = storage.Client(CLOUD_ID)
 # Create a bucket object for our bucket
-bucket = storage_client.get_bucket('dtu-mlops-bucket1')
+bucket = storage_client.get_bucket(BUCKET_NAME)
 # Create a blob object from the filepath
 blob = bucket.blob("LightningTrainedModel2.ckpt")
 # Download the file to a destination
@@ -30,6 +42,12 @@ print("Setting up the model")
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 model = ResNet34.load_from_checkpoint(checkpoint_path="./model2.ckpt")
 model = model.to(device)
+
+
+# ===================== Connect to Firebase  =====================
+
+# Initialize a Firestore client
+db = CustomFirestoreClient(project=CLOUD_ID, database=DATABASE, collection=COLLECTION)
 
 
 # ===================== Helper Functions  =====================
@@ -49,6 +67,50 @@ def bmp_to_tensor(bmp_data):
     tensor = (tensor - torch.mean(tensor))/torch.std(tensor)
 
     return tensor
+
+def get_processed_data_from_cloud(filename="test.pt"):
+    print("Downloading reference data")
+    # cloud_id = os.environ["CLOUD_PROJECT_ID"]
+    cloud_id = "pelagic-height-410710"
+    storage_client = storage.Client(cloud_id)
+    # Create a bucket object for our bucket
+    bucket = storage_client.get_bucket('dtu-mlops-bucket1')
+
+    # Specify the folder name
+    folder_name = 'data/processed/'
+
+    # List all objects in the specified folder
+    blobs = bucket.list_blobs(prefix=folder_name, delimiter='/')
+
+    for blob in blobs:
+        print(blob.name)
+        if blob.name == folder_name + filename:
+            print("Downloading file: {}".format(blob.name))
+            blob.download_to_filename(f"datadrift/{filename}")
+            print("File downloaded to {}".format(f"datadrift/{filename}"))
+
+    # load saved blob 
+    processed_data_pt = torch.load(f"datadrift/{filename}")
+    return processed_data_pt    
+
+def get_reference_data():
+    # check if reference data already exists
+    if os.path.exists('datadrift/reference_data.csv'):
+        print("Reference data already exists")
+        return pd.read_csv('datadrift/reference_data.csv')
+    else: 
+        reference_data_pt = get_processed_data_from_cloud("test.pt")
+        # convert to csv
+        images = reference_data_pt[0]
+        labels = reference_data_pt[1]
+
+        # Make dataframe with labels
+        data = {'labels': labels}
+        reference = pd.DataFrame(data)
+        # save to csv file
+        reference.to_csv('datadrift/reference_data.csv', index=False)
+    
+        return reference
 
 # ===================== Routes =====================
 @app.get("/", response_class=HTMLResponse)
@@ -112,3 +174,19 @@ async def predict(bmp_data: UploadFile = File(...)):
         "certainties": {title: certainties[0][titles.index(title)].item() for title in titles}
     }
     return response
+
+
+@app.get("/monitoring")
+async def monitoring():
+    # get current data 
+    current = db.get_pd()
+
+    # get reference data
+    reference = get_reference_data()
+
+    report = Report(metrics=[DataDriftPreset()])
+    report.run(reference_data=reference, current_data=current)
+    report.save_html('report.html')
+
+    # serve html file
+    return HTMLResponse("report.html")
