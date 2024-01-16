@@ -21,6 +21,8 @@ class TestData:
         del self.train_labels
         del self.test_images
         del self.test_labels
+        del self.val_images
+        del self.val_labels
 
     def test_image_label_shapes(self):
         self.setup_images_and_labels()
@@ -31,12 +33,17 @@ class TestData:
         assert (
             self.train_images.shape[1:4] == self.test_images.shape[1:4]
         ), "Dimensionality of train and test images does not match!"
+        assert (
+            self.train_images.shape[1:4] == self.val_images.shape[1:4]
+        ), "Dimensionality of train and validation images does not match!"
         # labels tests
         assert len(self.train_labels.shape) == 1, "The labels in the train dataset are not 1D."
-        assert len(self.test_labels.shape) == 1, "The labels in the train dataset are not 1D."
+        assert len(self.test_labels.shape) == 1, "The labels in the test dataset are not 1D."
+        assert len(self.val_labels.shape) == 1, "The labels in the validation dataset are not 1D."
         self.teardown_images_and_labels()
 
-    def test_train_test_stratification(self):
+    def test_stratification_criteria(self):
+        TOL = 0.01
         self.setup_images_and_labels()
         unique_labels = self.train_labels.unique()
         train_hist = torch.tensor(
@@ -45,9 +52,18 @@ class TestData:
         test_hist = torch.tensor(
             [len(self.test_labels[self.test_labels == e]) / len(self.test_labels) for e in unique_labels]
         )
-        train_test_dif = sum(train_hist - test_hist).item()
-        # TODO: Finish up test
-        print(train_test_dif)
+        val_hist = torch.tensor(
+            [len(self.val_labels[self.val_labels == e]) / len(self.val_labels) for e in unique_labels]
+        )
+        train_test_dif = sum(abs(train_hist - test_hist)).item()
+        train_val_dif = sum(abs(train_hist - val_hist)).item()
+        assert (
+            train_test_dif < TOL
+        ), "The difference in class imbalances for train and test exceeds the desired threshold"
+        assert (
+            train_val_dif < TOL
+        ), "The difference in class imbalances for train and test exceeds the desired threshold"
+        self.teardown_images_and_labels()
 
 
 # Call when training!
@@ -57,5 +73,6 @@ def runTestData(cfg: DictConfig):
     TD.test_train_test_stratification()
 
 
-if __name__ == "__main__":
-    runTestData()
+if __name__ == "__main__":  # for debugging and dev purposes
+    TD = TestData()
+    TD.test_train_test_stratification()
