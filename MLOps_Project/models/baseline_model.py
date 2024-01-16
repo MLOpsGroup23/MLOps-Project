@@ -25,7 +25,7 @@ class Baseline_Model(LightningModule):
                 save_on_train_epoch_end=True,
             )
         ]
-    
+
     def forward(self, x):
         return self.model(x)
 
@@ -37,7 +37,7 @@ class Baseline_Model(LightningModule):
         if (batch_idx == 0) and (self.current_epoch > 1):
             self.compute_saliency_map(batch)
         return loss
-    
+
     def compute_saliency_map(self, batch):
         self.model.eval()
         data, labels = batch
@@ -47,12 +47,12 @@ class Baseline_Model(LightningModule):
         image_idxs = [list(filter(lambda x: x[0] == label, L))[0][1] for label in unique_labels]
         images = data[image_idxs]
         for i, img in enumerate(images):
-            img = Variable(img.unsqueeze(0), requires_grad=True)        
+            img = Variable(img.unsqueeze(0), requires_grad=True)
             scores = torch.exp(self.forward(img))
             prediction = scores.argmax(dim=1).item()
             class_score = scores.max(dim=1).values.unsqueeze(1)
             class_score.backward()
-            saliency = img.grad.data.abs() 
+            saliency = img.grad.data.abs()
             fig = plt.figure(figsize=(16,8))
             ax1 = fig.add_subplot(121)
             ax2 = fig.add_subplot(122)
@@ -75,7 +75,7 @@ class Baseline_Model(LightningModule):
             figure = fig2img(fig)
             self.logger.experiment.log({"Saliency figure": wandb.Image(figure)})
             plt.close(fig)
-    
+
     # Default validation step - determines accuracy and loss of validation set
     def validation_step(self, batch, batch_idx):
         data, labels = batch
@@ -96,5 +96,3 @@ class Baseline_Model(LightningModule):
 
     def configure_optimizers(self):
         return torch.optim.Adam(self.model.parameters(), lr=self.lr)
-
-

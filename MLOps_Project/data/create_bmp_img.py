@@ -10,13 +10,13 @@ from PIL import Image
 
 def tensor_to_bmp(tensor_img, img_name): # Input: (1, 28, 28) tensor image
     # The tensor needs to be converted from [min, max] into [0, 255], as the .bmp image must be 8-bit
-    tensor_img = tensor_img - tensor_img.min() 
-    tensor_img = tensor_img / tensor_img.max() 
-    tensor_img = tensor_img * 255              
+    tensor_img = tensor_img - tensor_img.min()
+    tensor_img = tensor_img / tensor_img.max()
+    tensor_img = tensor_img * 255
     # Convert to 8-bit integer
     tensor_img = tensor_img.type(torch.uint8)
 
-    image = tensor_img.squeeze(0) # Reduce from 
+    image = tensor_img.squeeze(0) # Reduce from
     image = Image.fromarray(image.numpy(), mode='L')
     image.save('./reports/images/' + img_name + ".bmp")
 
@@ -32,4 +32,3 @@ def create_random_fashion_img(datapath, img_name):
 
 if __name__ == '__main__':
     create_random_fashion_img("./data/processed/test.pt", "extractedImg")
-    

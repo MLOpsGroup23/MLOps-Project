@@ -14,7 +14,7 @@ class TestData:
         self.train_images, self.train_labels = train_loader.dataset.images, train_loader.dataset.labels
         self.val_images, self.val_labels = val_loader.dataset.images, val_loader.dataset.labels
         self.test_images, self.test_labels = test_loader.dataset.images, test_loader.dataset.labels
-        
+
     def teardown_images_and_labels(self):
         print("tearing down images and labels")
         del self.train_images
@@ -31,7 +31,7 @@ class TestData:
         assert len(self.train_labels.shape) == 1, 'The labels in the train dataset are not 1D.'
         assert len(self.test_labels.shape) == 1, 'The labels in the train dataset are not 1D.'
         self.teardown_images_and_labels()
-    
+
     def test_train_test_stratification(self):
         self.setup_images_and_labels()
         unique_labels = self.train_labels.unique()
@@ -39,7 +39,7 @@ class TestData:
         test_hist = torch.tensor([len(self.test_labels[self.test_labels == e]) / len(self.test_labels) for e in unique_labels])
         train_test_dif = sum(train_hist - test_hist).item()
         # TODO: Finish up test
-    
+
 # Call when training!
 @hydra.main(version_base=None, config_path="../configs", config_name="config")
 def runTestData(cfg: DictConfig):
@@ -48,5 +48,3 @@ def runTestData(cfg: DictConfig):
 
 if __name__ == '__main__':
     runTestData()
-
-    

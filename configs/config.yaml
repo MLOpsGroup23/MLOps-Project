@@ -1,4 +1,4 @@
-defaults: 
+defaults:
   - architecture: resnet
 
 training:
@@ -16,10 +16,10 @@ data:
     transformations:
       rotation:
         degrees: 5
-      grayscale_to_rgb: {} 
-        
+      grayscale_to_rgb: {}
+
   test:
     transformations:
-      
+
   val:
     transformations:

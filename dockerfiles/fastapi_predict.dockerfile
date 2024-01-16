@@ -3,7 +3,7 @@ FROM python:3.10-slim
 
 RUN apt update && \
     apt install --no-install-recommends -y build-essential gcc && \
-    apt-get install ffmpeg libsm6 libxext6  -y 
+    apt-get install ffmpeg libsm6 libxext6  -y
 
 COPY requirements_fastapi_predict.txt requirements.txt
 COPY pyproject.toml pyproject.toml

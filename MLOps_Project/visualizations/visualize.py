@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 # Get Test Data
-# Download and load the test data 
+# Download and load the test data
 
 test_data = torch.load("./data/processed/train.pt")
 test_dataset  = TensorDataset(test_data[0], test_data[1])  # create your datset

@@ -32,7 +32,7 @@ def compose_transformations(cfg):
         if transform in options.keys():
             transforms.append(options[transform](**cfg[transform]))
     return Compose(transforms)
-    
+
 
 
 
@@ -48,5 +48,5 @@ def get_dataloaders(cfg: DictConfig):
     train_loader = get_dataset(cfg=cfg, split='train')
     val_loader = get_dataset(cfg=cfg, split='val')
     test_loader = get_dataset(cfg=cfg, split='test')
-    
+
     return train_loader, val_loader, test_loader

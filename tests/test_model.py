@@ -1,4 +1,4 @@
-from MLOps_Project.models.resnet import ResNet34 
+from MLOps_Project.models.resnet import ResNet34
 import torch
 
 def test_train():

@@ -14,7 +14,7 @@ def plt_savefig(fig, fig_name, dir="./reports/figures/"):
     print("Saved to: ", path)
 
 def plot_images(dataset: TensorDataset):
-    # plot 5 by 5 
+    # plot 5 by 5
     fig, axs = plt.subplots(4, 5, figsize=(14, 10))
 
     rand_idx = torch.randperm(len(dataset))[:20]
@@ -78,5 +78,3 @@ def main(cfg: DictConfig):
 
 if __name__ == '__main__':
     main()
-
-

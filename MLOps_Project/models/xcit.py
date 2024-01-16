@@ -1,5 +1,5 @@
 from MLOps_Project.models.baseline_model import Baseline_Model
-import timm 
+import timm
 import torch
 
 # Define class for XCIT Nano model using the TIMM framework
