@@ -168,7 +168,7 @@ We also used the *Pytorch Image Models* library (TIMM), which comes with a wide 
 > *experiments.*
 > Answer:
 
-From the cookiecutter template we filled out all but one folder. The *notebooks* folder was left empty, as we did not get to create a notebook for our project.  
+From the cookiecutter template we filled out all but one folder. The *notebooks* folder was left empty, as we did not get to create a notebook for our project.
 
 The structure aligns well with the initial cookiecutter template. We added a folder named *dockerfiles*, which contains all the dockerfiles that have been used in the project. These include dockerfiles for creating docker images for:
 
@@ -186,7 +186,9 @@ We also added a folder named *outputs*, which contains files used for logging an
 >
 > Answer:
 
---- question 6 fill here ---
+We did use pre-commits to ensure that the code in our repository was of a certain quality. We used various pre-commit hooks from https://github.com/pre-commit/pre-commit-hooks in order to remove trailing whitespace, end-of-file newlines and additional hooks to make sure that no secret keys were added to the repository.
+
+In addition, we used the *[ruff-pre-commit-hook](https://github.com/astral-sh/ruff-pre-commit)* in order to make sure that the python code that we added to the repository did not include unused packages, unused variables and so on.
 
 ## Version control
 
@@ -235,7 +237,7 @@ We also added a folder named *outputs*, which contains files used for logging an
 >
 > Answer:
 
-Yes, we did use branches and pull requests during development. We disabled the ability to push directly into the main branch. Thus, all changes into the main branch needed to go through a pull request. 
+Yes, we did use branches and pull requests during development. We disabled the ability to push directly into the main branch. Thus, all changes into the main branch needed to go through a pull request.
 
 Furthermore, we added the requirement that every pull request had to be approved by another group member. In this way, we ensured that a rogue group member could not destroy the main branch by themselves. Also, if the person creating the pull request had mistankly made broken code, they are more likely to find the error.
 In addition to this, we also added automatic running of our tests when the pull request was made using github actions.
@@ -429,11 +431,13 @@ Another benefit of using DVC was seen when using github actions. For continous i
 >
 > Answer:
 
-We did manage to deploy our model in the cloud and locally. In both cases, *uvicorn* and *FastAPI* was used to setup and implement a server that uses the model. The server could easily be tested locally by running a *uvicorn* command. The model used in deployment was stored in our google cloud bucket, which made it easy to be downloaded both locally and in the cloud. For running the service in the cloud, we build a docker image for a container that runs the server. This image was then run in the cloud using the *Cloud Run* service. This step was automated as a part of our continous integration step, as explained in question 11. 
+We did manage to deploy our model in the cloud and locally. In both cases, *uvicorn* and *FastAPI* was used to setup and implement a server that uses the model. The server could easily be tested locally by running a *uvicorn* command. The model used in deployment was stored in our google cloud bucket, which made it easy to be downloaded both locally and in the cloud. For running the service in the cloud, we build a docker image for a container that runs the server. This image was then run in the cloud using the *Cloud Run* service. This step was automated as a part of our continous integration step, as explained in question 11.
 
 The server exposed two endpoint, one for the homepage, and one for predicting images. Using the *root/predict* endpoint, POST requests with a payload of a *.BMP* umage could be made, which response would be a preidction of the image. This was also available from the homepage with a very basic user interface.
 
 The deployment is available at this URL: https://g23-server-3is7zysmoq-ew.a.run.app. (It might take a minute to start on the first visit.)
+
+A collection of MNIST fashion images in BMP format can be downloaded from [HERE](https://drive.google.com/file/d/1LLOEuGN3nTlgYA4r9mQNnUdAdYI-Z6a3/view?usp=sharing). These are 100 random images from our test set, which can be used in our predict endpoint or the homepage of the server.
 
 ### Question 23
 
