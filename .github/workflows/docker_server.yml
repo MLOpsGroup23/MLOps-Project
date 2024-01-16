@@ -3,7 +3,7 @@ name: Build Docker Image for Server
 on:
   push:
     branches: [ master, main ]
-  
+
 jobs:
   build:
     runs-on: ${{ matrix.os }}
@@ -26,11 +26,11 @@ jobs:
         with:
           project_id: ${{ secrets.GC_PROJECT_ID }}
           credentials_json: ${{ secrets.GC_BUCKET_JSON }}
-      
-      - name: Build the Docker image 
+
+      - name: Build the Docker image
         run: |
           docker compose create fastapi-predict
-      
+
       - name: Push to Artifact Registry
         run: |
           gcloud auth configure-docker europe-west1-docker.pkg.dev
@@ -40,6 +40,3 @@ jobs:
       - name: Deploy new image to Google Run
         run: |
           gcloud run deploy g23-server --image=europe-west1-docker.pkg.dev/${{ secrets.GC_PROJECT_ID }}/g23-repo/g23-server:latest --region=europe-west1 --set-env-vars="CLOUD_PROJECT_ID=${{ secrets.GC_PROJECT_ID }}"
-    
-    
-
