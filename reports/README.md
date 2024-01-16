@@ -235,7 +235,12 @@ We also added a folder named *outputs*, which contains files used for logging an
 >
 > Answer:
 
---- question 9 fill here ---
+Yes, we did use branches and pull requests during development. We disabled the ability to push directly into the main branch. Thus, all changes into the main branch needed to go through a pull request. 
+
+Furthermore, we added the requirement that every pull request had to be approved by another group member. In this way, we ensured that a rogue group member could not destroy the main branch by themselves. Also, if the person creating the pull request had mistankly made broken code, they are more likely to find the error.
+In addition to this, we also added automatic running of our tests when the pull request was made using github actions.
+
+For branches, we simply created a new branch for every feature we wanted to implement. When the feature was implemented we typically made sure to merge the newest changes from main into out branch, in case main had been updated. By doing this, we ensured that potential merge conflicts were resolved before creating the pull request. This made it much easier to see when each feature was implemented and made it easier to track who was working on what.
 
 ### Question 10
 
@@ -250,7 +255,9 @@ We also added a folder named *outputs*, which contains files used for logging an
 >
 > Answer:
 
---- question 10 fill here ---
+Yes, we did use DVC together with google cloud storage to store our larger data files. We used it to track our training and validation datasets. This made it very easy to share our dataset, and made it easier to control which version of the data we were working on.
+
+Another benefit of using DVC was seen when using github actions. For continous integration, we added github actions to build and store different docker images every time a new push to main was made. Some of these images required the dataset to work properly. By using DVC, it was easy to pull the newest data and make sure that the correct dataset was used in the different images.
 
 ### Question 11
 

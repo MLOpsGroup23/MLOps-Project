@@ -12,6 +12,9 @@ outputs
 
 # Ignore Reports
 reports
+# Do not ignore our report and report script
+!reports/README.md
+!reports/report.py
 
 # virtual environment
 .venv/
