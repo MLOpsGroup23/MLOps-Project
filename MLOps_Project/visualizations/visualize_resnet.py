@@ -1,10 +1,10 @@
-import matplotlib.pyplot as plt
-from pytorch_lightning.loggers import WandbLogger
 from PIL import Image
+
 
 def fig2img(fig):
     """Convert a Matplotlib figure to a PIL Image and return it"""
     import io
+
     buf = io.BytesIO()
     fig.savefig(buf)
     buf.seek(0)
@@ -13,7 +13,8 @@ def fig2img(fig):
 
 
 def visualize_resnet():
-    print('hello resnet')
+    print("hello resnet")
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     visualize_resnet()

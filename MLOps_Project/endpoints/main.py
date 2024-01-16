@@ -41,7 +41,7 @@ print("Model downloaded and stored")
 # Model downloaded and stored
 # Setup Model
 print("Setting up the model")
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model = ResNet34.load_from_checkpoint(checkpoint_path="./model2.ckpt")
 model = model.to(device)
 
@@ -55,20 +55,21 @@ db = CustomFirestoreClient(project=CLOUD_ID, database=DATABASE, collection=COLLE
 
 # ===================== Helper Functions  =====================
 
+
 def bmp_to_tensor(bmp_data):
-     # Load the image from bytes
-    image = Image.open(io.BytesIO(bmp_data)).convert('L')
+    # Load the image from bytes
+    image = Image.open(io.BytesIO(bmp_data)).convert("L")
 
     # Resize the image to 28x28
     image = image.resize((28, 28))
 
     # Convert to a tensor
     tensor = torch.tensor(list(image.getdata()))
-    tensor = tensor.view(1, 28, 28).float()  
+    tensor = tensor.view(1, 28, 28).float()
 
     # Normalize to fit dataset
-    tensor = (tensor - torch.mean(tensor))/torch.std(tensor)
-    tensor = tensor.repeat_interleave(3, dim=0) # Assumes a data channel requirement of 3
+    tensor = (tensor - torch.mean(tensor)) / torch.std(tensor)
+    tensor = tensor.repeat_interleave(3, dim=0)  # Assumes a data channel requirement of 3
 
     return tensor
 
@@ -188,7 +189,7 @@ async def predict(background_tasks: BackgroundTasks, bmp_data: UploadFile = File
 
     response = {
         "prediction": titles[top_class.item()],
-        "certainties": {title: certainties[0][titles.index(title)].item() for title in titles}
+        "certainties": {title: certainties[0][titles.index(title)].item() for title in titles},
     }
 
     print("Added background task for saving prediction to Firestore")
