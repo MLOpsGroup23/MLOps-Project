@@ -8,7 +8,8 @@ import torch
 from torch.utils.data import DataLoader, TensorDataset
 from PIL import Image
 
-def tensor_to_bmp(tensor_img, img_name): # Input: (1, 28, 28) tensor image
+
+def tensor_to_bmp(tensor_img, img_name):  # Input: (1, 28, 28) tensor image
     # The tensor needs to be converted from [min, max] into [0, 255], as the .bmp image must be 8-bit
     tensor_img = tensor_img - tensor_img.min()
     tensor_img = tensor_img / tensor_img.max()
@@ -16,19 +17,19 @@ def tensor_to_bmp(tensor_img, img_name): # Input: (1, 28, 28) tensor image
     # Convert to 8-bit integer
     tensor_img = tensor_img.type(torch.uint8)
 
-    image = tensor_img.squeeze(0) # Reduce from
-    image = Image.fromarray(image.numpy(), mode='L')
-    image.save('./reports/images/' + img_name + ".bmp")
-
+    image = tensor_img.squeeze(0)  # Reduce from
+    image = Image.fromarray(image.numpy(), mode="L")
+    image.save("./reports/images/" + img_name + ".bmp")
 
 
 def create_random_fashion_img(datapath, img_name):
     data = torch.load(datapath)
-    dataset  = TensorDataset(data[0], data[1])  # create your datset
+    dataset = TensorDataset(data[0], data[1])  # create your datset
     dataloader = DataLoader(dataset, batch_size=256, shuffle=True)
     dataiter = iter(dataloader)
     test_images, _ = next(dataiter)
     tensor_to_bmp(test_images[0], img_name)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     create_random_fashion_img("./data/processed/test.pt", "extractedImg")

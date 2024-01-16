@@ -4,14 +4,16 @@ from torch.utils.data import DataLoader, Dataset, TensorDataset
 import hydra
 from omegaconf import DictConfig
 
+
 def plt_savefig(fig, fig_name, dir="./reports/figures/"):
     # save both as pdf and png
     path = dir + fig_name + ".pdf"
-    fig.savefig(path, bbox_inches='tight', pad_inches=0.2, format='pdf', dpi=300)
+    fig.savefig(path, bbox_inches="tight", pad_inches=0.2, format="pdf", dpi=300)
     print("Saved to: ", path)
     path = dir + fig_name + ".png"
-    fig.savefig(path, bbox_inches='tight', pad_inches=0.2, format='png', dpi=300)
+    fig.savefig(path, bbox_inches="tight", pad_inches=0.2, format="png", dpi=300)
     print("Saved to: ", path)
+
 
 def plot_images(dataset: TensorDataset):
     # plot 5 by 5
@@ -22,15 +24,16 @@ def plot_images(dataset: TensorDataset):
     # plot 3 images from each class
     for i in range(4):
         for j in range(5):
-            axs[i, j].imshow(dataset[rand_idx[i*5+j]][0].reshape(28, 28), cmap="gray")
+            axs[i, j].imshow(dataset[rand_idx[i * 5 + j]][0].reshape(28, 28), cmap="gray")
             # Set class label as title
             axs[i, j].set_title(f"Class: {dataset[i*5+j][1].item()}")
-            axs[i, j].axis('off')
+            axs[i, j].axis("off")
 
     plt.suptitle("Fashion MNIST Dataset (random samples)")
     plt.tight_layout()
 
     return plt
+
 
 def plot_class_distirbution(dataset, title="Fashion MNIST Dataset Class Distribution"):
     # count number of samples for each class
@@ -49,6 +52,7 @@ def plot_class_distirbution(dataset, title="Fashion MNIST Dataset Class Distribu
 
     return plt
 
+
 @hydra.main(version_base=None, config_path="../../configs", config_name="config")
 def main(cfg: DictConfig):
     # Create Data Loaders and Load Data Sets
@@ -56,7 +60,6 @@ def main(cfg: DictConfig):
     train_data = torch.load(cfg.data.processed_dir + "/train.pt")
 
     dataset = TensorDataset(train_data[0], train_data[1])  # create your datset
-
 
     plot = plot_images(dataset)
     plt_savefig(plot, "FashionMNIST_Dataset_samples")
@@ -76,5 +79,6 @@ def main(cfg: DictConfig):
     plot = plot_class_distirbution(dataset, title="Fashion MNIST Dataset Class Distribution (validation)")
     plt_savefig(plot, "FashionMNIST_Dataset_class_distribution_val")
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()
