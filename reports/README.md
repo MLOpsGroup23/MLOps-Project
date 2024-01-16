@@ -502,7 +502,7 @@ A collection of MNIST fashion images in BMP format can be downloaded from [HERE]
 >
 > Answer:
 
---- question 25 fill here ---
+![Project Architecture](figures/MLOpsProject.drawio.png)
 
 ### Question 26
 
