@@ -21,8 +21,7 @@ app = FastAPI()
 
 
 # ===================== Configs (should be moved somewhere else)  =====================
-# CLOUD_ID = os.environ["CLOUD_PROJECT_ID"]
-CLOUD_ID = "pelagic-height-410710"
+CLOUD_ID = os.environ["CLOUD_PROJECT_ID"]
 BUCKET_NAME = "dtu-mlops-bucket1"
 DATABASE = "prediction-db"
 COLLECTION = "predictions"
