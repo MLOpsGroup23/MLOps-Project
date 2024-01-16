@@ -199,11 +199,21 @@ async def predict(background_tasks: BackgroundTasks, bmp_data: UploadFile = File
 
 @app.get("/monitoring")
 async def monitoring():
+
+    titles = ["T-shirt/top", "Trouser", "Pullover", "Dress", "Coat", "Sandal", "Shirt", "Sneaker", "Bag", "Ankle Boot"]
+    titles_dict = {i: titles[i] for i in range(len(titles))}
+
     # get current data 
     current = db.get_pd()
+    # convert label column to int to title in titles
+    current['label'] = current['label'].astype(int)
+    current['label'] = current['label'].map(titles_dict)
 
     # get reference data
     reference = get_reference_data()
+    # convert label column to int to title in titles
+    reference['label'] = reference['label'].astype(int)
+    reference['label'] = reference['label'].map(titles_dict)
 
     report = Report(metrics=[DataDriftPreset()])
     report.run(reference_data=reference, current_data=current)
