@@ -9,7 +9,7 @@ import pdb
 class FashionMNISTDataset(Dataset):
     def __init__(self, data, transformations = None) -> None:
         super().__init__()
-        self.images = data[0] # N x 1 x H x W
+        self.images = data[0] # N x channels x H x W
         self.labels = data[1] # N
         self.transformations = transformations
 
