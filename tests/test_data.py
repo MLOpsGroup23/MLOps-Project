@@ -2,7 +2,6 @@ from omegaconf import DictConfig
 import torch
 import hydra
 from MLOps_Project.data.fashion_mnist_dataset import get_dataloaders
-import pdb
 
 
 class TestData:
@@ -48,6 +47,7 @@ class TestData:
         )
         train_test_dif = sum(train_hist - test_hist).item()
         # TODO: Finish up test
+        print(train_test_dif)
 
 
 # Call when training!

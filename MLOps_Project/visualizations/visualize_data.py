@@ -1,6 +1,6 @@
 from matplotlib import pyplot as plt
 import torch
-from torch.utils.data import DataLoader, Dataset, TensorDataset
+from torch.utils.data import TensorDataset
 import hydra
 from omegaconf import DictConfig
 
@@ -67,14 +67,14 @@ def main(cfg: DictConfig):
     plot = plot_class_distirbution(dataset, title="Fashion MNIST Dataset Class Distribution (train)")
     plt_savefig(plot, "FashionMNIST_Dataset_class_distribution")
 
-    test_data = torch.load(cfg.data.processed_dir + "/test.pt")
-    test_dataset = TensorDataset(test_data[0], test_data[1])  # create your datset
+    # test_data = torch.load(cfg.data.processed_dir + "/test.pt")
+    # test_dataset = TensorDataset(test_data[0], test_data[1])  # create your datset
 
     plot = plot_class_distirbution(dataset, title="Fashion MNIST Dataset Class Distribution (test)")
     plt_savefig(plot, "FashionMNIST_Dataset_class_distribution_test")
 
-    val_data = torch.load(cfg.data.processed_dir + "/val.pt")
-    val_dataset = TensorDataset(val_data[0], val_data[1])  # create your datset
+    # val_data = torch.load(cfg.data.processed_dir + "/val.pt")
+    # val_dataset = TensorDataset(val_data[0], val_data[1])  # create your datset
 
     plot = plot_class_distirbution(dataset, title="Fashion MNIST Dataset Class Distribution (validation)")
     plt_savefig(plot, "FashionMNIST_Dataset_class_distribution_val")

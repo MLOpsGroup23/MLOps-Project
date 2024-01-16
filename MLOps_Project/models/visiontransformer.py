@@ -1,7 +1,6 @@
 from MLOps_Project.models.baseline_model import Baseline_Model
 import timm
 import torch
-from torchvision import transforms
 
 
 # Define class for a VisionTransformer model using the TIMM framework

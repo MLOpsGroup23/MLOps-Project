@@ -2,7 +2,7 @@ import torch
 from torchvision import datasets, transforms
 import hydra
 from omegaconf import DictConfig
-from torch.utils.data import Dataset, DataLoader, Subset
+from torch.utils.data import DataLoader, Subset
 import os
 import numpy as np
 from sklearn.model_selection import train_test_split

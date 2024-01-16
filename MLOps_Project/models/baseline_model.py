@@ -4,7 +4,6 @@ import matplotlib.pyplot as plt
 from torch.autograd import Variable
 import numpy as np
 import torch
-from PIL import Image
 import wandb
 from MLOps_Project.visualizations.visualize_resnet import fig2img
 

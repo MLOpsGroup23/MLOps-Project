@@ -1,10 +1,8 @@
 import torch
-import hydra
 import os
 from torch.utils.data import Dataset, DataLoader
 from torchvision.transforms.v2 import RandomRotation, Compose
 from omegaconf import DictConfig
-import pdb
 
 
 class FashionMNISTDataset(Dataset):

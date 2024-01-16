@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Request, UploadFile, File
+from fastapi import FastAPI, UploadFile, File
 from fastapi.responses import HTMLResponse
 from MLOps_Project.models.resnet import ResNet34
 from MLOps_Project.predict_model import predict_single

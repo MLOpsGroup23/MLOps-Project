@@ -1,5 +1,3 @@
-import matplotlib.pyplot as plt
-from pytorch_lightning.loggers import WandbLogger
 from PIL import Image
 
 
