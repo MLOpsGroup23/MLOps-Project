@@ -447,9 +447,10 @@ Another benefit of using DVC was seen when using github actions. For continous i
 
 We did manage to deploy our model in the cloud and locally. In both cases, *uvicorn* and *FastAPI* was used to setup and implement a server that uses the model. The server could easily be tested locally by running a *uvicorn* command. The model used in deployment was stored in our google cloud bucket, which made it easy to be downloaded both locally and in the cloud. For running the service in the cloud, we build a docker image for a container that runs the server. This image was then run in the cloud using the *Cloud Run* service. This step was automated as a part of our continous integration step, as explained in question 11.
 
-The server exposed two endpoint, one for the homepage, and one for predicting images. Using the *root/predict* endpoint, POST requests with a payload of a *.BMP* umage could be made, which response would be a preidction of the image. This was also available from the homepage with a very basic user interface.
+The server exposed three endpoints, one for the homepage, one for predicting images, and one for the Evidently AI report. Using the *root/predict* endpoint, POST requests with a payload of a *.BMP* image could be made, which response would be a preidction of the image. This was also available from the homepage with a very basic user interface.
 
 The deployment is available at this URL: https://g23-server-3is7zysmoq-ew.a.run.app. (It might take a minute to start on the first visit.)
+The evidently data monitoring report is available at this URL: https://g23-server-3is7zysmoq-ew.a.run.app/monitoring. We only show the label distribution of the images predicted against the actual dataset distribution.
 
 A collection of MNIST fashion images in BMP format can be downloaded from [HERE](https://drive.google.com/file/d/1LLOEuGN3nTlgYA4r9mQNnUdAdYI-Z6a3/view?usp=sharing). These are 100 random images from our test set, which can be used in our predict endpoint or the homepage of the server.
 
