@@ -1,5 +1,5 @@
 import torch
-from MLOps_Project.models.model import ResNet34
+from models.model import ResNet34
 from torch.utils.data import DataLoader, TensorDataset
 from sklearn.manifold import TSNE
 import matplotlib.pyplot as plt

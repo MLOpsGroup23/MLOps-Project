@@ -1,4 +1,4 @@
-from MLOps_Project.models.baseline_model import Baseline_Model
+from models.baseline_model import Baseline_Model
 import timm 
 import torch
 

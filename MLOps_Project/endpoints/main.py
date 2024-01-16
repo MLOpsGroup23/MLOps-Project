@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Request, UploadFile, File
 from fastapi.responses import HTMLResponse
-from MLOps_Project.models.resnet import ResNet34
-from MLOps_Project.predict_model import predict_single
+from models.resnet import ResNet34
+from predict_model import predict_single
 from google.cloud import storage
 
 from PIL import Image
