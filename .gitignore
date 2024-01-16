@@ -11,8 +11,8 @@ lightning_logs
 outputs
 
 # Ignore Reports
-reports
-# Do not ignore our report and report script
+reports/images
+# Do not ignore our report and report script and figures folder
 !reports/README.md
 !reports/report.py
 
