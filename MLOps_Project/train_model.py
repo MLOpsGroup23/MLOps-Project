@@ -4,13 +4,13 @@ from pytorch_lightning.callbacks import ModelCheckpoint
 from data.fashion_mnist_dataset import get_dataloaders
 import hydra
 from omegaconf import DictConfig
-import wandb
+
 
 # Call when training!
 @hydra.main(version_base=None, config_path="../configs", config_name="config")
 def train(cfg: DictConfig):
     # Initialize logger
-    wandb_logger = WandbLogger(project='FashionMNIST')
+    wandb_logger = WandbLogger(project="FashionMNIST")
 
     # Create dataloaders
     train_dataloader, val_dataloader, test_dataloader = get_dataloaders(cfg)
@@ -35,5 +35,5 @@ def train(cfg: DictConfig):
 
 
 # Entrypoint
-if __name__ == '__main__':
+if __name__ == "__main__":
     train()
