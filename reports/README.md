@@ -688,4 +688,4 @@ Additionally the choice of getting the credentials for Weights and Biases on run
 >
 > Answer:
 
-All members contributed across the various parts of the project, such as the codebase, version control, CI, cloud solutions and monitoring. Some members were more focused on some aspects than others, however, no area was in charge of / responsible of a project aspect alone. This task delegation was chosen to gain the most experience as possible from the project.
+All members contributed across the various parts of the project, such as the codebase, version control, CI, cloud solutions and monitoring. Some members were more focused on some aspects than others, however, no member was in charge of / responsible for a project aspect alone. This task delegation was chosen to gain the most experience as possible from the project.
