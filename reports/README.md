@@ -499,7 +499,8 @@ Below is an image showing the images stored in the artifact registry:
 >
 > Answer:
 
---- question 21 fill here ---
+We did not use Cloud Build in this project, but used Github Actions to build images instead. From here they are also pushed automatically to the Artifact Registry on Google cloud.
+See: [Actions](https://github.com/MLOpsGroup23/MLOps-Project/actions)
 
 ### Question 22
 
@@ -537,9 +538,22 @@ A collection of MNIST fashion images in BMP format can be downloaded from [HERE]
 >
 > Answer:
 
---- question 23 fill here ---
 
 #### Data Drifting
+To monitor how our data changes and what model predictions the model makes on the data compared to the reference distribution the model was trained on.
+As earlier explained we save the predictions made by the model to Firestore and then we can use [Evidently AI](https://www.evidentlyai.com/) to create a report, i.e. we compare our distribution of the data in the Cloud Store Bucket to the predictions saved in Firestore.
+
+So far we only look at the label distribution. For future development we would save the images uploaded by the end user in a Bucket and point to them from Firebase. Then we could compare different image statistics between the uploaded images and the reference data. We could use the [ImageStat](https://pillow.readthedocs.io/en/stable/reference/ImageStat.html) module to calculate some basic statistics.
+
+The monitoring dashboard can be found on:
+https://g23-server-3is7zysmoq-ew.a.run.app/monitoring.
+
+Below is a screenshot of the Evidently report generated:
+![Evidenty AI Screenshot](figures/EvidentlySC.png)
+
+
+
+
 
 #### Systems Monitoring
 
@@ -557,7 +571,12 @@ For monitoring of our system, we implemented service level objectives of our Clo
 >
 > Answer:
 
---- question 24 fill here ---
+As of 17/1/2024 13:40 we used $42.94 and we expect to use all $50 that we got as part of the project. We might have to buy more credit or find a solution to move the project to another billing account. 
+
+Our billing overview for the mentioned period can be seen below:
+
+![Billing overview](figures/BillingOverview.png)
+
 
 ## Overall discussion of project
 
