@@ -1,5 +1,6 @@
 defaults:
   - architecture: resnet
+  - sweep: sweep_config
 
 training:
   max_epochs: 5

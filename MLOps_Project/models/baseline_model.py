@@ -32,7 +32,7 @@ class Baseline_Model(LightningModule):
         pred = self.forward(input)
         loss = self.loss(pred, labels)
         self.log("train/loss", loss.item())
-        if (batch_idx == 0) and (self.current_epoch > 1):
+        if (batch_idx == 0) and (self.current_epoch > 100):
             self.compute_saliency_map(batch)
         return loss
 
@@ -89,7 +89,10 @@ class Baseline_Model(LightningModule):
         self.log("val/accuracy", accuracy)
         if batch_idx == 0:
             print("Validation Loss: " + str(loss.item()))
-            print("Validation Accuacy: " + str(accuracy.item()))
+            print("Validation Accuracy: " + str(accuracy.item()))
 
     def configure_optimizers(self):
-        return torch.optim.Adam(self.model.parameters(), lr=self.lr)
+        if self.optimizer_name == "Adam":
+            return torch.optim.Adam(self.model.parameters(), lr=self.lr)
+        elif self.optimizer_name == "SGD":
+            return torch.optim.SGD(self.model.parameters(), lr=self.lr, momentum=0.9)

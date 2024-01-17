@@ -1,0 +1,15 @@
+method: bayes
+metric:
+  goal: maximize
+  name: val/accuracy
+parameters:
+  lr:
+    distribution: uniform
+    min: 0
+    max: 0.1
+  optimizer_name:
+    values: ['Adam', 'SGD']
+  dropout_rate:
+    values: [0.2, 0.3, 0.4]
+  n_epochs:
+    values: [2, 4, 6, 8, 10]
