@@ -484,7 +484,13 @@ To run a training pull the latest image from the artifact registry:
 docker pull europe-west1-docker.pkg.dev/pelagic-height-410710/g23-repo/g23-trainer:latest
 ```
 
-When the image is pulled from the Artifact registry, run a container from the image:
+Before spinning up the container, make sure Docker has access to the service account connected that the VM uses (we made a custom service account to be selective about access):
+
+```bash
+sudo usermod -a -G docker ${USER}
+```
+
+Now that the image is pulled from the Artifact registry, run a container from the image:
 
 ```bash
 docker run --gpus all -v $(pwd)/models:/models -e HYDRA_ARGS="data.num_workers=2 architecture=[visiontransformer|resnet|mobilenet|etc] training.max_epochs=10" --rm [image ID]
@@ -647,6 +653,8 @@ The predict container retrieves the model from the bucket and serves it to the u
 > *The biggest challenges in the project was using ... tool to do ... . The reason for this was ...*
 >
 > Answer:
+
+Something that we struggled 
 
 --- question 26 fill here ---
 
