@@ -539,9 +539,9 @@ A collection of MNIST fashion images in BMP format can be downloaded from [HERE]
 
 --- question 23 fill here ---
 
-# Data Drifting
+#### Data Drifting
 
-# Systems Monitoring
+#### Systems Monitoring
 
 For monitoring of our system, we implemented service level objectives of our Cloud Run Google Cloud service, as well as Google Cloud Monitoring alerting policies. For the service level objectives we set an objective of 95%-Availability of our endpoint alongside an objective of 95%-Latency with a threshold of 70ms. For the alerting policies, we set a 5 minute rate rolling window for the billable iunstance time with a threshold of 0.5s and a 5 minute rate rolling window for the number of endpoint requests with a threshold of 5 requests. All above systems monitoring are set to send an email alert to all team members, if any of the mentioned thresholds are exceeded.
 
