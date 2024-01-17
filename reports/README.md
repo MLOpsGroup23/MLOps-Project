@@ -387,7 +387,49 @@ Another benefit of using DVC was seen when using github actions. For continous i
 >
 > Answer:
 
---- question 17 fill here ---
+
+
+<h4>
+  <img src="figures/logos/compute_engine.svg" alt="alt text" style="vertical-align: middle;" />
+  Compute engine
+</h4>
+We used Google Cloud's (GC) Compute engine to run our containerized training script. This was done by creating a VM instance with a T4 GPU. 
+The training image is pulled from the Artifact registry and run manually. It pulls a WANDB API key from the Security Manager to log the training to Weights and Biases. 
+The data comes from a bucket in Cloud Storage, but is already in the image as Github Actions pulls the data, adds it to the image build and pushes it to the Artifact registry. This could be done differently, but was not prioritized as it does not pose security concerns like with API-key.  
+
+
+<h4>
+  <img src="figures/logos/cloud_run.svg" alt="alt text" style="vertical-align: middle;" />
+  Cloud run
+</h4>
+We use cloud run to host the predict container, which provides FastAPI endpoints for end user predictions. It retrieves the model from a Cloud Storage bucket. 
+Every prediction on uploaded user data is saved in Firestore to be able to make data drifting reports. 
+
+<h4>
+  <img src="figures/logos/firestore.svg" alt="alt text" style="vertical-align: middle;" />
+  Firestore
+</h4>
+Firestore is used to store predictions made in Cloud run. We used this at is scalable and we in theory could save the whole images uploaded if needed.
+
+
+<h4>
+  <img src="figures/logos/cloud_storage.svg" alt="alt text" style="vertical-align: middle;" />
+  Cloud storage
+</h4>
+A bucket in Cloud Storage is used to save the version controlled data and models saved by the VM in Compute Engine. Github Actions pulls data from here when creating a train image.
+
+
+<h4>
+  <img src="figures/logos/artifact_registry.svg" alt="alt text" style="vertical-align: middle;" />
+  Artifact registry
+</h4>
+The Artifact Registry is used to store both train and predict images.
+
+<h4>
+  <img src="figures/logos/secret_manager.svg" alt="alt text" style="vertical-align: middle;" />
+  Security manager
+</h4>
+The security manager is used to store secrets (API keys) used on container runtime. This is better practise than saving the keys as part of the image.
 
 ### Question 18
 
@@ -401,6 +443,7 @@ Another benefit of using DVC was seen when using github actions. For continous i
 > *using a custom container: ...*
 >
 > Answer:
+
 
 --- question 18 fill here ---
 
