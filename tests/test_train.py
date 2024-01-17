@@ -9,7 +9,7 @@ class TestTrain:
             cfg = compose(config_name="config", overrides=["training.max_epochs=1", "architecture.name=Resnet"])
 
             # Update Configs
-            train(cfg)
+            train(cfg, wandb_offline=True)
 
             assert exists(
                 "./models/ResNetModel.ckpt"

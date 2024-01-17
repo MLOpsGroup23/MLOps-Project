@@ -7,9 +7,9 @@ from omegaconf import DictConfig
 
 
 # Call when training!
-def train(cfg: DictConfig):
+def train(cfg: DictConfig, wandb_offline=False):
     # Initialize logger and save experiment hyperparameters
-    wandb_logger = WandbLogger(project="FashionMNIST")
+    wandb_logger = WandbLogger(project="FashionMNIST", offline=wandb_offline)
     wandb_logger.experiment.config.update(dict(cfg.architecture))
 
     # Create custom datasets and dataloaders
@@ -35,4 +35,4 @@ def train(cfg: DictConfig):
 if __name__ == "__main__":
     with initialize(version_base=None, config_path="../configs"):
         cfg = compose(config_name="config")
-        train(cfg)
+        train(cfg, wandb_offline=False)

@@ -5,7 +5,7 @@ import torch
 
 class TestModel:
     def setup_model(self, name):
-        self.model = ModelLookup.find(name, lr=0.003, dropout_rate=0.2, required_channels=3)
+        self.model = ModelLookup.find(name, optimizer_name="Adam", lr=0.003, dropout_rate=0.2, required_channels=3)
 
     def teardown_model(self):
         del self.model
