@@ -1,4 +1,5 @@
 name: EfficientNet
+optimizer_name: Adam
 lr: 0.003
 dropout_rate: 0.2
 required_channels: 3

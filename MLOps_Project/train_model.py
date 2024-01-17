@@ -17,7 +17,11 @@ def train(cfg: DictConfig):
 
     # Test Training
     model = ModelLookup.find(
-        cfg.architecture.name, cfg.architecture.lr, cfg.architecture.dropout_rate, cfg.architecture.required_channels
+        cfg.architecture.name,
+        cfg.architecture.optimizer_name,
+        cfg.architecture.lr,
+        cfg.architecture.dropout_rate,
+        cfg.architecture.required_channels,
     )
     print(model)
 
