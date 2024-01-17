@@ -499,7 +499,8 @@ Below is an image showing the images stored in the artifact registry:
 >
 > Answer:
 
---- question 21 fill here ---
+We did not use Cloud Build in this project, but used Github Actions to build images instead. From here they are also pushed automatically to the Artifact Registry on Google cloud.
+See: [Actions](https://github.com/MLOpsGroup23/MLOps-Project/actions)
 
 ### Question 22
 
