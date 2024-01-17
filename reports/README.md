@@ -295,7 +295,17 @@ Another benefit of using DVC was seen when using github actions. For continous i
 >
 > Answer:
 
---- question 11 fill here ---
+As described in question 7, we use pytests to unittest our code. These tests have been automated via. Github Actions, such that every pull request has to pass these tests before being able to merge them into main.
+
+Also, as described in question 6, we use pre-commit hooks in order to enforce some formatting using *ruff*. 
+
+Github Actions allows you to run these tests for multiple operating systems and multiple python versions. However, we use the *Ubuntu* operating system and python version 3.10. For future use, it might be wise to perform the tests on several operating systems and python versions.
+
+We also used used Github Actions in order to generate our Docker Images for the server and trainer container. When these were made, they are pushed to our Artifact Registry storage. In this way, we avoid using the Google Cloud Build service. For the server, this docker image is afterwards launched in Google Cloud Run, which automatically runs the container and thus launches the newest version of the server. More details on this in question 22. 
+
+In this way, we also have a large selection of docker images to choose from and revert back to, if some functionality should break in the future. 
+
+By following [this link](https://github.com/MLOpsGroup23/MLOps-Project/blob/main/.github/workflows/tests.yml) you can view one of our workflow files, which was used to run the different tests. Notice that it uses DVC in order to pull the newest data. It also automatically installs the needed requirements. It also caches the dependencies such that it does not need to spend time downloaded all the python packages for each Github Action.
 
 ## Running code and tracking experiments
 
@@ -627,7 +637,14 @@ Our billing overview for the mentioned period can be seen below:
 >
 > Answer:
 
+The overall architecture of the project can be seen below:
 ![Project Architecture](figures/MLOpsProject.drawio.png)
+
+As can be seen, we use PyTorch and PyTorch Lightning and use Hydra for config storing. Python's venv is used to ensure reproducibility although some users preferred Conda. As long as the requirements are met, both should work. This is all packaged in a Docker image which is built by GitHub Actions if all Pytest tests work. Two images are built: predict and train.
+When preprocessing data, it is pushed to a bucket in Cloud Storage with DVC, which is pulled by GitHub Actions when building the image (this could be optimized).
+The built images are pushed to the Artifact Registry in Google Cloud. GitHub Actions makes sure that the predict image is deployed automatically, while the train image has to be manually deployed from the Compute Engine VM's SSH terminal. When a model has been trained, it will be pushed to the Google Cloud bucket and logs will be sent to Weights and Biases while training using an API key stored in Secrets Manager. GitHub Actions also has secrets stored.
+The predict container retrieves the model from the bucket and serves it to the user through a FastAPI endpoint. When a prediction is made, it will be stored in Firebase such that an Evidently AI report can be made to assess data drifting.
+
 
 ### Question 26
 
