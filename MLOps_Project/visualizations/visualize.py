@@ -7,13 +7,13 @@ import matplotlib.pyplot as plt
 # This is a Visualization example
 # Requirement: Run the training loop once, such that LightningTrainedModel.ckpt file is stored
 
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # Get Test Data
-# Download and load the test data 
+# Download and load the test data
 
 test_data = torch.load("./data/processed/train.pt")
-test_dataset  = TensorDataset(test_data[0], test_data[1])  # create your datset
+test_dataset = TensorDataset(test_data[0], test_data[1])  # create your datset
 testloader = DataLoader(test_dataset, batch_size=256, shuffle=True)
 
 dataiter = iter(testloader)
@@ -41,7 +41,7 @@ print(data_2d.shape)
 
 # Plotting
 plt.figure(figsize=(10, 6))
-scatter = plt.scatter(data_2d[:, 0], data_2d[:, 1], c=test_labels, cmap='tab10')
+scatter = plt.scatter(data_2d[:, 0], data_2d[:, 1], c=test_labels, cmap="tab10")
 
 plt.colorbar(scatter)
 plt.title("t-SNE Visualization of the Data")
