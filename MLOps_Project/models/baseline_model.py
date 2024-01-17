@@ -5,7 +5,7 @@ from torch.autograd import Variable
 import numpy as np
 import torch
 import wandb
-from MLOps_Project.visualizations.visualize_resnet import fig2img
+from MLOps_Project.visualizations.visualize_data import fig2img
 
 
 # Baseline Model - Requires only that inheriting object defined self.model and self.loss
@@ -92,9 +92,7 @@ class Baseline_Model(LightningModule):
             print("Validation Accuracy: " + str(accuracy.item()))
 
     def configure_optimizers(self):
-        if self.optimizer_name == 'Adam':
+        if self.optimizer_name == "Adam":
             return torch.optim.Adam(self.model.parameters(), lr=self.lr)
-        elif self.optimizer_name == 'SGD':
+        elif self.optimizer_name == "SGD":
             return torch.optim.SGD(self.model.parameters(), lr=self.lr, momentum=0.9)
-
-

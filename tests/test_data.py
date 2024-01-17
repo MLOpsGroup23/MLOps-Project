@@ -1,19 +1,20 @@
-from omegaconf import DictConfig
 import torch
-import hydra
+from hydra import initialize, compose
 from MLOps_Project.data.fashion_mnist_dataset import get_dataloaders
+from MLOps_Project.data.create_bmp_img import create_random_fashion_img
+from MLOps_Project.data.make_dataset import make_datasets
+from os.path import exists
 
 
 class TestData:
-    def __init__(self, config):
-        self.config = config
-
     def setup_images_and_labels(self):
-        print("setting up images and labels")
-        train_loader, val_loader, test_loader = get_dataloaders(self.config)
-        self.train_images, self.train_labels = train_loader.dataset.images, train_loader.dataset.labels
-        self.val_images, self.val_labels = val_loader.dataset.images, val_loader.dataset.labels
-        self.test_images, self.test_labels = test_loader.dataset.images, test_loader.dataset.labels
+        with initialize(version_base=None, config_path="../configs"):
+            cfg = compose(config_name="config")
+            print("setting up images and labels")
+            train_loader, val_loader, test_loader = get_dataloaders(cfg)
+            self.train_images, self.train_labels = train_loader.dataset.images, train_loader.dataset.labels
+            self.val_images, self.val_labels = val_loader.dataset.images, val_loader.dataset.labels
+            self.test_images, self.test_labels = test_loader.dataset.images, test_loader.dataset.labels
 
     def teardown_images_and_labels(self):
         print("tearing down images and labels")
@@ -28,8 +29,8 @@ class TestData:
         self.setup_images_and_labels()
         # image tests
         assert self.train_images.shape[1:4] == torch.Size(
-            [1, 28, 28]
-        ), f"Image dimensionality mismatch! Expected dimensions (1 x 28 x 28) got {self.train_images.shape[1:4]}."
+            [3, 28, 28]
+        ), f"Image dimensionality mismatch! Expected dimensions (3 x 28 x 28) got {self.train_images.shape[1:4]}."
         assert (
             self.train_images.shape[1:4] == self.test_images.shape[1:4]
         ), "Dimensionality of train and test images does not match!"
@@ -65,14 +66,17 @@ class TestData:
         ), "The difference in class imbalances for train and test exceeds the desired threshold"
         self.teardown_images_and_labels()
 
+    def test_create_bmp_image(self):
+        create_random_fashion_img("./data/processed/test.pt", "testingImage", "./outputs")
+        assert exists(
+            "./outputs/testingImage.bmp"
+        ), "When creating image, it was expected that a file was created, but this was not the case"
 
-# Call when training!
-@hydra.main(version_base=None, config_path="../configs", config_name="config")
-def runTestData(cfg: DictConfig):
-    TD = TestData(cfg)
-    TD.test_train_test_stratification()
+    def test_make_dataset(self):
+        with initialize(version_base=None, config_path="../configs"):
+            cfg = compose(config_name="config")
+            make_datasets(cfg)
 
-
-if __name__ == "__main__":  # for debugging and dev purposes
-    TD = TestData()
-    TD.test_train_test_stratification()
+            assert exists("./data/processed/train.pt"), "Expected the training set to be made"
+            assert exists("./data/processed/val.pt"), "Expected the validation set to be made"
+            assert exists("./data/processed/test.pt"), "Expected the testing set to be made"

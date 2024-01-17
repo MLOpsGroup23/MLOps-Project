@@ -1,4 +1,4 @@
-_target_: models.xcitNano.XcitNano
+name: xcitnano
 optimizer_name: Adam
 lr: 0.003
 dropout_rate: 0.2

@@ -1,8 +1,20 @@
 from matplotlib import pyplot as plt
 import torch
 from torch.utils.data import TensorDataset
-import hydra
+from hydra import initialize, compose
 from omegaconf import DictConfig
+from PIL import Image
+
+
+def fig2img(fig):
+    """Convert a Matplotlib figure to a PIL Image and return it"""
+    import io
+
+    buf = io.BytesIO()
+    fig.savefig(buf)
+    buf.seek(0)
+    img = Image.open(buf)
+    return img
 
 
 def plt_savefig(fig, fig_name, dir="./reports/figures/"):
@@ -24,7 +36,7 @@ def plot_images(dataset: TensorDataset):
     # plot 3 images from each class
     for i in range(4):
         for j in range(5):
-            axs[i, j].imshow(dataset[rand_idx[i * 5 + j]][0].reshape(28, 28), cmap="gray")
+            axs[i, j].imshow(dataset[rand_idx[i * 5 + j]][0][0].reshape(28, 28), cmap="gray")
             # Set class label as title
             axs[i, j].set_title(f"Class: {dataset[i*5+j][1].item()}")
             axs[i, j].axis("off")
@@ -53,10 +65,8 @@ def plot_class_distirbution(dataset, title="Fashion MNIST Dataset Class Distribu
     return plt
 
 
-@hydra.main(version_base=None, config_path="../../configs", config_name="config")
-def main(cfg: DictConfig):
+def make_data_visualization(cfg: DictConfig):
     # Create Data Loaders and Load Data Sets
-
     train_data = torch.load(cfg.data.processed_dir + "/train.pt")
 
     dataset = TensorDataset(train_data[0], train_data[1])  # create your datset
@@ -67,18 +77,20 @@ def main(cfg: DictConfig):
     plot = plot_class_distirbution(dataset, title="Fashion MNIST Dataset Class Distribution (train)")
     plt_savefig(plot, "FashionMNIST_Dataset_class_distribution")
 
-    # test_data = torch.load(cfg.data.processed_dir + "/test.pt")
-    # test_dataset = TensorDataset(test_data[0], test_data[1])  # create your datset
+    test_data = torch.load(cfg.data.processed_dir + "/test.pt")
+    test_dataset = TensorDataset(test_data[0], test_data[1])  # create your datset
 
-    plot = plot_class_distirbution(dataset, title="Fashion MNIST Dataset Class Distribution (test)")
+    plot = plot_class_distirbution(test_dataset, title="Fashion MNIST Dataset Class Distribution (test)")
     plt_savefig(plot, "FashionMNIST_Dataset_class_distribution_test")
 
-    # val_data = torch.load(cfg.data.processed_dir + "/val.pt")
-    # val_dataset = TensorDataset(val_data[0], val_data[1])  # create your datset
+    val_data = torch.load(cfg.data.processed_dir + "/val.pt")
+    val_dataset = TensorDataset(val_data[0], val_data[1])  # create your datset
 
-    plot = plot_class_distirbution(dataset, title="Fashion MNIST Dataset Class Distribution (validation)")
+    plot = plot_class_distirbution(val_dataset, title="Fashion MNIST Dataset Class Distribution (validation)")
     plt_savefig(plot, "FashionMNIST_Dataset_class_distribution_val")
 
 
 if __name__ == "__main__":
-    main()
+    with initialize(version_base=None, config_path="../../configs"):
+        cfg = compose(config_name="config")
+        make_data_visualization(cfg)

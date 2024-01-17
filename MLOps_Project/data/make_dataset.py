@@ -41,8 +41,7 @@ def preprocess_FashionMNIST_dataset(cfg: DictConfig, data: DataLoader, filename:
     torch.save(processed_data, os.path.join(processed_dir, filename))
 
 
-@hydra.main(version_base=None, config_path="../../configs", config_name="config")
-def main(cfg: DictConfig):
+def make_datasets(cfg: DictConfig):
     # Load the FashionMNIST test dataset
     data_test = get_FashionMNIST_dataset(cfg, train=False)
     # Load the full FashionMNIST training dataset
@@ -70,6 +69,11 @@ def main(cfg: DictConfig):
     preprocess_FashionMNIST_dataset(cfg, data_loader_train, filename="train.pt")
     preprocess_FashionMNIST_dataset(cfg, data_loader_val, filename="val.pt")
     preprocess_FashionMNIST_dataset(cfg, data_loader_test, filename="test.pt")
+
+
+@hydra.main(version_base=None, config_path="../../configs", config_name="config")
+def main(cfg: DictConfig):
+    make_datasets(cfg)
 
 
 if __name__ == "__main__":

@@ -1,4 +1,4 @@
-_target_: models.efficientnet.EfficientNet
+name: EfficientNet
 optimizer_name: Adam
 lr: 0.003
 dropout_rate: 0.2

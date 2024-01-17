@@ -1,50 +1,59 @@
 import torch
-from MLOps_Project.models.model import ResNet34
+from MLOps_Project.models.resnet import ResNet34
 from torch.utils.data import DataLoader, TensorDataset
 from sklearn.manifold import TSNE
 import matplotlib.pyplot as plt
 
-# This is a Visualization example
-# Requirement: Run the training loop once, such that LightningTrainedModel.ckpt file is stored
 
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+def Create_TSNE_image_from_model(model, dirpath, filename):
+    # This is a Visualization example
+    # Requirement: Run the training loop once, such that LightningTrainedModel.ckpt file is stored
 
-# Get Test Data
-# Download and load the test data
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-test_data = torch.load("./data/processed/train.pt")
-test_dataset = TensorDataset(test_data[0], test_data[1])  # create your datset
-testloader = DataLoader(test_dataset, batch_size=256, shuffle=True)
+    # Get Test Data
+    # Download and load the test data
 
-dataiter = iter(testloader)
-test_images, test_labels = next(dataiter)
+    test_data = torch.load("./data/processed/train.pt")
+    test_dataset = TensorDataset(test_data[0], test_data[1])  # create your datset
+    testloader = DataLoader(test_dataset, batch_size=256, shuffle=True)
 
-test_images, test_labels = test_images.to(device), test_labels.to(device)
+    dataiter = iter(testloader)
+    test_images, test_labels = next(dataiter)
 
-print("Loading model")
-# Make Prediction and get Feature Maps using .forward_features method
-model = ResNet34.load_from_checkpoint(checkpoint_path="./models/LightningTrainedModel2-v1.ckpt")
-model = model.to(device)
+    test_images, test_labels = test_images.to(device), test_labels.to(device)
 
-print("Making Prediction")
-cnnOut = model.model.forward_features(test_images)
+    print("Loading model")
+    # Make Prediction and get Feature Maps using .forward_features method
+    model = model.to(device)
 
-print("Reshaping Data")
-data_reshaped = cnnOut.reshape(cnnOut.shape[0], -1).detach().numpy()
+    print("Making Prediction")
+    cnnOut = model.model.forward_features(test_images)
 
-print("Applying t-SNE")
+    print("Reshaping Data")
+    data_reshaped = cnnOut.reshape(cnnOut.shape[0], -1).detach().numpy()
 
-# Apply t-SNE
-tsne = TSNE(n_components=2, random_state=0)
-data_2d = tsne.fit_transform(data_reshaped)
-print(data_2d.shape)
+    print("Applying t-SNE")
 
-# Plotting
-plt.figure(figsize=(10, 6))
-scatter = plt.scatter(data_2d[:, 0], data_2d[:, 1], c=test_labels, cmap="tab10")
+    # Apply t-SNE
+    tsne = TSNE(n_components=2, random_state=0)
+    data_2d = tsne.fit_transform(data_reshaped)
+    print(data_2d.shape)
 
-plt.colorbar(scatter)
-plt.title("t-SNE Visualization of the Data")
-plt.xlabel("t-SNE Feature 1")
-plt.ylabel("t-SNE Feature 2")
-plt.savefig("reports/figures/PredictionTSNE123.png")
+    # Plotting
+    plt.figure(figsize=(10, 6))
+    scatter = plt.scatter(data_2d[:, 0], data_2d[:, 1], c=test_labels, cmap="tab10")
+
+    plt.colorbar(scatter)
+    plt.title("t-SNE Visualization of the Data")
+    plt.xlabel("t-SNE Feature 1")
+    plt.ylabel("t-SNE Feature 2")
+    plt.savefig(dirpath + "/" + filename + ".png")
+
+
+if __name__ == "__main__":
+    # model = ResNet34(lr=0.003, dropout_rate=0.2, required_channels=3) # Random untrained model
+    model = ResNet34.load_from_checkpoint(checkpoint_path="./models/LightningTrainedModel2.ckpt")
+    # model = MobileNet.load_from_checkpoint(checkpoint_path="./models/MobileNetModel.ckpt")
+
+    Create_TSNE_image_from_model(model, "reports/figures", "TSNE_MobileNet_img")
