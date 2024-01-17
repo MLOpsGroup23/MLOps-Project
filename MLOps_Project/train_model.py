@@ -1,7 +1,7 @@
 from pytorch_lightning import Trainer
 from pytorch_lightning.loggers import WandbLogger
 from MLOps_Project.data.fashion_mnist_dataset import get_dataloaders
-import hydra
+from MLOps_Project.models.model_lookup import ModelLookup
 from hydra import initialize, compose
 from omegaconf import DictConfig
 
@@ -15,7 +15,9 @@ def train(cfg: DictConfig):
     train_dataloader, val_dataloader, test_dataloader = get_dataloaders(cfg)
 
     # Test Training
-    model = hydra.utils.instantiate(cfg.architecture)
+    model = ModelLookup.find(
+        cfg.architecture.name, cfg.architecture.lr, cfg.architecture.dropout_rate, cfg.architecture.required_channels
+    )
     print(model)
 
     trainer = Trainer(callbacks=model.callbacks, max_epochs=cfg.training.max_epochs, logger=wandb_logger)

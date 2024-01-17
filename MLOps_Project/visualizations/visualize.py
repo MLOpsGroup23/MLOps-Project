@@ -54,4 +54,6 @@ def Create_TSNE_image_from_model(model, dirpath, filename):
 if __name__ == "__main__":
     # model = ResNet34(lr=0.003, dropout_rate=0.2, required_channels=3) # Random untrained model
     model = ResNet34.load_from_checkpoint(checkpoint_path="./models/LightningTrainedModel2.ckpt")
-    Create_TSNE_image_from_model(model, "reports/figures", "TSNE_img")
+    # model = MobileNet.load_from_checkpoint(checkpoint_path="./models/MobileNetModel.ckpt")
+
+    Create_TSNE_image_from_model(model, "reports/figures", "TSNE_MobileNet_img")
