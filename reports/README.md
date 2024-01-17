@@ -387,7 +387,49 @@ Another benefit of using DVC was seen when using github actions. For continous i
 >
 > Answer:
 
---- question 17 fill here ---
+
+
+<h4>
+  <img src="figures/logos/compute_engine.svg" alt="alt text" style="vertical-align: middle;" />
+  Compute engine
+</h4>
+We used Google Cloud's (GC) Compute engine to run our containerized training script. This was done by creating a VM instance with a T4 GPU. 
+The training image is pulled from the Artifact registry and run manually. It pulls a WANDB API key from the Security Manager to log the training to Weights and Biases. 
+The data comes from a bucket in Cloud Storage, but is already in the image as Github Actions pulls the data, adds it to the image build and pushes it to the Artifact registry. This could be done differently, but was not prioritized as it does not pose security concerns like with API-key.  
+
+
+<h4>
+  <img src="figures/logos/cloud_run.svg" alt="alt text" style="vertical-align: middle;" />
+  Cloud run
+</h4>
+We use cloud run to host the predict container, which provides FastAPI endpoints for end user predictions. It retrieves the model from a Cloud Storage bucket. 
+Every prediction on uploaded user data is saved in Firestore to be able to make data drifting reports. 
+
+<h4>
+  <img src="figures/logos/firestore.svg" alt="alt text" style="vertical-align: middle;" />
+  Firestore
+</h4>
+Firestore is used to store predictions made in Cloud run. We used this at is scalable and we in theory could save the whole images uploaded if needed.
+
+
+<h4>
+  <img src="figures/logos/cloud_storage.svg" alt="alt text" style="vertical-align: middle;" />
+  Cloud storage
+</h4>
+A bucket in Cloud Storage is used to save the version controlled data and models saved by the VM in Compute Engine. Github Actions pulls data from here when creating a train image.
+
+
+<h4>
+  <img src="figures/logos/artifact_registry.svg" alt="alt text" style="vertical-align: middle;" />
+  Artifact registry
+</h4>
+The Artifact Registry is used to store both train and predict images.
+
+<h4>
+  <img src="figures/logos/secret_manager.svg" alt="alt text" style="vertical-align: middle;" />
+  Security manager
+</h4>
+The security manager is used to store secrets (API keys) used on container runtime. This is better practise than saving the keys as part of the image.
 
 ### Question 18
 
@@ -402,7 +444,24 @@ Another benefit of using DVC was seen when using github actions. For continous i
 >
 > Answer:
 
---- question 18 fill here ---
+We used the Compute Engine to run our containerized train image pulled from the Artifact Registry. As described it also pulls secrets from Secret Manager on container runtime.
+We used a virtual machine of type `n1-standard-2` on the `Intel Broadwell` platform and one `NVIDIA T4`.
+We started with a CPU-only virtual machine, but this was not enough for our training needs, and we requested a GPU quota which took some time. And even with the quota it was hard to locate a server with available GPUs.
+
+To run a training pull the latest image from the artifact registry:
+
+```bash
+docker pull europe-west1-docker.pkg.dev/pelagic-height-410710/g23-repo/g23-trainer:latest
+```
+
+When the image is pulled from the Artifact registry, run a container from the image:
+
+```bash
+docker run --gpus all -v $(pwd)/models:/models -e HYDRA_ARGS="data.num_workers=2 architecture=[visiontransformer|resnet|mobilenet|etc] training.max_epochs=10" --rm [image ID]
+```
+
+Now the training should run and log to Weights and Biases! 🚀
+
 
 ### Question 19
 
@@ -411,7 +470,17 @@ Another benefit of using DVC was seen when using github actions. For continous i
 >
 > Answer:
 
---- question 19 fill here ---
+Below the screenshot of our bucket can be seen. The version controlled data can be found in the `data` folder and the models are saved by the train containers on the VM into the root of the bucket.
+
+![MLOps-bucket1 screenshot](figures/MLOpsBucketSC.png)
+
+Additionally, we used Firestore to save predictions made by the trained model.
+
+![MLOps-bucket1 screenshot](figures/MLOpsFirestoreSC.png)
+
+
+
+
 
 ### Question 20
 
@@ -420,7 +489,8 @@ Another benefit of using DVC was seen when using github actions. For continous i
 >
 > Answer:
 
---- question 20 fill here ---
+Below is an image showing the images stored in the artifact registry:
+![Artifact Registry Image](figures/ArtifactRegistrySC.png)
 
 ### Question 21
 
