@@ -1,0 +1,25 @@
+2024-01-16T01:00:39,296 ERROR: Could not open requirements file: [Errno 2] No such file or directory: 'pip3'
+2024-01-16T01:00:39,297 Exception information:
+2024-01-16T01:00:39,297 Traceback (most recent call last):
+2024-01-16T01:00:39,297   File "/Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/pip/_internal/req/req_file.py", line 548, in get_file_content
+2024-01-16T01:00:39,297     with open(url, "rb") as f:
+2024-01-16T01:00:39,297 FileNotFoundError: [Errno 2] No such file or directory: 'pip3'
+2024-01-16T01:00:39,297 
+2024-01-16T01:00:39,297 During handling of the above exception, another exception occurred:
+2024-01-16T01:00:39,297 
+2024-01-16T01:00:39,297 Traceback (most recent call last):
+2024-01-16T01:00:39,297   File "/Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/pip/_internal/cli/base_command.py", line 180, in exc_logging_wrapper
+2024-01-16T01:00:39,297     status = run_func(*args)
+2024-01-16T01:00:39,297   File "/Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/pip/_internal/commands/uninstall.py", line 83, in run
+2024-01-16T01:00:39,297     for parsed_req in parse_requirements(
+2024-01-16T01:00:39,297   File "/Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/pip/_internal/req/req_file.py", line 148, in parse_requirements
+2024-01-16T01:00:39,297     for parsed_line in parser.parse(filename, constraint):
+2024-01-16T01:00:39,297   File "/Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/pip/_internal/req/req_file.py", line 335, in parse
+2024-01-16T01:00:39,297     yield from self._parse_and_recurse(filename, constraint)
+2024-01-16T01:00:39,297   File "/Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/pip/_internal/req/req_file.py", line 340, in _parse_and_recurse
+2024-01-16T01:00:39,297     for line in self._parse_file(filename, constraint):
+2024-01-16T01:00:39,297   File "/Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/pip/_internal/req/req_file.py", line 371, in _parse_file
+2024-01-16T01:00:39,297     _, content = get_file_content(filename, self._session)
+2024-01-16T01:00:39,297   File "/Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/pip/_internal/req/req_file.py", line 551, in get_file_content
+2024-01-16T01:00:39,297     raise InstallationError(f"Could not open requirements file: {exc}")
+2024-01-16T01:00:39,297 pip._internal.exceptions.InstallationError: Could not open requirements file: [Errno 2] No such file or directory: 'pip3'
