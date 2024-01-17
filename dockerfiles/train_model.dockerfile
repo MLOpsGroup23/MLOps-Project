@@ -30,7 +30,7 @@ RUN pip install -r requirements.txt --no-cache-dir
 ENV HYDRA_ARGS=''
 
 # Set gcloud project
-RUN gcloud config set project ${PROJECT_ID}
+# RUN gcloud config set project ${PROJECT_ID}
 
-ENTRYPOINT ["/entrypoint.sh"]
+# ENTRYPOINT ["/entrypoint.sh"]
 CMD python -u MLOps_Project/train_model.py ${HYDRA_ARGS}

@@ -10,7 +10,7 @@ import wandb
 @hydra.main(version_base=None, config_path="../configs", config_name="config")
 def train(cfg: DictConfig):
     # Initialize logger
-    wandb_logger = WandbLogger(project='FashionMNIST')
+    wandb_logger = WandbLogger(name='hello', project='FashionMNIST')
 
     # Create dataloaders
     train_dataloader, val_dataloader, test_dataloader = get_dataloaders(cfg)
