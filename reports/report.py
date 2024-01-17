@@ -12,7 +12,6 @@ import markdown
 
 class TeacherWarning(UserWarning):
     """Warning raised when a teacher check fails."""
-
     pass
 
 
