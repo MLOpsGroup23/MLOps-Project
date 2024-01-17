@@ -221,7 +221,9 @@ In addition, we used the *[ruff-pre-commit-hook](https://github.com/astral-sh/ru
 >
 > Answer:
 
---- question 7 fill here ---
+In total, we made 5 files, one for testing our data, model, prediction, training and visualize functionalities. Within these files, 16 tests were made.
+
+We tried to test the most critical parts of our project, such as the models, the training loop, prediction functionalities. Many of the tests make sure that the output of different operations have the correct shape and correctly defined. For instance, if the different models were not producing valid outputs with the correct shapes, the entire application would break down.
 
 ### Question 8
 
@@ -236,7 +238,11 @@ In addition, we used the *[ruff-pre-commit-hook](https://github.com/astral-sh/ru
 >
 > Answer:
 
---- question 8 fill here ---
+In the end, we achieved a total code coverage of 70%. Many of the files have 100% coverage and almost all files have above 80% coverage.
+
+However, our FastAPI server and its interface with Google Cloud Firestone has not been tested. Also, our wandb sweeping functionality was not tested with pytests. We admit that testing our server and its endpoints is important, however, we prioritized testing our model doing development. We know that FastAPI has a good testing framework, which could be used in the future.
+
+Even though we have high code coverage, we cannot know if the application is error free. For instance, most of our testing provides input to different functions. Since these inputs do not cover the entire input-space, we cannot know if our application works with all inputs. This is especially a problem when others use the application, as they will likely provide a very different input than the input used during development.
 
 ### Question 9
 
@@ -393,17 +399,17 @@ Another benefit of using DVC was seen when using github actions. For continous i
   <img src="figures/logos/compute_engine.svg" alt="alt text" style="vertical-align: middle;" />
   Compute engine
 </h4>
-We used Google Cloud's (GC) Compute engine to run our containerized training script. This was done by creating a VM instance with a T4 GPU. 
-The training image is pulled from the Artifact registry and run manually. It pulls a WANDB API key from the Security Manager to log the training to Weights and Biases. 
-The data comes from a bucket in Cloud Storage, but is already in the image as Github Actions pulls the data, adds it to the image build and pushes it to the Artifact registry. This could be done differently, but was not prioritized as it does not pose security concerns like with API-key.  
+We used Google Cloud's (GC) Compute engine to run our containerized training script. This was done by creating a VM instance with a T4 GPU.
+The training image is pulled from the Artifact registry and run manually. It pulls a WANDB API key from the Security Manager to log the training to Weights and Biases.
+The data comes from a bucket in Cloud Storage, but is already in the image as Github Actions pulls the data, adds it to the image build and pushes it to the Artifact registry. This could be done differently, but was not prioritized as it does not pose security concerns like with API-key.
 
 
 <h4>
   <img src="figures/logos/cloud_run.svg" alt="alt text" style="vertical-align: middle;" />
   Cloud run
 </h4>
-We use cloud run to host the predict container, which provides FastAPI endpoints for end user predictions. It retrieves the model from a Cloud Storage bucket. 
-Every prediction on uploaded user data is saved in Firestore to be able to make data drifting reports. 
+We use cloud run to host the predict container, which provides FastAPI endpoints for end user predictions. It retrieves the model from a Cloud Storage bucket.
+Every prediction on uploaded user data is saved in Firestore to be able to make data drifting reports.
 
 <h4>
   <img src="figures/logos/firestore.svg" alt="alt text" style="vertical-align: middle;" />
@@ -571,7 +577,7 @@ For monitoring of our system, we implemented service level objectives of our Clo
 >
 > Answer:
 
-As of 17/1/2024 13:40 we used $42.94 and we expect to use all $50 that we got as part of the project. We might have to buy more credit or find a solution to move the project to another billing account. 
+As of 17/1/2024 13:40 we used $42.94 and we expect to use all $50 that we got as part of the project. We might have to buy more credit or find a solution to move the project to another billing account.
 
 Our billing overview for the mentioned period can be seen below:
 
