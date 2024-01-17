@@ -155,7 +155,7 @@ We also used the *Pytorch Image Models* library (TIMM), which comes with a wide 
 
 A new team member would first have to clone the repository from Github using the command:
 
-```git clone```
+```git clone https://github.com/MLOpsGroup23/```
 
 Then, he would have to create a virtual environment in Python:
 
