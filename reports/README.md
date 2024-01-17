@@ -314,7 +314,9 @@ Another benefit of using DVC was seen when using github actions. For continous i
 >
 > Answer:
 
---- question 12 fill here ---
+We configured experiments using .yaml files and hydra. The setup includes a model agnostic configuration with parameters pertaining to data loading and augmentations, the number of epochs, etc. Model specific configurations are also included and they contain the model class along with hyper parameters.
+
+To train a model locally of a particular architecture one would have to alter the config.yaml file specifying the architecture. Hereafter one would run “python train_model.py” in the project folder to train. Alternatively, running “make train” would achieve the same effect.
 
 ### Question 13
 
@@ -331,6 +333,8 @@ Another benefit of using DVC was seen when using github actions. For continous i
 
 --- question 13 fill here ---
 
+To get insight into training dynamics and keep track of experiment parameters we use Wandb. Whenever an experiment is run, the hyperparameters are logged along with loss and accuracy on the training and validation sets. To reproduce an experiment one has to specify the model architecture and its hyperparameters in the config files. Hereafter the procedure follows the previous point.
+
 ### Question 14
 
 > **Upload 1 to 3 screenshots that show the experiments that you have done in W&B (or another experiment tracking**
@@ -346,7 +350,25 @@ Another benefit of using DVC was seen when using github actions. For continous i
 >
 > Answer:
 
---- question 14 fill here ---
+
+![wandb_train_dynamics](figures/train_val_dynamics.png)
+
+
+As seen in the first image we track the training dynamics of our system. This enables us to assess how well the model generalizes and identify if over- or under fitting occurs. 
+
+
+
+![wandb_saliency_ex](figures/saliency_boot.png)
+
+
+From the second image, we see an input image and the corresponding saliency map which has been logged to Wandb. We create a saliency map for an image from each class during each epoch. This gives us insight into how the model makes its predictions. In this particular example, it is clear that the model places most emphasis on regions where the boot is not present. 
+
+
+![wandb_sweep](figures/hyperparam_sweep.png)
+
+
+As seen in the third image, a hyper parameter sweep is performed to maximize the accuracy on the validation dataset. This helps us assess which hyperparameters are optimal for different model architectures. We opted for using Bayesian Optimization when searching over the parameter space and we optimize for the learning rate, dropout probability, number of epochs and choice of optimizer. 
+
 
 ### Question 15
 
