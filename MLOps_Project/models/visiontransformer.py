@@ -5,8 +5,9 @@ import torch
 
 # Define class for a VisionTransformer model using the TIMM framework
 class VisionTransformer(Baseline_Model):
-    def __init__(self, optimizer_name='Adam', lr=0.003, dropout_rate=0.2, required_channels=3):
+    def __init__(self, optimizer_name="Adam", lr=0.003, dropout_rate=0.2, required_channels=3):
         super().__init__(filename="VistionTransformsSmallModel")
+        self.optimizer_name = optimizer_name
         self.lr = lr
         self.model = timm.create_model(
             "vit_small_patch16_18x2_224", img_size=28, num_classes=10, drop_rate=dropout_rate

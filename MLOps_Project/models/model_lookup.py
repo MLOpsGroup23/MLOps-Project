@@ -10,14 +10,13 @@ from MLOps_Project.models.baseline_model import Baseline_Model
 
 class ModelLookup:
     def find(name: str, lr, dropout_rate, required_channels) -> Baseline_Model:
-        name = name.lower()  # Make it lowercase to be case insensitive
-        if name == "resnet":
-            return ResNet34(lr, dropout_rate, required_channels)
-        elif name == "efficientnet":
-            return EfficientNet(lr, dropout_rate, required_channels)
-        elif name == "mobilenet":
-            return MobileNet(lr, dropout_rate, required_channels)
-        elif name == "visiontransformer":
-            return VisionTransformer(lr, dropout_rate, required_channels)
-        elif name == "xcitnano":
-            return XcitNano(lr, dropout_rate, required_channels)
+        if name.lower() == "resnet":
+            return ResNet34(name, lr, dropout_rate, required_channels)
+        elif name.lower() == "efficientnet":
+            return EfficientNet(name, lr, dropout_rate, required_channels)
+        elif name.lower() == "mobilenet":
+            return MobileNet(name, lr, dropout_rate, required_channels)
+        elif name.lower() == "visiontransformer":
+            return VisionTransformer(name, lr, dropout_rate, required_channels)
+        elif name.lower() == "xcitnano":
+            return XcitNano(name, lr, dropout_rate, required_channels)
