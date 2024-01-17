@@ -470,7 +470,17 @@ Now the training should run and log to Weights and Biases! 🚀
 >
 > Answer:
 
---- question 19 fill here ---
+Below the screenshot of our bucket can be seen. The version controlled data can be found in the `data` folder and the models are saved by the train containers on the VM into the root of the bucket.
+
+![MLOps-bucket1 screenshot](figures/MLOpsBucketSC.png)
+
+Additionally, we used Firestore to save predictions made by the trained model.
+
+![MLOps-bucket1 screenshot](figures/MLOpsFirestoreSC.png)
+
+
+
+
 
 ### Question 20
 
@@ -479,7 +489,8 @@ Now the training should run and log to Weights and Biases! 🚀
 >
 > Answer:
 
---- question 20 fill here ---
+Below is an image showing the images stored in the artifact registry:
+![Artifact Registry Image](figures/ArtifactRegistrySC.png)
 
 ### Question 21
 
