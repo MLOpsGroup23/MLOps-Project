@@ -341,8 +341,6 @@ To train a model locally of a particular architecture one would have to alter th
 >
 > Answer:
 
---- question 13 fill here ---
-
 To get insight into training dynamics and keep track of experiment parameters we use Wandb. Whenever an experiment is run, the hyperparameters are logged along with loss and accuracy on the training and validation sets. To reproduce an experiment one has to specify the model architecture and its hyperparameters in the config files. Hereafter the procedure follows the previous point.
 
 ### Question 14
@@ -585,7 +583,7 @@ A collection of MNIST fashion images in BMP format can be downloaded from [HERE]
 > Answer:
 
 
-#### Data Drifting
+<h4>Data Drifting</h4>
 To monitor how our data changes and what model predictions the model makes on the data compared to the reference distribution the model was trained on.
 As earlier explained we save the predictions made by the model to Firestore and then we can use [Evidently AI](https://www.evidentlyai.com/) to create a report, i.e. we compare our distribution of the data in the Cloud Store Bucket to the predictions saved in Firestore.
 
@@ -600,8 +598,7 @@ Below is a screenshot of the Evidently report generated:
 
 
 
-
-#### Systems Monitoring
+<h4>System Monitoring</h4>
 
 For monitoring of our system, we implemented service level objectives of our Cloud Run Google Cloud service, as well as Google Cloud Monitoring alerting policies. For the service level objectives we set an objective of 95%-Availability of our endpoint alongside an objective of 95%-Latency with a threshold of 70ms. For the alerting policies, we set a 5 minute rate rolling window for the billable iunstance time with a threshold of 0.5s and a 5 minute rate rolling window for the number of endpoint requests with a threshold of 5 requests. All above systems monitoring are set to send an email alert to all team members, if any of the mentioned thresholds are exceeded.
 
