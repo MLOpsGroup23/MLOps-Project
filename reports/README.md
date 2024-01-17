@@ -664,9 +664,14 @@ The predict container retrieves the model from the bucket and serves it to the u
 >
 > Answer:
 
-Something that we struggled 
+Something that we struggled the most with was the whole integration on Google Cloud. 
+Especially making the train run in a Docker container on the Compute Engine VM. 
+We had an issue between Pytest and Docker. Pytest imports the module MLOpsProject successfully, but when we build a docker image, it does not recognize the package even though we have installed it as a Pytohn module. Due to this issue we have the project defined in two branches, one for the train image and another for the rest of the project. If we had more time, we would have fixed this issue.
 
---- question 26 fill here ---
+We also struggled when integrating Hydra with Weights and Biases as these can sometimes work against each other. We ended up not using the decorators provided by Hydra everyewhere, but instead we used function calls to get the config which we could then pass to WANDB to log the experiment data. 
+
+Additionally the choice of getting the credentials for Weights and Biases on runtime instead of saving it in the image with Github Actions posed some challenges. We had to figure out how to make sure the Docker container had the correct access which included creating a new custom service account for the virtual machine and then allowing Docker access to this user. Logging in to Weights and Biases on runtime then consisted of installing gcloud in the docker image and then running an entrypoint shell script to get credentials on docker runtime.
+
 
 ### Question 27
 
