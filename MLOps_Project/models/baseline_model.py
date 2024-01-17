@@ -5,7 +5,7 @@ from torch.autograd import Variable
 import numpy as np
 import torch
 import wandb
-from MLOps_Project.visualizations.visualize_resnet import fig2img
+from MLOps_Project.visualizations.visualize_data import fig2img
 
 
 # Baseline Model - Requires only that inheriting object defined self.model and self.loss

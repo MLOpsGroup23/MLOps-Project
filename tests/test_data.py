@@ -2,6 +2,8 @@ import torch
 from hydra import initialize, compose
 from MLOps_Project.data.fashion_mnist_dataset import get_dataloaders
 from MLOps_Project.data.create_bmp_img import create_random_fashion_img
+from MLOps_Project.data.make_dataset import make_datasets
+from MLOps_Project.visualizations.visualize_data import make_data_visualization
 from os.path import exists
 
 
@@ -70,3 +72,45 @@ class TestData:
         assert exists(
             "./outputs/testingImage.bmp"
         ), "When creating image, it was expected that a file was created, but this was not the case"
+
+    def test_make_dataset(self):
+        with initialize(version_base=None, config_path="../configs"):
+            cfg = compose(config_name="config")
+            make_datasets(cfg)
+
+            assert exists("./data/processed/train.pt"), "Expected the training set to be made"
+            assert exists("./data/processed/val.pt"), "Expected the validation set to be made"
+            assert exists("./data/processed/test.pt"), "Expected the testing set to be made"
+
+    def test_visualization(self):
+        with initialize(version_base=None, config_path="../configs"):
+            cfg = compose(config_name="config")
+            make_data_visualization(cfg)
+
+            assert exists(
+                "./reports/figures/FashionMNIST_Dataset_samples.pdf"
+            ), "Expected a visualization of the dataset samples as PDF to be made"
+            assert exists(
+                "./reports/figures/FashionMNIST_Dataset_samples.png"
+            ), "Expected a visualization of the dataset samples as PNG to be made"
+
+            assert exists(
+                "./reports/figures/FashionMNIST_Dataset_class_distribution.pdf"
+            ), "Expected a visualization of the class distribution as PDF to be made"
+            assert exists(
+                "./reports/figures/FashionMNIST_Dataset_class_distribution.png"
+            ), "Expected a visualization of the class distribution as PNG to be made"
+
+            assert exists(
+                "./reports/figures/FashionMNIST_Dataset_class_distribution_test.pdf"
+            ), "Expected a visualization of the testing dataset samples as PDF to be made"
+            assert exists(
+                "./reports/figures/FashionMNIST_Dataset_class_distribution_test.png"
+            ), "Expected a visualization of the testing dataset samples as PNG to be made"
+
+            assert exists(
+                "./reports/figures/FashionMNIST_Dataset_class_distribution_val.pdf"
+            ), "Expected a visualization of the validation dataset samples as PDF to be made"
+            assert exists(
+                "./reports/figures/FashionMNIST_Dataset_class_distribution_val.png"
+            ), "Expected a visualization of the validation dataset samples as PNG to be made"
