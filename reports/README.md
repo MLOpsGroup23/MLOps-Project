@@ -295,7 +295,17 @@ Another benefit of using DVC was seen when using github actions. For continous i
 >
 > Answer:
 
---- question 11 fill here ---
+As described in question 7, we use pytests to unittest our code. These tests have been automated via. Github Actions, such that every pull request has to pass these tests before being able to merge them into main.
+
+Also, as described in question 6, we use pre-commit hooks in order to enforce some formatting using *ruff*. 
+
+Github Actions allows you to run these tests for multiple operating systems and multiple python versions. However, we use the *Ubuntu* operating system and python version 3.10. For future use, it might be wise to perform the tests on several operating systems and python versions.
+
+We also used used Github Actions in order to generate our Docker Images for the server and trainer container. When these were made, they are pushed to our Artifact Registry storage. In this way, we avoid using the Google Cloud Build service. For the server, this docker image is afterwards launched in Google Cloud Run, which automatically runs the container and thus launches the newest version of the server. More details on this in question 22. 
+
+In this way, we also have a large selection of docker images to choose from and revert back to, if some functionality should break in the future. 
+
+By following [this link](https://github.com/MLOpsGroup23/MLOps-Project/blob/main/.github/workflows/tests.yml) you can view one of our workflow files, which was used to run the different tests. Notice that it uses DVC in order to pull the newest data. It also automatically installs the needed requirements. It also caches the dependencies such that it does not need to spend time downloaded all the python packages for each Github Action.
 
 ## Running code and tracking experiments
 
@@ -673,4 +683,4 @@ Something that we struggled
 >
 > Answer:
 
---- question 27 fill here ---
+All members contributed across the various parts of the project, such as the codebase, version control, CI, cloud solutions and monitoring. Some members were more focused on some aspects than others, however, no area was in charge of / responsible of a project aspect alone. This task delegation was chosen to gain the most experience as possible from the project.
