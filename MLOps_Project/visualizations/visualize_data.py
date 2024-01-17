@@ -1,7 +1,7 @@
 from matplotlib import pyplot as plt
 import torch
 from torch.utils.data import TensorDataset
-import hydra
+from hydra import initialize, compose
 from omegaconf import DictConfig
 from PIL import Image
 
@@ -90,10 +90,7 @@ def make_data_visualization(cfg: DictConfig):
     plt_savefig(plot, "FashionMNIST_Dataset_class_distribution_val")
 
 
-@hydra.main(version_base=None, config_path="../../configs", config_name="config")
-def main(cfg: DictConfig):
-    make_data_visualization(cfg)
-
-
 if __name__ == "__main__":
-    main()
+    with initialize(version_base=None, config_path="../../configs"):
+        cfg = compose(config_name="config")
+        make_data_visualization(cfg)

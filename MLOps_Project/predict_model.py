@@ -2,7 +2,7 @@ from MLOps_Project.models.baseline_model import Baseline_Model
 import torch
 
 
-def predict(model: torch.nn.Module, dataloader: torch.utils.data.DataLoader) -> None:
+def predict_dataset(model: Baseline_Model, dataloader: torch.utils.data.DataLoader) -> None:
     """Run prediction for a given model and dataloader.
 
     Args:
@@ -13,7 +13,12 @@ def predict(model: torch.nn.Module, dataloader: torch.utils.data.DataLoader) -> 
         Tensor of shape [N, d] where N is the number of samples and d is the output dimension of the model
 
     """
-    return torch.cat([model(batch) for batch in dataloader], 0)
+    return torch.cat([model(batch) for batch, _ in dataloader], 0)
+
+
+def predict_batch(model: Baseline_Model, batch):  # Expected batch to be of shape [n, 3, 28, 28]
+    model.eval()  # Make sure the model is in eval mode
+    return model.forward(batch)
 
 
 def predict_single(model: Baseline_Model, img):
