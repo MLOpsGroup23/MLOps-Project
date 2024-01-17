@@ -392,7 +392,9 @@ As seen in the third image, a hyper parameter sweep is performed to maximize the
 >
 > Answer:
 
---- question 16 fill here ---
+For debugging of the codebase, all group members of the project used the built-in python debugger. Thus, no "print('HERE')" statements were used.
+
+We did not use or implement any profiling of the codebase. However, for future improvements we would profile the logic for the inference part of the codebase, to gain an understanding of the performance of our inference pipeline.
 
 ## Working in the cloud
 
