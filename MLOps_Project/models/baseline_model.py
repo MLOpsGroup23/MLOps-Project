@@ -4,8 +4,9 @@ import matplotlib.pyplot as plt
 from torch.autograd import Variable
 import numpy as np
 import torch
+from PIL import Image
 import wandb
-from MLOps_Project.visualizations.visualize_data import fig2img
+import io
 
 
 # Baseline Model - Requires only that inheriting object defined self.model and self.loss
@@ -70,7 +71,12 @@ class Baseline_Model(LightningModule):
             ax2.imshow(saliency_np, cmap=plt.cm.hot)
             ax2.set_title(f"Saliency map - prediction: {prediction}")
             ax2.axis("off")
-            figure = fig2img(fig)
+            # Figure to image inlined
+            buf = io.BytesIO()
+            fig.savefig(buf)
+            buf.seek(0)
+            figure = Image.open(buf)
+
             self.logger.experiment.log({"Saliency figure": wandb.Image(figure)})
             plt.close(fig)
 
