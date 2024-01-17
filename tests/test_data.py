@@ -2,6 +2,7 @@ from omegaconf import DictConfig
 import torch
 import hydra
 from MLOps_Project.data.fashion_mnist_dataset import get_dataloaders
+from MLOps_Project.data.make_dataset import create_random_fashion_img
 
 
 class TestData:
@@ -64,6 +65,9 @@ class TestData:
             train_val_dif < TOL
         ), "The difference in class imbalances for train and test exceeds the desired threshold"
         self.teardown_images_and_labels()
+
+    def test_create_bmp_image():
+        create_random_fashion_img("./data/processed/test.pt", "testingImage")
 
 
 # Call when training!
