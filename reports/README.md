@@ -444,8 +444,24 @@ The security manager is used to store secrets (API keys) used on container runti
 >
 > Answer:
 
+We used the Compute Engine to run our containerized train image pulled from the Artifact Registry. As described it also pulls secrets from Secret Manager on container runtime.
+We used a virtual machine of type `n1-standard-2` on the `Intel Broadwell` platform and one `NVIDIA T4`.
+We started with a CPU-only virtual machine, but this was not enough for our training needs, and we requested a GPU quota which took some time. And even with the quota it was hard to locate a server with available GPUs.
 
---- question 18 fill here ---
+To run a training pull the latest image from the artifact registry:
+
+```bash
+docker pull europe-west1-docker.pkg.dev/pelagic-height-410710/g23-repo/g23-trainer:latest
+```
+
+When the image is pulled from the Artifact registry, run a container from the image:
+
+```bash
+docker run --gpus all -v $(pwd)/models:/models -e HYDRA_ARGS="data.num_workers=2 architecture=[visiontransformer|resnet|mobilenet|etc] training.max_epochs=10" --rm [image ID]
+```
+
+Now the training should run and log to Weights and Biases! 🚀
+
 
 ### Question 19
 
