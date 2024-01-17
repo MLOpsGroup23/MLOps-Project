@@ -571,7 +571,12 @@ For monitoring of our system, we implemented service level objectives of our Clo
 >
 > Answer:
 
---- question 24 fill here ---
+As of 17/1/2024 13:40 we used $42.94 and we expect to use all $50 that we got as part of the project. We might have to buy more credit or find a solution to move the project to another billing account. 
+
+Our billing overview for the mentioned period can be seen below:
+
+![Billing overview](figures/BillingOverview.png)
+
 
 ## Overall discussion of project
 
