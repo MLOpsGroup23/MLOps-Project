@@ -625,7 +625,14 @@ Our billing overview for the mentioned period can be seen below:
 >
 > Answer:
 
+The overall architecture of the project can be seen below:
 ![Project Architecture](figures/MLOpsProject.drawio.png)
+
+As can be seen, we use PyTorch and PyTorch Lightning and use Hydra for config storing. Python's venv is used to ensure reproducibility although some users preferred Conda. As long as the requirements are met, both should work. This is all packaged in a Docker image which is built by GitHub Actions if all Pytest tests work. Two images are built: predict and train.
+When preprocessing data, it is pushed to a bucket in Cloud Storage with DVC, which is pulled by GitHub Actions when building the image (this could be optimized).
+The built images are pushed to the Artifact Registry in Google Cloud. GitHub Actions makes sure that the predict image is deployed automatically, while the train image has to be manually deployed from the Compute Engine VM's SSH terminal. When a model has been trained, it will be pushed to the Google Cloud bucket and logs will be sent to Weights and Biases while training using an API key stored in Secrets Manager. GitHub Actions also has secrets stored.
+The predict container retrieves the model from the bucket and serves it to the user through a FastAPI endpoint. When a prediction is made, it will be stored in Firebase such that an Evidently AI report can be made to assess data drifting.
+
 
 ### Question 26
 
