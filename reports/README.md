@@ -344,21 +344,22 @@ To get insight into training dynamics and keep track of experiment parameters we
 >
 > Answer:
 
-```markdown
+
 ![wandb_train_dynamics](figures/train_val_dynamics.png)
-```
+
 
 As seen in the first image we track the training dynamics of our system. This enables us to assess how well the model generalizes and identify if over- or under fitting occurs. 
 
-```markdown
+
+
 ![wandb_saliency_ex](figures/saliency_boot.png)
-```
+
 
 From the second image, we see an input image and the corresponding saliency map which has been logged to Wandb. We create a saliency map for an image from each class during each epoch. This gives us insight into how the model makes its predictions. In this particular example, it is clear that the model places most emphasis on regions where the boot is not present. 
 
-```markdown
+
 ![wandb_sweep](figures/hyperparam_sweep.png)
-```
+
 
 As seen in the third image, a hyper parameter sweep is performed to maximize the accuracy on the validation dataset. This helps us assess which hyperparameters are optimal for different model architectures. We opted for using Bayesian Optimization when searching over the parameter space and we optimize for the learning rate, dropout probability, number of epochs and choice of optimizer. 
 
