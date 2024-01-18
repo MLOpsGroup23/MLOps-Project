@@ -561,7 +561,7 @@ Below is an image showing the images stored in the artifact registry:
 >
 > Answer:
 
-We did not use Cloud Build in this project, but used Github Actions to build images instead. From here they are also pushed automatically to the Artifact Registry on Google cloud.
+We did not use Cloud Build in this project, but used Github Actions to build images instead. From here they are also pushed automatically to the Artifact Registry on Google Cloud.
 See: [Actions](https://github.com/MLOpsGroup23/MLOps-Project/actions)
 
 ### Question 22
@@ -578,7 +578,7 @@ See: [Actions](https://github.com/MLOpsGroup23/MLOps-Project/actions)
 >
 > Answer:
 
-We did manage to deploy our model in the cloud and locally. In both cases, *uvicorn* and *FastAPI* was used to setup and implement a server that uses the model. The server could easily be tested locally by running a *uvicorn* command. The model used in deployment was stored in our google cloud bucket, which made it easy to be downloaded both locally and in the cloud. For running the service in the cloud, we build a docker image for a container that runs the server. This image was then run in the cloud using the *Cloud Run* service. This step was automated as a part of our continous integration step, as explained in question 11.
+We did manage to deploy our model in the cloud and locally. In both cases, *uvicorn* and *FastAPI* was used to setup and implement a server that uses the model. The server could easily be tested locally by running a *uvicorn* command. The model used in deployment was stored in our Google Cloud Bucket, which made it easy to be downloaded both locally and in the cloud. For running the service in the cloud, we build a docker image for a container that runs the server. This image was then run in the cloud using the *Cloud Run* service. This step was automated as a part of our continous integration step, as explained in question 11.
 
 The server exposed three endpoints, one for the homepage, one for predicting images, and one for the Evidently AI report. Using the *root/predict* endpoint, POST requests with a payload of a *.BMP* image could be made, which response would be a preidction of the image. This was also available from the homepage with a very basic user interface.
 
@@ -602,12 +602,13 @@ A collection of MNIST fashion images in BMP format can be downloaded from [HERE]
 
 
 <h4>Data Drifting</h4>
-To monitor how our data changes and what model predictions the model makes on the data compared to the reference distribution the model was trained on.
-As earlier explained we save the predictions made by the model to Firestore and then we can use [Evidently AI](https://www.evidentlyai.com/) to create a report, i.e. we compare our distribution of the data in the Cloud Store Bucket to the predictions saved in Firestore.
 
-So far we only look at the label distribution. For future development we would save the images uploaded by the end user in a Bucket and point to them from Firebase. Then we could compare different image statistics between the uploaded images and the reference data. We could use the [ImageStat](https://pillow.readthedocs.io/en/stable/reference/ImageStat.html) module to calculate some basic statistics.
+To monitor how our data changes and what the model predicts compared to the reference distribution, i.e. what the model was trained on, we combine tools from Evidently with a Firestore DB.
+As explained earlier, when our predict endpoint is invoked, we save the model's predictions to Firestore. We can then use [Evidently AI](https://www.evidentlyai.com/) to create a report, i.e. we compare our distribution of the data in the Google Cloud Bucket to the predictions saved in Firestore.
 
-The monitoring dashboard can be found on:
+At this point, we only look at the label distribution. For future development we would save the images uploaded by the end user in a Bucket and point to them from Firebase (i.e. image URL). Then we could compare different image statistics between the uploaded images and the reference data. We could use the [ImageStat](https://pillow.readthedocs.io/en/stable/reference/ImageStat.html) module to calculate some basic statistics.
+
+The monitoring dashboard can be found at:
 https://g23-server-3is7zysmoq-ew.a.run.app/monitoring.
 
 Below is a screenshot of the Evidently report generated:
@@ -618,7 +619,7 @@ Below is a screenshot of the Evidently report generated:
 
 <h4>System Monitoring</h4>
 
-For monitoring of our system, we implemented service level objectives of our Cloud Run Google Cloud service, as well as Google Cloud Monitoring alerting policies. For the service level objectives we set an objective of 95%-Availability of our endpoint alongside an objective of 95%-Latency with a threshold of 70ms. For the alerting policies, we set a 5 minute rate rolling window for the billable iunstance time with a threshold of 0.5s and a 5 minute rate rolling window for the number of endpoint requests with a threshold of 5 requests. All above systems monitoring are set to send an email alert to all team members, if any of the mentioned thresholds are exceeded.
+For monitoring of our system, we implemented service level objectives of our Cloud Run service, as well as Google Cloud Monitoring alerting policies. For the service level objectives, we set an objective of $95\%$ availability of our endpoint, alongside an objective of $95\%$ Latency, with a threshold of $70ms$. For the alerting policies, we set a $5$ minute rate rolling window for the billable instance time, with a threshold of $0.5s$, and a $5$ minute rate rolling window for the number of endpoint requests with a threshold of $5$ requests. All above systems monitoring policies are set to send an email alert to all team members, if any of the mentioned thresholds are exceeded.
 
 ### Question 24
 
@@ -661,10 +662,16 @@ Our billing overview for the mentioned period can be seen below:
 The overall architecture of the project can be seen below:
 ![Project Architecture](figures/MLOpsProject.drawio.png)
 
-As can be seen, we use PyTorch and PyTorch Lightning and use Hydra for config storing. Python's venv is used to ensure reproducibility although some users preferred Conda. As long as the requirements are met, both should work. This is all packaged in a Docker image which is built by GitHub Actions if all Pytest tests work. Two images are built: predict and train.
-When preprocessing data, it is pushed to a bucket in Cloud Storage with DVC, which is pulled by GitHub Actions when building the image (this could be optimized).
-The built images are pushed to the Artifact Registry in Google Cloud. GitHub Actions makes sure that the predict image is deployed automatically, while the train image has to be manually deployed from the Compute Engine VM's SSH terminal. When a model has been trained, it will be pushed to the Google Cloud bucket and logs will be sent to Weights and Biases while training using an API key stored in Secrets Manager. GitHub Actions also has secrets stored.
-The predict container retrieves the model from the bucket and serves it to the user through a FastAPI endpoint. When a prediction is made, it will be stored in Firebase such that an Evidently AI report can be made to assess data drifting.
+As can be seen, we use PyTorch and PyTorch Lightning and use Hydra for config storing. 
+- Python's venv is used to ensure reproducibility although some users preferred Conda. As long as the requirements are met, both should work. 
+- This is all packaged in a Docker image which is built by GitHub Actions if all Pytest tests work. Two images are built: predict and train.
+- When preprocessing data, it is pushed to a bucket in Cloud Storage with DVC, which is pulled by GitHub Actions when building the image (this could be optimized).
+- The built images are pushed to the Artifact Registry in Google Cloud. 
+- GitHub Actions makes sure that the predict image is deployed automatically, while the train image has to be manually deployed from the Compute Engine VM's SSH terminal. 
+- Logs are stored in Weights and Biases while training using an API key stored in Secrets Manager. GitHub Actions also has secrets stored.
+- When a model has been trained, we have chosen a manual flow for selecting whether it should replace the one at the predict endpoint.
+If we choose to do so, we simply move the trained model (`cp {MODEL.ckpt} {PATH_TO_MOUNTED_BUCKET}`) to the Google Cloud bucket (which is mounted to the VM). 
+- The predict container retrieves the model from the bucket and serves it to the user through a FastAPI endpoint. When a prediction is made, it will be stored in Firebase such that an Evidently AI report can be made to assess data drifting.
 
 
 ### Question 26
@@ -679,13 +686,13 @@ The predict container retrieves the model from the bucket and serves it to the u
 >
 > Answer:
 
-Something that we struggled the most with was the whole integration on Google Cloud. 
-Especially making the train run in a Docker container on the Compute Engine VM. 
-We had an issue between Pytest and Docker. Pytest imports the module MLOpsProject successfully, but when we build a docker image, it does not recognize the package even though we have installed it as a Pytohn module. Due to this issue we have the project defined in two branches, one for the train image and another for the rest of the project. If we had more time, we would have fixed this issue.
+The thing we struggled with the most was the integration of all the various components on Google Cloud. 
+Especially making the training container run like we envisioned it, in a Docker container on the Compute Engine VM. 
+We had an issue between Pytest and Docker. Pytest imports the module MLOps_Project successfully, but when we build a docker image, it does not recognize the package even though we have installed it as a Python module. Due to this issue we have the project defined in two branches, one for the train image: [new-trainer-container](https://github.com/MLOpsGroup23/MLOps-Project/tree/new-trainer-container) and another for the rest of the project: [main](https://github.com/MLOpsGroup23/MLOps-Project/tree/main). If we had more time, we would have fixed this issue.
 
-We also struggled when integrating Hydra with Weights and Biases as these can sometimes work against each other. We ended up not using the decorators provided by Hydra everyewhere, but instead we used function calls to get the config which we could then pass to WANDB to log the experiment data. 
+We also struggled when integrating Hydra with Weights and Biases as these can sometimes work against each other. We ended up not using the decorators provided by Hydra everywhere, but instead we used function calls to get the config which we could then pass to WANDB to log the experiment data. 
 
-Additionally the choice of getting the credentials for Weights and Biases on runtime instead of saving it in the image with Github Actions posed some challenges. We had to figure out how to make sure the Docker container had the correct access which included creating a new custom service account for the virtual machine and then allowing Docker access to this user. Logging in to Weights and Biases on runtime then consisted of installing gcloud in the docker image and then running an entrypoint shell script to get credentials on docker runtime.
+Additionally, the choice of getting the credentials for Weights and Biases on runtime instead of saving it in the image with Github Actions posed some challenges. We had to figure out how to make sure the Docker container had the correct access which included creating a new custom service account for the virtual machine and then allowing Docker access to this user. Logging in to Weights and Biases on runtime then consisted of installing gcloud in the docker image and then running an entrypoint shell script to get credentials on docker runtime.
 
 
 ### Question 27
