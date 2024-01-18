@@ -50,47 +50,46 @@ end of the project.
 
 ### Week 1
 
-* [ ] Create a git repository
-* [ ] Make sure that all team members have write access to the github repository
-* [ ] Create a dedicated environment for you project to keep track of your packages
-* [ ] Create the initial file structure using cookiecutter
-* [ ] Fill out the `make_dataset.py` file such that it downloads whatever data you need and
-* [ ] Add a model file and a training script and get that running
-* [ ] Remember to fill out the `requirements.txt` file with whatever dependencies that you are using
-* [ ] Remember to comply with good coding practices (`pep8`) while doing the project
+* [X] Create a git repository
+* [X] Make sure that all team members have write access to the github repository
+* [X] Create a dedicated environment for you project to keep track of your packages
+* [X] Create the initial file structure using cookiecutter
+* [X] Fill out the `make_dataset.py` file such that it downloads whatever data you need and
+* [X] Add a model file and a training script and get that running
+* [X] Remember to fill out the `requirements.txt` file with whatever dependencies that you are using
+* [(X)] Remember to comply with good coding practices (`pep8`) while doing the project
 * [ ] Do a bit of code typing and remember to document essential parts of your code
-* [ ] Setup version control for your data or part of your data
-* [ ] Construct one or multiple docker files for your code
-* [ ] Build the docker files locally and make sure they work as intended
-* [ ] Write one or multiple configurations files for your experiments
-* [ ] Used Hydra to load the configurations and manage your hyperparameters
-* [ ] When you have something that works somewhat, remember at some point to to some profiling and see if
-      you can optimize your code
-* [ ] Use Weights & Biases to log training progress and other important metrics/artifacts in your code. Additionally,
+* [X] Setup version control for your data or part of your data
+* [X] Construct one or multiple docker files for your code
+* [X] Build the docker files locally and make sure they work as intended
+* [X] Write one or multiple configurations files for your experiments
+* [X] Used Hydra to load the configurations and manage your hyperparameters
+* [ ] When you have something that works somewhat, remember at some point to to some profiling and see if you can optimize your code
+* [X] Use Weights & Biases to log training progress and other important metrics/artifacts in your code. Additionally,
       consider running a hyperparameter optimization sweep.
-* [ ] Use Pytorch-lightning (if applicable) to reduce the amount of boilerplate in your code
+* [X] Use Pytorch-lightning (if applicable) to reduce the amount of boilerplate in your code
 
 ### Week 2
 
-* [ ] Write unit tests related to the data part of your code
-* [ ] Write unit tests related to model construction and or model training
-* [ ] Calculate the coverage.
-* [ ] Get some continuous integration running on the github repository
-* [ ] Create a data storage in GCP Bucket for you data and preferable link this with your data version control setup
-* [ ] Create a trigger workflow for automatically building your docker images
-* [ ] Get your model training in GCP using either the Engine or Vertex AI
-* [ ] Create a FastAPI application that can do inference using your model
-* [ ] If applicable, consider deploying the model locally using torchserve
-* [ ] Deploy your model in GCP using either Functions or Run as the backend
+* [X] Write unit tests related to the data part of your code
+* [X] Write unit tests related to model construction and or model training
+* [X] Calculate the coverage.
+* [X] Get some continuous integration running on the github repository
+* [X] Create a data storage in GCP Bucket for you data and preferable link this with your data version control setup
+* [X] Create a trigger workflow for automatically building your docker images
+* [X] Get your model training in GCP using either the Engine or Vertex AI
+* [X] Create a FastAPI application that can do inference using your model
+* [%] If applicable, consider deploying the model locally using torchserve
+* [%] Deploy your model in GCP using either Functions or Run as the backend
 
 ### Week 3
 
-* [ ] Check how robust your model is towards data drifting
-* [ ] Setup monitoring for the system telemetry of your deployed model
+* [X] Check how robust your model is towards data drifting
+* [X] Setup monitoring for the system telemetry of your deployed model
 * [ ] Setup monitoring for the performance of your deployed model
-* [ ] If applicable, play around with distributed data loading
-* [ ] If applicable, play around with distributed model training
-* [ ] Play around with quantization, compilation and pruning for you trained models to increase inference speed
+* [%] If applicable, play around with distributed data loading
+* [%] If applicable, play around with distributed model training
+* [%] Play around with quantization, compilation and pruning for you trained models to increase inference speed
 
 ### Additional
 
@@ -129,11 +128,12 @@ end of the project.
 >
 > Answer:
 
-We used the open-sourced third-party framework named *pytorch-lightning* to help reduce boilerplate and make it easier to get training up and running. This made it much easier to setup the traning loop. The entire training loop was reduced from a long code snippet to just a few lines of code.
+We used the open-sourced third-party framework *pytorch-lightning* to help reduce boilerplate and make it easier to get training up and running. This made it much easier to set up the training and validation loops. The entire training loop was reduced from a long, error-prone function to just a few fool-proof lines of code.
 
-Pytorch Lightning also made it very easy to train on accelerators, such as GPUs. This was especially valueable when training in the cloud, where the underlaying hardware architecture was difficult to know.
+Pytorch Lightning also automated training with hardware accelerators, such as GPUs. This was especially valuable when training in the cloud, where it made it easier to switch between the various available underlying hardware.
 
-We also used the *Pytorch Image Models* library (TIMM), which comes with a wide variate of Deep Learning architectures for processing images. We used this to easily incorporate different models.
+We also used the *Pytorch Image Models* library (TIMM), which comes with a wide variety of Deep Learning image model architectures. 
+We used this to easily incorporate different models in our experiments, as the models have the same interface.
 
 
 ## Coding environment
@@ -155,7 +155,7 @@ We also used the *Pytorch Image Models* library (TIMM), which comes with a wide 
 
 A new team member would first have to clone the repository from Github using the command:
 
-```git clone https://github.com/MLOpsGroup23/```
+```git clone https://github.com/MLOpsGroup23/MLOps-Project/```
 
 Then, he would have to create a virtual environment in Python:
 
@@ -165,7 +165,7 @@ After activating the virtual environment, he would have to install the requireme
 
 ```pip install -r requirements.txt```
 
-In addition gcloud would have to be installed in accordance to the installation guidelines on their website. This is done automatically when using the dockerfiles, but if one wants to run the code locally, gcloud would have to be installed.
+In addition, to run and test locally, `gcloud` would have to be installed in accordance to the installation guidelines on their website. This is done automatically when using the dockerfiles in our cloud environments.
 
 This should provide a working environment for the project.
 
@@ -200,7 +200,7 @@ We also added a folder named *outputs*, which contains files used for logging an
 >
 > Answer:
 
-We did use pre-commits to ensure that the code in our repository was of a certain quality. We used various pre-commit hooks from https://github.com/pre-commit/pre-commit-hooks in order to remove trailing whitespace, end-of-file newlines and additional hooks to make sure that no secret keys were added to the repository.
+We did use pre-commits to ensure that our commits to our repository was of a certain quality. We used various pre-commit hooks from https://github.com/pre-commit/pre-commit-hooks in order to remove trailing whitespace, end-of-file newlines and additional hooks to make sure that no secret keys were added to the repository.
 
 In addition, we used the *[ruff-pre-commit-hook](https://github.com/astral-sh/ruff-pre-commit)* in order to make sure that the python code that we added to the repository did not include unused packages, unused variables and so on.
 
@@ -238,11 +238,11 @@ We tried to test the most critical parts of our project, such as the models, the
 >
 > Answer:
 
-In the end, we achieved a total code coverage of 70%. Many of the files have 100% coverage and almost all files have above 80% coverage.
+In the end, we achieved a total code coverage of $70\%$. Many of the files have $100\%$ coverage and almost all files have above $80\%$ coverage.
 
-However, our FastAPI server and its interface with Google Cloud Firestone has not been tested. Also, our wandb sweeping functionality was not tested with pytests. We admit that testing our server and its endpoints is important, however, we prioritized testing our model doing development. We know that FastAPI has a good testing framework, which could be used in the future.
+However, our FastAPI server and its interface with Google Cloud Firestore has not been tested. Also, our WANDB sweeping functionality was not tested with Pytest. Although testing our server and its endpoints is important, but we have prioritized testing our model (and the adjacent components, such as data loading) during development, as we had an assumption that this would be the part of the code that changed the most from commit to commit. FastAPI has a good testing framework, which could be used in the future, if the frontend is built out.
 
-Even though we have high code coverage, we cannot know if the application is error free. For instance, most of our testing provides input to different functions. Since these inputs do not cover the entire input-space, we cannot know if our application works with all inputs. This is especially a problem when others use the application, as they will likely provide a very different input than the input used during development.
+Even though we have high code coverage, we cannot know if the application is error free. For instance, most of our testing provides input to different functions. Since these inputs do not cover the entire input-space, we can never truly know if our application works with all inputs. This is especially problematic if others use the application, as they will likely at some points try very different inputs than the range of inputs we have considered reasonable during development.
 
 ### Question 9
 
@@ -259,10 +259,10 @@ Even though we have high code coverage, we cannot know if the application is err
 
 Yes, we did use branches and pull requests during development. We disabled the ability to push directly into the main branch. Thus, all changes into the main branch needed to go through a pull request.
 
-Furthermore, we added the requirement that every pull request had to be approved by another group member. In this way, we ensured that a rogue group member could not destroy the main branch by themselves. Also, if the person creating the pull request had mistankly made broken code, they are more likely to find the error.
-In addition to this, we also added automatic running of our tests when the pull request was made using github actions.
+Furthermore, we added branch protection in the form of a requirement that every pull request had to be approved by another group member. This way, we ensured that a rogue group member could not destroy the main branch by themselves. Also, if the person creating the pull request had mistankly pushed broken code, the error is more likely to be found.
+In addition to this, we also added a CI testing step to Github Actions, which automatically runs our tests whenever a pull request is made.
 
-For branches, we simply created a new branch for every feature we wanted to implement. When the feature was implemented we typically made sure to merge the newest changes from main into out branch, in case main had been updated. By doing this, we ensured that potential merge conflicts were resolved before creating the pull request. This made it much easier to see when each feature was implemented and made it easier to track who was working on what.
+For branches, we simply created a new branch for every feature we wanted to implement. When the feature was implemented we typically made sure to merge the newest changes from main into our feaure branches. By doing this, we ensured that potential merge conflicts were resolved in the feature branch before creating the pull request to the main branch. This made it much easier to see when each feature was implemented and made it easier to track who was working on what.
 
 ### Question 10
 
@@ -277,9 +277,9 @@ For branches, we simply created a new branch for every feature we wanted to impl
 >
 > Answer:
 
-Yes, we did use DVC together with google cloud storage to store our larger data files. We used it to track our training and validation datasets. This made it very easy to share our dataset, and made it easier to control which version of the data we were working on as we would just push new code and the pointer to the dataset used in the code and/or generated by teh code would be updated.
+Yes, we did use DVC together with Google Cloud Storage to store our larger data files. We used it to track our training and validation datasets. This made it very easy to share our datasets, and made it easier to control which version of the data we were working on as we would just push new code and the pointer to the dataset used in the code and/or generated by the code would be updated.
 
-Another benefit of using DVC was seen when using github actions. For continous integration, we added github actions to build and store different docker images every time a new push to main was made. Some of these images required the dataset to work properly. By using DVC, it was easy to pull the newest data and make sure that the correct dataset was used in the different images.
+Another benefit of using DVC was seen when using Github Actions. For continuous integration, we added Github Actions to build and store different Docker images every time a new push to main was made. Some of these images required the dataset to work properly. By using DVC, it was easy to pull the newest data and make sure that the correct dataset was used in the different images.
 
 ### Question 11
 
@@ -295,17 +295,17 @@ Another benefit of using DVC was seen when using github actions. For continous i
 >
 > Answer:
 
-As described in question 7, we use pytests to unittest our code. These tests have been automated via. Github Actions, such that every pull request has to pass these tests before being able to merge them into main.
+As described in question 7, we use Pytest to unittest our code. These tests have been automated via. Github Actions, such that every pull request has to pass these tests before being able to merge them into main.
 
 Also, as described in question 6, we use pre-commit hooks in order to enforce some formatting using *ruff*. 
 
-Github Actions allows you to run these tests for multiple operating systems and multiple python versions. However, we use the *Ubuntu* operating system and python version 3.10. For future use, it might be wise to perform the tests on several operating systems and python versions.
+Github Actions allows you to run these tests for multiple operating systems and multiple python versions. However, we use the *Ubuntu* operating system and Python version 3.10. For future use, it might be wise to perform the tests on several operating systems and Python versions. However, this is mainly useful if you have an assumption that your code will be running in different environments, which we did not, as we knew we would be serving our code via a Docker container, which we had full control over.
 
-We also used used Github Actions in order to generate our Docker Images for the server and trainer container. When these were made, they are pushed to our Artifact Registry storage. In this way, we avoid using the Google Cloud Build service. For the server, this docker image is afterwards launched in Google Cloud Run, which automatically runs the container and thus launches the newest version of the server. More details on this in question 22. 
+We also used used Github Actions in order to generate our Docker Images for the server and trainer container. When these are made, they are pushed to our GCP Artifact Registry storage (Container Storage seemed to be deprecated during the duration of this project?). In this way, we avoid using the Google Cloud Build service. For the prediction server, this Docker image is afterwards launched in Google Cloud Run, which automatically runs the container and thus launches the newest version of the prediction server. More details on this in question 22. 
 
-In this way, we also have a large selection of docker images to choose from and revert back to, if some functionality should break in the future. 
+In this way, we also have a large selection of different versions of our Docker images to choose from and revert back to, if some functionality should break in the future. 
 
-By following [this link](https://github.com/MLOpsGroup23/MLOps-Project/blob/main/.github/workflows/tests.yml) you can view one of our workflow files, which was used to run the different tests. Notice that it uses DVC in order to pull the newest data. It also automatically installs the needed requirements. It also caches the dependencies such that it does not need to spend time downloaded all the python packages for each Github Action.
+By following [this link](https://github.com/MLOpsGroup23/MLOps-Project/blob/main/.github/workflows/tests.yml) you can view one of our workflow files, which was used to run the different tests. Notice that it uses DVC in order to pull the newest data. It also automatically installs the needed requirements. It also caches the dependencies such that it does not need to spend time downloading all the python packages for each Github Action.
 
 ## Running code and tracking experiments
 
@@ -326,7 +326,9 @@ By following [this link](https://github.com/MLOpsGroup23/MLOps-Project/blob/main
 
 We configured experiments using .yaml files and hydra. The setup includes a model agnostic configuration with parameters pertaining to data loading and augmentations, the number of epochs, etc. Model specific configurations are also included and they contain the model class along with hyper parameters.
 
-To train a model locally of a particular architecture one would have to alter the config.yaml file specifying the architecture. Hereafter one would run “python train_model.py” in the project folder to train. Alternatively, running “make train” would achieve the same effect.
+To train a model locally of a particular architecture one would have to alter the config.yaml file specifying the architecture. Hereafter one would run `python train_model.py` in the project folder to train. Alternatively, running `$make train` would achieve the same effect.
+
+Further, we augmented our Docker training container to pass in arguments to Hydra when calling `docker run` - this made it possible to reuse a single Docker image for experimenting with different model architectures and hyperparameters, locally and in the cloud.
 
 ### Question 13
 
@@ -341,7 +343,7 @@ To train a model locally of a particular architecture one would have to alter th
 >
 > Answer:
 
-To get insight into training dynamics and keep track of experiment parameters we use Wandb. Whenever an experiment is run, the hyperparameters are logged along with loss and accuracy on the training and validation sets. To reproduce an experiment one has to specify the model architecture and its hyperparameters in the config files. Hereafter the procedure follows the previous point.
+To get insight into training dynamics and keep track of experiment parameters we use WANDB. Whenever an experiment is run, the hyperparameters are logged along with loss and accuracy on the training and validation sets. To reproduce an experiment one has to specify the model architecture and its hyperparameters in the config files. Hereafter the procedure follows the previous point.
 
 ### Question 14
 
@@ -391,7 +393,23 @@ As seen in the third image, a hyper parameter sweep is performed to maximize the
 >
 > Answer:
 
---- question 15 fill here ---
+Our project uses two main Docker images, which are defined in the dockerfiles `train_model.dockerfile` and `fastapi_predict.dockerfile`. 
+
+[`train_model.dockerfile`](https://github.com/MLOpsGroup23/MLOps-Project/blob/new-trainer-container/dockerfiles/train_model.dockerfile) defines an image which is intended to be run on a Google Cloud Engine VM. As briefly mentioned in question 12, we have designed it to be reusable for training all of our different model types, and easily configure hyperparameters and other training settings (e.g. save directory for models), by simply passing a string containing Hydra arguments as an environment variable to the `docker run` command.
+The full command (assuming GPUs available) is:
+```bash
+docker run --gpus all -v {LOCAL DIR}:{MODEL SAVE LOCATION} -e HYDRA_ARGS={ARGS TO HYDRA} --rm {IMAGE ID}
+```
+
+Some of the available HYDRA_ARGS are 
+- `data.num_workers={int}`
+- `architecture=[visiontransformer|resnet|mobilenet|efficientnet|vgg|xcitnano]`
+- `training.max_epochs={int}`
+
+They are passed as a space-separated string.
+
+
+[`fastapi_predict.dockerfile`](https://github.com/MLOpsGroup23/MLOps-Project/blob/main/dockerfiles/fastapi_predict.dockerfile) defines an image intended to be run using Google Cloud Run, for serving our prediction endpoints, exposing our selected trained model.
 
 ### Question 16
 
@@ -498,10 +516,10 @@ Before spinning up the container, make sure Docker has access to the service acc
 sudo usermod -a -G docker ${USER}
 ```
 
-Now that the image is pulled from the Artifact registry, run a container from the image:
+Now that the image is pulled from the Artifact registry, run a container from the image, for example using:
 
 ```bash
-docker run --gpus all -v $(pwd)/models:/models -e HYDRA_ARGS="data.num_workers=2 architecture=[visiontransformer|resnet|mobilenet|etc] training.max_epochs=10" --rm [image ID]
+docker run --gpus all -v $(pwd)/models:/models -e HYDRA_ARGS="data.num_workers=2 architecture=visiontransformer training.max_epochs=10" --rm {IMAGE ID}
 ```
 
 Now the training should run and log to Weights and Biases! 🚀
