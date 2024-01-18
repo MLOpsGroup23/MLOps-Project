@@ -11,6 +11,7 @@ from omegaconf import DictConfig
 def train(cfg: DictConfig):
     # Initialize logger
     wandb_logger = WandbLogger(project="FashionMNIST")
+    wandb_logger.experiment.config.update(dict(cfg.architecture))
 
     # Create dataloaders
     train_dataloader, val_dataloader, test_dataloader = get_dataloaders(cfg)
