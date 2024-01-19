@@ -409,7 +409,7 @@ Some of the available HYDRA_ARGS are
 They are passed as a space-separated string.
 
 
-[`fastapi_predict.dockerfile`](https://github.com/MLOpsGroup23/MLOps-Project/blob/main/dockerfiles/fastapi_predict.dockerfile) defines an image intended to be run using Google Cloud Run, for serving our prediction endpoints, exposing our selected trained model.
+[`fastapi_predict.dockerfile`](https://github.com/MLOpsGroup23/MLOps-Project/blob/main/dockerfiles/fastapi_predict.dockerfile) defines an image intended to be run using Google Cloud Run, for serving our prediction endpoints, exposing our selected trained model. As explained in question 11, this is automatically build via. Github Actions and pushed to our Artifact Registry. A Google Cloud Run instance is deployed which will automatically launch a new Docker container, when a new version is pushed to Artifact Registry. In this way, the updated Docker Image is automatically deployed and run on Google Cloud Run. Additionally, if the container fails to launch, it will revert back to the latest working image. Our server is described more in detail in question 22.
 
 ### Question 16
 
