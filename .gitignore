@@ -14,7 +14,10 @@ wandb/
 outputs
 
 # Ignore Reports
-reports
+reports/images
+# Do not ignore our report and report script and figures folder
+!reports/README.md
+!reports/report.py
 
 # virtual environment
 .venv/
